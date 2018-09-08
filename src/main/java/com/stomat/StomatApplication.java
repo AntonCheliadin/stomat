@@ -1,0 +1,12 @@
+package com.stomat;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class StomatApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(StomatApplication.class, args);
+    }
+}
