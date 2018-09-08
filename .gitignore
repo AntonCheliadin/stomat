@@ -23,7 +23,9 @@
 hs_err_pid*
 
 /target/
+/build/
 !.mvn/wrapper/maven-wrapper.jar
+.gradle
 
 ### STS ###
 .apt_generated
