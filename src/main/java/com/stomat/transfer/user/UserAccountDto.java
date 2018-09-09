@@ -1,4 +1,12 @@
-package com.stomat.dto;
+package com.stomat.transfer.user;
+
+import com.stomat.transfer.Create;
+import com.stomat.transfer.Update;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 /**
  * @author Anton Chelyadin.
@@ -6,10 +14,30 @@ package com.stomat.dto;
  */
 public class UserAccountDto {
 
+    @NotNull(groups = Update.class)
+    @Null(groups = Create.class)
+    Long id;
+
+    @NotBlank(groups = {Create.class, Update.class})
     private String name;
+
+    @NotBlank(groups = {Create.class, Update.class})
+    @Email(groups = {Create.class, Update.class})
     private String email;
+
+    @NotBlank(groups = {Create.class})
     private String password;
+
+    @NotBlank(groups = {Create.class})
     private String repeatPassword;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

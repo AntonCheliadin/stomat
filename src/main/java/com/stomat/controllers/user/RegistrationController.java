@@ -1,11 +1,12 @@
 package com.stomat.controllers.user;
 
 import com.stomat.domain.user.UserAccount;
-import com.stomat.dto.UserAccountDto;
 import com.stomat.repository.user.UserRepository;
 import com.stomat.services.user.UserService;
+import com.stomat.transfer.user.UserAccountDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -31,8 +32,14 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String addUser(UserAccountDto userDto, Map<String, Object> model) {
-        String message = "";
+    public String addUser(/*@RequestBody @Validated(Create.class)*/ UserAccountDto userDto,
+                                                                    Map<String, Object> model, BindingResult errors) {
+//        if (errors.hasErrors()) {
+//            model.put("message", "errors");
+//            return "user/registration";
+//        }
+
+        String message = ""; //todo: validate request using spring
 
         if (userDto.getName().isEmpty() ||
                 userDto.getEmail().isEmpty() ||

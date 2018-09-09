@@ -2,7 +2,7 @@ package com.stomat.services.user;
 
 import com.stomat.domain.user.Role;
 import com.stomat.domain.user.UserAccount;
-import com.stomat.dto.UserAccountDto;
+import com.stomat.transfer.user.UserAccountDto;
 import com.stomat.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
