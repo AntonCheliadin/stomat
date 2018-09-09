@@ -28,7 +28,7 @@ public class UserService {
         userAccount.setName(userDto.getName());
         userAccount.setEmail(userDto.getEmail());
         userAccount.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        userAccount.setActive(true);
+        userAccount.setActive(true);//todo: activate by email
         userAccount.setRoles(Collections.singleton(Role.USER));
         return userRepository.save(userAccount);
     }

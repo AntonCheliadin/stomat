@@ -16,7 +16,7 @@ public class UserAccountDto {
 
     @NotNull(groups = Update.class)
     @Null(groups = Create.class)
-    Long id;
+    private Long id;
 
     @NotBlank(groups = {Create.class, Update.class})
     private String name;

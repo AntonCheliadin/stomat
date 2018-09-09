@@ -7,17 +7,24 @@
 </head>
 <body>
 
-
-<div th:if="${message}">
-    <p th:text="${message}"/>
-</div>
-
 add new user
 <form th:action="@{/registration}" method="post">
-    <div><label> User Name : <input type="text" name="name"/> </label></div>
-    <div><label> Email : <input type="text" name="email"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><label> Repeat password: <input type="password" name="repeatPassword"/> </label></div>
+    <div>
+        <label> User Name : <input type="text" name="name" th:value="${userAccountDto} ? ${userAccountDto.getName()} : ''"/> </label>
+        <span th:if="${nameError}" th:text="${nameError}"/>
+    </div>
+    <div>
+        <label> Email : <input type="text" name="email" th:value="${userAccountDto} ? ${userAccountDto.getEmail()} : ''"/> </label>
+        <span th:if="${emailError}" th:text="${emailError}"/>
+    </div>
+    <div>
+        <label> Password: <input type="password" name="password"/> </label>
+        <span th:if="${passwordError}" th:text="${passwordError}"/>
+    </div>
+    <div>
+        <label> Repeat password: <input type="password" name="repeatPassword"/> </label>
+        <span th:if="${repeatPasswordError}" th:text="${repeatPasswordError}"/>
+    </div>
     <div><input type="submit" value="Register"/></div>
 </form>
 

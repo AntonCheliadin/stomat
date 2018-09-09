@@ -1,12 +1,16 @@
 package com.stomat.controllers.user;
 
+import com.stomat.controllers.ControllerUtils;
 import com.stomat.domain.user.UserAccount;
 import com.stomat.repository.user.UserRepository;
 import com.stomat.services.user.UserService;
+import com.stomat.transfer.Create;
 import com.stomat.transfer.user.UserAccountDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -32,33 +36,21 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String addUser(/*@RequestBody @Validated(Create.class)*/ UserAccountDto userDto,
-                                                                    Map<String, Object> model, BindingResult errors) {
-//        if (errors.hasErrors()) {
-//            model.put("message", "errors");
-//            return "user/registration";
-//        }
-
-        String message = ""; //todo: validate request using spring
-
-        if (userDto.getName().isEmpty() ||
-                userDto.getEmail().isEmpty() ||
-                userDto.getPassword().isEmpty() ||
-                userDto.getRepeatPassword().isEmpty()) {
-            message = "Fill all fields, please!";
+    public String addUser(@Validated(Create.class) UserAccountDto userDto, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errors);
+            return "user/registration";
         }
 
-        UserAccount userFromDB = userRepository.findByName(userDto.getName());
-        if (message.isEmpty() && userFromDB != null) {
-            message = "Sorry, but user exists with specified name!";
+        UserAccount userFromDB = userRepository.findByName(userDto.getName());//todo: create validator
+        if (userFromDB != null) {
+            model.addAttribute("nameError", "Sorry, but user exists with specified name!");
+            return "user/registration";
         }
 
-        if (message.isEmpty() && !userDto.getPassword().equals(userDto.getRepeatPassword())) {
-            message = "Sorry, passwords are not the same!";
-        }
-
-        if (!message.isEmpty()) {
-            model.put("message", message);
+        if (!userDto.getPassword().equals(userDto.getRepeatPassword())) {
+            model.addAttribute("repeatPasswordError", "Sorry, passwords are not the same!");
             return "user/registration";
         }
 
