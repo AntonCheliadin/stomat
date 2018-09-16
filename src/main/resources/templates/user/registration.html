@@ -7,31 +7,31 @@
 </head>
 <body>
 
-<form th:action="@{/registration}" method="post">
+<form th:action="@{/registration}" th:object="${userAccountDto}" method="post">
     <div>
         <label th:text="#{user.first.name.label}"></label>
-        <input type="text" name="firstName" th:value="${userAccountDto} ? ${userAccountDto.getFirstName()} : ''"/>
-        <span th:if="${firstName}" th:text="${firstName}"/>
+        <input type="text" th:field="*{firstName}" />
+        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"/>
     </div>
     <div>
         <label th:text="#{user.last.name.label}"></label>
-        <input type="text" name="lastName" th:value="${userAccountDto} ? ${userAccountDto.getLastName()} : ''"/>
-        <span th:if="${lastName}" th:text="${lastName}"/>
+        <input type="text" th:field="*{lastName}"/>
+        <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"/>
     </div>
     <div>
         <label th:text="#{user.email.label}"></label>
-        <input type="text" name="email" th:value="${userAccountDto} ? ${userAccountDto.getEmail()} : ''"/>
-        <span th:if="${emailError}" th:text="${emailError}"/>
+        <input type="text" th:field="*{email}"/>
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"/>
     </div>
     <div>
         <label th:text="#{user.password.label}"></label>
-        <input type="password" name="password"/>
-        <span th:if="${passwordError}" th:text="${passwordError}"/>
+        <input th:type="password" th:field="*{password}"/>
+        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"/>
     </div>
     <div>
         <label th:text="#{user.password.repeat.label}"></label>
-        <input type="password" name="repeatPassword"/>
-        <span th:if="${repeatPasswordError}" th:text="${repeatPasswordError}"/>
+        <input type="password" th:field="*{repeatPassword}"/>
+        <span th:if="${#fields.hasErrors('repeatPassword')}" th:errors="*{repeatPassword}"/>
     </div>
     <div>
         <input type="submit" th:value="#{auth.registration.label}"/>
