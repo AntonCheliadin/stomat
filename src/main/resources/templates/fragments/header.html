@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<div class="" th:fragment="header">
+    <div th:if="${#httpServletRequest.remoteUser}">
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" th:value="#{auth.logout.label}"/>
+        </form>
+    </div>
+    <div th:unless="${#httpServletRequest.remoteUser}">
+        <a href="/login" th:text="#{auth.login.label}"></a>
+        <a href="/registration" th:text="#{auth.registration.label}"></a>
+    </div>
+</div>
+
+</body>
+</html>
