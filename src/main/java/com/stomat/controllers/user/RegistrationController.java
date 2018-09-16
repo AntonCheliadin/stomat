@@ -44,9 +44,9 @@ public class RegistrationController {
             return "user/registration";
         }
 
-        UserAccount userFromDB = userRepository.findByName(userDto.getName());//todo: create validator
+        UserAccount userFromDB = userRepository.findByEmail(userDto.getEmail());//todo: create validator
         if (userFromDB != null) {
-            model.addAttribute("nameError", "Sorry, but user exists with specified name!");
+            model.addAttribute("emailError", "Sorry, but user exists with specified name!");
             return "user/registration";
         }
 
