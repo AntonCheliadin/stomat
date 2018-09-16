@@ -1,6 +1,7 @@
 package com.stomat.domain.user;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -23,6 +24,9 @@ public class UserAccount {
     private String email;
 
     private boolean active;
+    private Date activationDate;
+    private String activationCode;
+
 
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Role.class)
     @CollectionTable(name = "user_account_role", joinColumns = @JoinColumn(name = "user_account_id"))
@@ -84,5 +88,21 @@ public class UserAccount {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Date getActivationDate() {
+        return activationDate;
+    }
+
+    public void setActivationDate(Date activationDate) {
+        this.activationDate = activationDate;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
     }
 }
