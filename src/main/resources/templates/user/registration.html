@@ -3,29 +3,40 @@
 >
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="#{page.title}"></title>
 </head>
 <body>
 
-add new user
 <form th:action="@{/registration}" method="post">
     <div>
-        <label> User Name : <input type="text" name="name" th:value="${userAccountDto} ? ${userAccountDto.getName()} : ''"/> </label>
-        <span th:if="${nameError}" th:text="${nameError}"/>
+        <label th:text="#{user.first.name.label}"></label>
+        <input type="text" name="firstName" th:value="${userAccountDto} ? ${userAccountDto.getFirstName()} : ''"/>
+        <span th:if="${firstName}" th:text="${firstName}"/>
     </div>
     <div>
-        <label> Email : <input type="text" name="email" th:value="${userAccountDto} ? ${userAccountDto.getEmail()} : ''"/> </label>
+        <label th:text="#{user.last.name.label}"></label>
+        <input type="text" name="lastName" th:value="${userAccountDto} ? ${userAccountDto.getLastName()} : ''"/>
+        <span th:if="${lastName}" th:text="${lastName}"/>
+    </div>
+    <div>
+        <label th:text="#{user.email.label}"></label>
+        <input type="text" name="email" th:value="${userAccountDto} ? ${userAccountDto.getEmail()} : ''"/>
         <span th:if="${emailError}" th:text="${emailError}"/>
     </div>
     <div>
-        <label> Password: <input type="password" name="password"/> </label>
+        <label th:text="#{user.password.label}"></label>
+        <input type="password" name="password"/>
         <span th:if="${passwordError}" th:text="${passwordError}"/>
     </div>
     <div>
-        <label> Repeat password: <input type="password" name="repeatPassword"/> </label>
+        <label th:text="#{user.password.repeat.label}"></label>
+        <input type="password" name="repeatPassword"/>
         <span th:if="${repeatPasswordError}" th:text="${repeatPasswordError}"/>
     </div>
-    <div><input type="submit" value="Register"/></div>
+    <div>
+        <input type="submit" th:value="#{auth.registration.label}"/>
+        <a href="/login" th:text="#{auth.login.label}"></a>
+    </div>
 </form>
 
 </body>
