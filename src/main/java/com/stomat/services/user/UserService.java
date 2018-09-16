@@ -2,8 +2,8 @@ package com.stomat.services.user;
 
 import com.stomat.domain.user.Role;
 import com.stomat.domain.user.UserAccount;
-import com.stomat.transfer.user.UserAccountDto;
 import com.stomat.repository.user.UserRepository;
+import com.stomat.transfer.user.UserAccountDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,8 @@ public class UserService {
 
     public UserAccount createUser(UserAccountDto userDto) {
         UserAccount userAccount = new UserAccount();
-        userAccount.setName(userDto.getName());
+        userAccount.setFirstName(userDto.getFirstName());
+        userAccount.setLastName(userDto.getLastName());
         userAccount.setEmail(userDto.getEmail());
         userAccount.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userAccount.setActive(true);//todo: activate by email

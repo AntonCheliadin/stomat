@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(passwordEncoder)
-                .usersByUsernameQuery("select name, password, active from user_account where name = ?")
-                .authoritiesByUsernameQuery("select ua.name, uar.roles from user_account ua join user_account_role uar on ua.id = uar.user_account_id where ua.name=?");
+                .usersByUsernameQuery("select email, password, active from user_account where email = ?")
+                .authoritiesByUsernameQuery("select ua.email, uar.roles from user_account ua join user_account_role uar on ua.id = uar.user_account_id where ua.email=?");
     }
 }
