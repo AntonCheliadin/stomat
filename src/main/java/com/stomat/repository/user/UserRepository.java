@@ -9,7 +9,7 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface UserRepository extends CrudRepository<UserAccount, Long> {
 
-    UserAccount findByName(String name);
-
     UserAccount findByActivationCode(String activationCode);
+
+    UserAccount findByEmail(String email);
 }

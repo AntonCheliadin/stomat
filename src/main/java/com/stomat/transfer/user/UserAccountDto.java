@@ -19,7 +19,10 @@ public class UserAccountDto {
     private Long id;
 
     @NotBlank(groups = {Create.class, Update.class})
-    private String name;
+    private String firstName;
+
+    @NotBlank(groups = {Create.class, Update.class})
+    private String lastName;
 
     @NotBlank(groups = {Create.class, Update.class})
     @Email(groups = {Create.class, Update.class})
@@ -39,12 +42,20 @@ public class UserAccountDto {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
