@@ -32,30 +32,30 @@ public class RegistrationController {
 
 
     @GetMapping("/registration")
-    public String registration() {
+    public String registration(UserAccountDto userAccountDto) {
         return "user/registration";
     }
 
     @PostMapping("/registration")
-    public String addUser(@Validated(Create.class) UserAccountDto userDto, BindingResult bindingResult, Model model) {
+    public String addUser(@Validated(Create.class) UserAccountDto userAccountDto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(errors);
+//            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+//            model.mergeAttributes(errors);
             return "user/registration";
         }
 
-        UserAccount userFromDB = userRepository.findByEmail(userDto.getEmail());//todo: create validator
+        UserAccount userFromDB = userRepository.findByEmail(userAccountDto.getEmail());//todo: create validator
         if (userFromDB != null) {
             model.addAttribute("emailError", "Sorry, but user exists with specified name!");
             return "user/registration";
         }
 
-        if (!userDto.getPassword().equals(userDto.getRepeatPassword())) {
+        if (!userAccountDto.getPassword().equals(userAccountDto.getRepeatPassword())) {
             model.addAttribute("repeatPasswordError", "Sorry, passwords are not the same!");
             return "user/registration";
         }
 
-        userService.create(userDto);
+        userService.create(userAccountDto);
 
         return "redirect:/login";
     }
