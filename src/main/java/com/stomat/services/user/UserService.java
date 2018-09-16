@@ -33,18 +33,18 @@ public class UserService {
     @Value("${stomat.server.url}")
     private String serverUrl;
 
+    @Value("${mail.enabled}")
+    private boolean emailEnabled;
+
     public UserAccount create(UserAccountDto userDto) {
         UserAccount userAccount = new UserAccount();
         userAccount.setFirstName(userDto.getFirstName());
         userAccount.setLastName(userDto.getLastName());
         userAccount.setEmail(userDto.getEmail());
         userAccount.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        userAccount.setActive(false);
-        userAccount.setActivationCode(UUID.randomUUID().toString());
-
         userAccount.setRoles(Collections.singleton(Role.USER));
 
-        emailSender.send(userAccount.getEmail(), "Activate stomat account!", serverUrl + "/activate/" + userAccount.getActivationCode());
+        this.processActivation(userAccount);
 
         return userRepository.save(userAccount);
     }
@@ -62,6 +62,22 @@ public class UserService {
             return true;
         } else {
             return false;
+        }
+    }
+
+    /**
+     * if mail is enabled (mail.enabled is true) then send activation code to user
+     * else user will be activate by default
+     *
+     * @param userAccount User account that needs activation.
+     */
+    private void processActivation(UserAccount userAccount) {
+        if (emailEnabled) {
+            userAccount.setActive(false);
+            userAccount.setActivationCode(UUID.randomUUID().toString());
+            emailSender.send(userAccount.getEmail(), "Activate stomat account!", serverUrl + "/activate/" + userAccount.getActivationCode());
+        } else {
+            userAccount.setActive(true);
         }
     }
 }
