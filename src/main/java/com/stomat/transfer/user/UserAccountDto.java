@@ -2,6 +2,7 @@ package com.stomat.transfer.user;
 
 import com.stomat.transfer.Create;
 import com.stomat.transfer.Update;
+import com.stomat.validation.user.UniqueUserEmailConstraint;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -24,6 +25,7 @@ public class UserAccountDto {
     @NotBlank(groups = {Create.class, Update.class})
     private String lastName;
 
+    @UniqueUserEmailConstraint
     @NotBlank(groups = {Create.class, Update.class})
     @Email(groups = {Create.class, Update.class})
     private String email;
