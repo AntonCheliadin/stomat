@@ -1,6 +1,5 @@
 package com.stomat.controllers.user;
 
-import com.stomat.domain.user.UserAccount;
 import com.stomat.repository.user.UserRepository;
 import com.stomat.services.user.UserService;
 import com.stomat.transfer.Create;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,18 +34,6 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public String addUser(@Validated(Create.class) UserAccountDto userAccountDto, BindingResult bindingResult, Model model) {
-
-//        if (userAccountDto.getEmail() != null) {
-//            UserAccount userFromDB = userRepository.findByEmail(userAccountDto.getEmail());//todo: create validator
-//            if (userFromDB != null) {
-//                bindingResult.addError(new FieldError("userAccountDto", "email", "Sorry, but user exists with specified name!"));
-//            }
-//        }
-
-        if (!userAccountDto.getPassword().equals(userAccountDto.getRepeatPassword())) {
-            bindingResult.addError(new FieldError("userAccountDto", "repeatPassword", "Sorry, passwords are not the same!"));
-        }
-
         if (bindingResult.hasErrors()) {
             return "user/registration";
         }
