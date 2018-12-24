@@ -30,8 +30,8 @@
     </div>
     <div>
         <label th:text="#{user.password.repeat.label}"></label>
-        <input type="password" th:field="*{repeatPassword}"/>
-        <span th:if="${#fields.hasErrors('repeatPassword')}" th:errors="*{repeatPassword}"/>
+        <input type="password" th:field="*{verifyPassword}"/>
+        <span th:if="${#fields.hasErrors('verifyPassword')}" th:errors="*{verifyPassword}"/>
     </div>
     <div>
         <input type="submit" th:value="#{auth.registration.label}"/>

@@ -2,17 +2,23 @@ package com.stomat.transfer.user;
 
 import com.stomat.transfer.Create;
 import com.stomat.transfer.Update;
+import com.stomat.validation.common.FieldsValueMatchConstraint;
 import com.stomat.validation.user.UniqueUserEmailConstraint;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
+import javax.validation.constraints.*;
 
 /**
  * @author Anton Chelyadin.
  * @since 09.09.18.
  */
+@FieldsValueMatchConstraint.List({
+        @FieldsValueMatchConstraint(
+                field = "password",
+                fieldMatch = "verifyPassword",
+                message = "Passwords do not match!",//todo: i18n
+                groups = {Create.class}
+        )
+})
 public class UserAccountDto {
 
     @NotNull(groups = Update.class)
@@ -25,16 +31,18 @@ public class UserAccountDto {
     @NotBlank(groups = {Create.class, Update.class})
     private String lastName;
 
-    @UniqueUserEmailConstraint
+    @UniqueUserEmailConstraint(groups = {Create.class, Update.class})
     @NotBlank(groups = {Create.class, Update.class})
     @Email(groups = {Create.class, Update.class})
     private String email;
 
     @NotBlank(groups = {Create.class})
+    @Size(groups = {Create.class}, min = 6, max = 20)
     private String password;
 
     @NotBlank(groups = {Create.class})
-    private String repeatPassword;
+    @Size(groups = {Create.class}, min = 6, max = 20)
+    private String verifyPassword;
 
     public Long getId() {
         return id;
@@ -76,11 +84,11 @@ public class UserAccountDto {
         this.password = password;
     }
 
-    public String getRepeatPassword() {
-        return repeatPassword;
+    public String getVerifyPassword() {
+        return verifyPassword;
     }
 
-    public void setRepeatPassword(String repeatPassword) {
-        this.repeatPassword = repeatPassword;
+    public void setVerifyPassword(String verifyPassword) {
+        this.verifyPassword = verifyPassword;
     }
 }
