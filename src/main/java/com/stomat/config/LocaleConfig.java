@@ -16,7 +16,7 @@ public class LocaleConfig {
 
     @Bean
     public LocaleResolver localeResolver() {
-        SessionLocaleResolver slr = new SessionLocaleResolver();
+        var slr = new SessionLocaleResolver();
         slr.setDefaultLocale(Locale.ENGLISH);
         return slr;
     }
