@@ -5,5 +5,8 @@ package com.stomat.domain.user;
  * @since 24.06.18.
  */
 public enum Role {
-    USER;
+
+    ADMIN,
+
+    USER
 }
