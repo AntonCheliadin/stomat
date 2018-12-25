@@ -41,7 +41,6 @@ public class UserAccountDto {
     private String password;
 
     @NotBlank(groups = {Create.class})
-    @Size(groups = {Create.class}, min = 6, max = 20)
     private String verifyPassword;
 
     public Long getId() {
