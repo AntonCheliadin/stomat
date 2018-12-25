@@ -22,13 +22,17 @@ import java.util.UUID;
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, EmailSender emailSender) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.emailSender = emailSender;
+    }
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private EmailSender emailSender;
+    private final PasswordEncoder passwordEncoder;
+
+    private final EmailSender emailSender;
 
     @Value("${stomat.server.url}")
     private String serverUrl;
@@ -37,7 +41,7 @@ public class UserService {
     private boolean emailEnabled;
 
     public UserAccount create(UserAccountDto userDto) {
-        UserAccount userAccount = new UserAccount();
+        var userAccount = new UserAccount();
         userAccount.setFirstName(userDto.getFirstName());
         userAccount.setLastName(userDto.getLastName());
         userAccount.setEmail(userDto.getEmail());
@@ -50,7 +54,7 @@ public class UserService {
     }
 
     public boolean activate(String activationCode) {
-        UserAccount userAccount = userRepository.findByActivationCode(activationCode);
+        var userAccount = userRepository.findByActivationCode(activationCode);
 
         if (userAccount != null) {
             userAccount.setActive(true);

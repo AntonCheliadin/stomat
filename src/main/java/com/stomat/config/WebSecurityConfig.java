@@ -21,11 +21,27 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private DataSource dataSource;
+    private PasswordEncoder passwordEncoder;
+
+    public DataSource getDataSource() {
+        return dataSource;
+    }
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    public PasswordEncoder getPasswordEncoder() {
+        return passwordEncoder;
+    }
+
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
