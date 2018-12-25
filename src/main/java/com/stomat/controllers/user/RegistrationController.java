@@ -1,6 +1,5 @@
 package com.stomat.controllers.user;
 
-import com.stomat.repository.user.UserRepository;
 import com.stomat.services.user.UserService;
 import com.stomat.transfer.Create;
 import com.stomat.transfer.user.UserAccountDto;
@@ -9,9 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Anton Chelyadin.
@@ -21,11 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class RegistrationController {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private UserService userService;
-
 
     @GetMapping("/registration")
     public String registration(UserAccountDto userAccountDto) {
@@ -48,6 +41,5 @@ public class RegistrationController {
         userService.activate(code);
 
         return "redirect:/login";
-
     }
 }
