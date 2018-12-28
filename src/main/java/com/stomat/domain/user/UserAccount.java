@@ -1,5 +1,7 @@
 package com.stomat.domain.user;
 
+import com.stomat.domain.profile.Doctor;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -26,6 +28,11 @@ public class UserAccount {
     private boolean active;
     private Date activationDate;
     private String activationCode;
+
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "user")
+    Doctor doctor;
 
 
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Role.class)

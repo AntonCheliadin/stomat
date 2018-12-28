@@ -37,7 +37,7 @@ public class UserAccountDto {
     private String email;
 
     @NotBlank(groups = {Create.class})
-    @Size(groups = {Create.class}, min = 6, max = 20)
+    @Size(groups = {Create.class}, min = 6, max = 128)
     private String password;
 
     @NotBlank(groups = {Create.class})
