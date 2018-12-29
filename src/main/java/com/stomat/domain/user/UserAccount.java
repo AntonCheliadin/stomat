@@ -3,6 +3,7 @@ package com.stomat.domain.user;
 import com.stomat.domain.profile.Doctor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.Set;
 
@@ -17,12 +18,16 @@ public class UserAccount {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank
     private String firstName;
 
+    @NotBlank
     private String lastName;
 
+    @NotBlank
     private String password;
 
+    @NotBlank
     private String email;
 
     private boolean active;
@@ -32,7 +37,7 @@ public class UserAccount {
     @OneToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             mappedBy = "user")
-    Doctor doctor;
+    private Doctor doctor;
 
 
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Role.class)
