@@ -33,6 +33,8 @@ public class Booking {
     @Temporal(TemporalType.DATE)
     private Date toDate;
 
+    private String description;
+
     public Long getId() {
         return id;
     }
@@ -71,5 +73,13 @@ public class Booking {
 
     public void setToDate(Date toDate) {
         this.toDate = toDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

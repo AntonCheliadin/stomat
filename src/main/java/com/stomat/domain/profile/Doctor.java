@@ -1,7 +1,7 @@
 package com.stomat.domain.profile;
 
 import com.stomat.domain.schedule.Schedule;
-import com.stomat.domain.schedule.ScheduleBlocker;
+import com.stomat.domain.schedule.ScheduleAdditionalTime;
 import com.stomat.domain.user.UserAccount;
 
 import javax.persistence.*;
@@ -31,7 +31,7 @@ public class Doctor {
     private Set<Schedule> schedules;
 
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<ScheduleBlocker> blockers;
+    private Set<ScheduleAdditionalTime> additionalTimes;
 
     public Long getId() {
         return id;
@@ -65,11 +65,11 @@ public class Doctor {
         this.schedules = schedules;
     }
 
-    public Set<ScheduleBlocker> getBlockers() {
-        return blockers;
+    public Set<ScheduleAdditionalTime> getAdditionalTimes() {
+        return additionalTimes;
     }
 
-    public void setBlockers(Set<ScheduleBlocker> blockers) {
-        this.blockers = blockers;
+    public void setAdditionalTimes(Set<ScheduleAdditionalTime> additionalTimes) {
+        this.additionalTimes = additionalTimes;
     }
 }

@@ -6,7 +6,17 @@ package com.stomat.domain.user;
  */
 public enum Role {
 
-    ADMIN,
+    /**
+     * Owner of the service (the highest role)
+     */
+    OWNER,
+
+    /**
+     * A person employed in an office to answer the telephone, deal with clients.
+     */
+    RECEPTIONIST,
+
+    DOCTOR,
 
     USER
 }

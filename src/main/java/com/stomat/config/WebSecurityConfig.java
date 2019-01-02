@@ -44,10 +44,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception {//todo: update /schedule permitions
         http
                 .authorizeRequests()
-                .antMatchers("/", "/home", "/registration", "/activate/*", "/static/**").permitAll()
+                .antMatchers("/", "/home", "/registration", "/activate/*", "/static/**", "/schedule").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

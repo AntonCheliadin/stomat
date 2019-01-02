@@ -12,7 +12,7 @@ import java.util.Date;
  * @since 29.12.18.
  */
 @Entity
-public class ScheduleBlocker implements Serializable {
+public class ScheduleAdditionalTime implements Serializable {
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,6 +26,12 @@ public class ScheduleBlocker implements Serializable {
     @NotNull
     @Temporal(TemporalType.DATE)
     private Date toDate;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AdditionalTimeTypeEnum type;
+
+    private boolean allDay;
 
     public Date getFromDate() {
         return fromDate;
@@ -49,5 +55,21 @@ public class ScheduleBlocker implements Serializable {
 
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
+    }
+
+    public AdditionalTimeTypeEnum getType() {
+        return type;
+    }
+
+    public void setType(AdditionalTimeTypeEnum type) {
+        this.type = type;
+    }
+
+    public boolean isAllDay() {
+        return allDay;
+    }
+
+    public void setAllDay(boolean allDay) {
+        this.allDay = allDay;
     }
 }
