@@ -5,6 +5,7 @@ package com.stomat.config;
  * @since 09.09.18.
  */
 
+import com.stomat.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +22,43 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private UserService userService;
     private DataSource dataSource;
     private PasswordEncoder passwordEncoder;
+
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {//todo: update /schedule permitions
+        http
+                .authorizeRequests()
+                    .antMatchers("/", "/home", "/registration", "/activate/*", "/static/**").permitAll()
+                    .anyRequest().authenticated()
+                .and()
+                    .formLogin()
+                    .loginPage("/login")
+                    .permitAll()
+                .and()
+                    .logout()
+                    .permitAll();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .userDetailsService(userService)
+//                .jdbcAuthentication()
+//                .dataSource(dataSource)
+                .passwordEncoder(passwordEncoder);
+//                .usersByUsernameQuery("select email, password, active from user_account where email = ?")
+//                .authoritiesByUsernameQuery("select ua.email, uar.roles from user_account ua join user_account_role uar on ua.id = uar.user_account_id where ua.email=?");
+    }
+
+
 
     public DataSource getDataSource() {
         return dataSource;
@@ -42,33 +78,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.passwordEncoder = passwordEncoder;
     }
 
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {//todo: update /schedule permitions
-        http
-                .authorizeRequests()
-                .antMatchers("/", "/home", "/registration", "/activate/*", "/static/**", "/schedule").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll();
+    public UserService getUserService() {
+        return userService;
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .passwordEncoder(passwordEncoder)
-                .usersByUsernameQuery("select email, password, active from user_account where email = ?")
-                .authoritiesByUsernameQuery("select ua.email, uar.roles from user_account ua join user_account_role uar on ua.id = uar.user_account_id where ua.email=?");
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 }

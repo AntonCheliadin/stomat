@@ -7,6 +7,9 @@ import com.stomat.services.email.EmailSender;
 import com.stomat.transfer.user.UserAccountDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +22,7 @@ import java.util.UUID;
  * @since 09.09.18.
  */
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, EmailSender emailSender) {
@@ -83,5 +86,16 @@ public class UserService {
         } else {
             userAccount.setActive(true);
         }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserAccount user = userRepository.findByEmail(username);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+
+        return user;
     }
 }

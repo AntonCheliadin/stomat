@@ -1,9 +1,12 @@
 package com.stomat.domain.user;
 
 import com.stomat.domain.profile.Doctor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -12,7 +15,7 @@ import java.util.Set;
  * @since 24.06.18.
  */
 @Entity
-public class UserAccount {
+public class UserAccount implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -70,8 +73,38 @@ public class UserAccount {
         this.lastName = lastName;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 
     public void setPassword(String password) {
