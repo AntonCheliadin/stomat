@@ -31,15 +31,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {//todo: update /schedule permitions
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/home", "/registration", "/activate/*", "/static/**").permitAll()
-                    .anyRequest().authenticated()
-                .and()
-                    .formLogin()
-                    .loginPage("/login")
-                    .permitAll()
-                .and()
-                    .logout()
-                    .permitAll();
+                .antMatchers("/", "/home", "/registration", "/activate/*", "/static/**").permitAll()
+                .anyRequest().authenticated()
+                .and().formLogin().loginPage("/login").permitAll()
+                .and().logout().permitAll();
     }
 
     @Bean
@@ -51,13 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .userDetailsService(userService)
-//                .jdbcAuthentication()
-//                .dataSource(dataSource)
                 .passwordEncoder(passwordEncoder);
-//                .usersByUsernameQuery("select email, password, active from user_account where email = ?")
-//                .authoritiesByUsernameQuery("select ua.email, uar.roles from user_account ua join user_account_role uar on ua.id = uar.user_account_id where ua.email=?");
     }
-
 
 
     public DataSource getDataSource() {
