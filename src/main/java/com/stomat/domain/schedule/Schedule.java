@@ -31,7 +31,7 @@ public class Schedule implements Serializable {
      */
     @Min(1)
     @Max(7)
-    private int dayOfWeek;
+    private int dayOfWeek;//todo: try byte instead of int
 
     @NotNull
     @Temporal(TemporalType.TIME)

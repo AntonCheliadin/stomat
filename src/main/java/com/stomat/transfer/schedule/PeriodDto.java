@@ -5,7 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-import static com.stomat.constants.DateFormat.API_DAY;
+import static com.stomat.constants.DateFormat.API_DATE;
 
 /**
  * @author Anton Chelyadin.
@@ -14,11 +14,11 @@ import static com.stomat.constants.DateFormat.API_DAY;
 public class PeriodDto {
 
     @NotNull
-    @DateTimeFormat(pattern = API_DAY)
+    @DateTimeFormat(pattern = API_DATE)
     private Date from;
 
     @NotNull
-    @DateTimeFormat(pattern = API_DAY)
+    @DateTimeFormat(pattern = API_DATE)
     private Date to;
 
     public Date getFrom() {
