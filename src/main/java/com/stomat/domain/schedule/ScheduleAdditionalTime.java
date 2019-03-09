@@ -15,11 +15,13 @@ import java.util.Date;
 public class ScheduleAdditionalTime implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
-    @Id
     @Temporal(TemporalType.DATE)
     private Date fromDate;
 
@@ -32,6 +34,14 @@ public class ScheduleAdditionalTime implements Serializable {
     private AdditionalTimeTypeEnum type;
 
     private boolean allDay;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Date getFromDate() {
         return fromDate;

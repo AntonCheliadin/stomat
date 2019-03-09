@@ -17,34 +17,44 @@ import java.util.Date;
 @Entity
 public class Schedule implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id", nullable = false)
-    @Id
     private Doctor doctor;
 
     /**
      * SUNDAY = 1
      * ...
      */
-    @Id
     @Min(1)
     @Max(7)
     private int dayOfWeek;
 
     @NotNull
     @Temporal(TemporalType.TIME)
-    private Date fimeFrom;
+    private Date timeFrom;
 
     @NotNull
     @Temporal(TemporalType.TIME)
     private Date timeTo;
 
-    public Date getFimeFrom() {
-        return fimeFrom;
+    public Long getId() {
+        return id;
     }
 
-    public void setFimeFrom(Date fimeFrom) {
-        this.fimeFrom = fimeFrom;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getTimeFrom() {
+        return timeFrom;
+    }
+
+    public void setTimeFrom(Date timeFrom) {
+        this.timeFrom = timeFrom;
     }
 
     public Date getTimeTo() {
