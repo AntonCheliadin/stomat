@@ -98,4 +98,11 @@ public class UserService implements UserDetailsService {
 
         return user;
     }
+
+    public UserAccount updateUser(UserAccount currentUser, UserAccountDto userAccountDto) {
+        currentUser.setFirstName(userAccountDto.getFirstName());
+        currentUser.setLastName(userAccountDto.getLastName());
+        currentUser.setEmail(userAccountDto.getEmail());
+        return userRepository.save(currentUser);
+    }
 }

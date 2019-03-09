@@ -19,6 +19,7 @@ import javax.validation.constraints.*;
                 groups = {Create.class}
         )
 })
+@UniqueUserEmailConstraint(groups = {Create.class, Update.class})
 public class UserAccountDto {
 
     @NotNull(groups = Update.class)
@@ -31,7 +32,6 @@ public class UserAccountDto {
     @NotBlank(groups = {Create.class, Update.class})
     private String lastName;
 
-    @UniqueUserEmailConstraint(groups = {Create.class, Update.class})
     @NotBlank(groups = {Create.class, Update.class})
     @Email(groups = {Create.class, Update.class})
     private String email;

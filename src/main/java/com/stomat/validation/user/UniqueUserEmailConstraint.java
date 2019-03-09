@@ -11,11 +11,11 @@ import java.lang.annotation.*;
  */
 @Documented
 @Constraint(validatedBy = UniqueUserEmailValidator.class)
-@Target({ElementType.METHOD, ElementType.FIELD})
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueUserEmailConstraint {
 
-    String message() default "Sorry, but user exists with specified name!";//todo: i18n
+    String message() default "Sorry, but user exists with specified name!";//todo: i18n {com.stomat.validation.user.email.message}
 
     Class<?>[] groups() default {};
 

@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
  * @since 24.06.18.
  */
 @Entity
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
 public class UserAccount implements UserDetails {
 
     @Id
