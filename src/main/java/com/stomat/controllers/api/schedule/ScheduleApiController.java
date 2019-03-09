@@ -17,10 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
@@ -103,5 +100,13 @@ public class ScheduleApiController {
         }
 
         return ResponseEntity.ok(scheduleService.addSchedule(doctor, scheduleDto));
+    }
+
+    @GetMapping("/schedule/week/delete/{id}")
+    public ResponseEntity deleteUser(@PathVariable("id") long id, Model model) {
+        Schedule schedule = scheduleRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid schedule Id:" + id));
+        scheduleRepository.delete(schedule);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
