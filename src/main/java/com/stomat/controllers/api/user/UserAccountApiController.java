@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RestControllerAdvice
 @RestController
+@RequestMapping("/api/account")
 public class UserAccountApiController {
 
     public UserAccountApiController(UserService userService) {
@@ -21,26 +21,18 @@ public class UserAccountApiController {
 
     private final UserService userService;
 
-    @GetMapping("/api/account")
+    @GetMapping()
     public UserAccount getUser(@AuthenticationPrincipal UserAccount userAccount) {
         return userAccount;
     }
 
-    @PostMapping("/api/account/update")
+    @PostMapping("/update")
     public ResponseEntity<Object> updateStudent(@AuthenticationPrincipal UserAccount userAccount,
                                                 @Valid @RequestBody UserAccountDto userAccountDto,
                                                 BindingResult bindingResult, Model model) {
-
+//todo: handle userDto invalid, but validation doesn't executing
         userService.updateUser(userAccount, userAccountDto);
 
         return ResponseEntity.noContent().build();
     }
-
-    @RequestMapping(value = "/account/update2", method = RequestMethod.POST)
-    public String updateStudent2() {
-        return "success";
-    }
-
-
-
 }
