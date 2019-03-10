@@ -1,5 +1,6 @@
 package com.stomat.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.stomat.domain.profile.Doctor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,13 +32,17 @@ public class UserAccount implements UserDetails {
     private String lastName;
 
     @NotBlank
+    @JsonIgnore
     private String password;
 
     @NotBlank
     private String email;
 
+    @JsonIgnore
     private boolean active;
+    @JsonIgnore
     private Date activationDate;
+    @JsonIgnore
     private String activationCode;
 
     @OneToOne(fetch = FetchType.LAZY,
@@ -49,6 +54,7 @@ public class UserAccount implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Role.class)
     @CollectionTable(name = "user_account_role", joinColumns = @JoinColumn(name = "user_account_id"))
     @Enumerated(EnumType.STRING)
+    @JsonIgnore
     private Set<Role> roles;
 
 
@@ -133,6 +139,7 @@ public class UserAccount implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         return getRoles()
@@ -142,26 +149,31 @@ public class UserAccount implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public String getUsername() {
         return getEmail();
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
     }

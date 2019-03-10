@@ -5,6 +5,7 @@ package com.stomat.config;
  * @since 09.09.18.
  */
 
+import com.stomat.config.security.RestAuthenticationEntryPoint;
 import com.stomat.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserService userService;
     private DataSource dataSource;
     private PasswordEncoder passwordEncoder;
+    private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
 
     @Override
@@ -34,7 +36,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/home", "/registration", "/activate/*", "/static/**").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").permitAll()
-                .and().logout().permitAll();
+                .and().logout().permitAll()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(restAuthenticationEntryPoint);
     }
 
     @Bean
@@ -75,5 +80,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    public RestAuthenticationEntryPoint getRestAuthenticationEntryPoint() {
+        return restAuthenticationEntryPoint;
+    }
+
+    @Autowired
+    public void setRestAuthenticationEntryPoint(RestAuthenticationEntryPoint restAuthenticationEntryPoint) {
+        this.restAuthenticationEntryPoint = restAuthenticationEntryPoint;
     }
 }

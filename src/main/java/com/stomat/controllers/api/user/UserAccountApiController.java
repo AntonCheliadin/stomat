@@ -33,6 +33,6 @@ public class UserAccountApiController {
 //todo: handle userDto invalid, but validation doesn't executing
         userService.updateUser(userAccount, userAccountDto);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 }
