@@ -18,5 +18,7 @@ public enum Role {
 
     DOCTOR,
 
-    USER
+    USER,
+
+    ADMIN
 }

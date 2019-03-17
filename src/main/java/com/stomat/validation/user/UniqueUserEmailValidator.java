@@ -23,12 +23,20 @@ public class UniqueUserEmailValidator implements ConstraintValidator<UniqueUserE
 
     @Override
     public boolean isValid(UserAccountDto userAccountDto, ConstraintValidatorContext cxt) {
-        if (userAccountDto.getId() == null){
+        Boolean isValid;
+        if (userAccountDto.getId() == null) {
             UserAccount existedUser = userRepository.findByEmail(userAccountDto.getEmail());
-            return existedUser == null;
+            isValid = existedUser == null;
         } else {
             UserAccount existedUser = userRepository.findByEmailAndIdIsNot(userAccountDto.getEmail(), userAccountDto.getId());
-            return existedUser == null;
+            isValid = existedUser == null;
         }
+
+        if (!isValid) {
+            cxt
+                    .buildConstraintViolationWithTemplate("Sorry, but user exists with specified email!")
+                    .addNode("email").addConstraintViolation();
+        }
+        return isValid;
     }
 }

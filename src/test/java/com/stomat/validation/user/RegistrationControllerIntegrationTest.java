@@ -74,9 +74,27 @@ public class RegistrationControllerIntegrationTest {
                 .param("lastName", "lastName")
                 .param("email", "testEmail1@test.com")
                 .param("password", "password")
-                .param("verifyPassword", "passwordINVALID"))
+                .param("verifyPassword", "password"))
                 .andDo(print())
                 .andExpect(model().attributeHasFieldErrorCode("userAccountDto", "email", "UniqueUserEmailConstraint"))
+                .andExpect(view().name("user/registration"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @Sql(value = {"/create-user-account-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    public void testFieldsValueMatchConstraintConstraint() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders
+                .post("/registration")
+                .with(csrf())
+                .accept(MediaType.TEXT_HTML)
+                .param("firstName", "firstName")
+                .param("lastName", "lastName")
+                .param("email", "testEmail3@test.com")
+                .param("password", "password")
+                .param("verifyPassword", "passwordINVALID"))
+                .andDo(print())
+                .andExpect(model().attributeHasFieldErrorCode("userAccountDto", "password", "FieldsValueMatchConstraint"))
                 .andExpect(view().name("user/registration"))
                 .andExpect(status().isOk());
     }
