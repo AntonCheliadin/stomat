@@ -12,6 +12,7 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -78,5 +79,25 @@ public class UserAccountApiControllerTest extends MockMvcTestPrototype {
 
         JSONAssert.assertEquals(expected, mvcResult.getResponse()
                 .getContentAsString(), false);
+    }
+
+    @Test
+    @WithMockCustomUser()
+    @Sql(value = "/create-user-account-before.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    public void updateEmailToExistedOneTest() throws Exception {
+        UserAccountDto userAccountDto = new UserAccountDto() {{
+            setFirstName("");
+            setLastName("");
+            setEmail("testEmail2@test.com");
+        }};
+
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .post("/api/account/update")
+                        .accept(UtilsTest.APPLICATION_JSON_UTF8)
+                        .content(UtilsTest.convertObjectToJsonBytes(userAccountDto))
+                        .contentType(UtilsTest.APPLICATION_JSON_UTF8))
+                .andExpect(status().isBadRequest());
+
     }
 }

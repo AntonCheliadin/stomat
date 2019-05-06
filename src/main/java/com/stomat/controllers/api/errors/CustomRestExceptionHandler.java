@@ -23,10 +23,10 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
-        ApiError apiError = new ApiError(
-                HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(), "error occurred");
+        ApiResponseError apiResponseError = new ApiResponseError(
+                HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage());
         return new ResponseEntity<Object>(
-                apiError, new HttpHeaders(), apiError.getStatus());
+                apiResponseError, new HttpHeaders(), apiResponseError.getStatus());
     }
 
     @Override
@@ -35,18 +35,18 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
             HttpHeaders headers,
             HttpStatus status,
             WebRequest request) {
-        List<String> errors = new ArrayList<String>();
+        List<ApiError> errors = new ArrayList<ApiError>();
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
-            errors.add(error.getField() + ": " + error.getDefaultMessage());
+            errors.add(new ApiError(error.getField(), error.getDefaultMessage()));
         }
         for (ObjectError error : ex.getBindingResult().getGlobalErrors()) {
-            errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
+            errors.add(new ApiError(error.getObjectName(), error.getDefaultMessage()));
         }
 
-        ApiError apiError =
-                new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
+        ApiResponseError apiResponseError =
+                new ApiResponseError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
         return handleExceptionInternal(
-                ex, apiError, headers, apiError.getStatus(), request);
+                ex, apiResponseError, headers, apiResponseError.getStatus(), request);
     }
 
     @ExceptionHandler({AccessDeniedException.class})
