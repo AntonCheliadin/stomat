@@ -1,0 +1,37 @@
+{
+  "name": "stomat",
+  "version": "1.0.0",
+  "main": "webpack.config.js",
+  "repository": "https://github.com/AntonCheliadin/stomat.git",
+  "author": "antoncheliadin <chel_anton@mail.ru>",
+  "license": "MIT",
+  "scripts": {
+    "start": "webpack-dev-server"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.4.4",
+    "@fullcalendar/bootstrap": "^4.1.0",
+    "@fullcalendar/core": "^4.1.0",
+    "@fullcalendar/daygrid": "^4.1.0",
+    "@fullcalendar/interaction": "^4.1.0",
+    "@fullcalendar/moment": "^4.1.0",
+    "@fullcalendar/timegrid": "^4.1.0",
+    "@fullcalendar/vue": "^4.1.0",
+    "moment": "^2.24.0",
+    "vue": "^2.6.10",
+    "vue-resource": "^1.5.1",
+    "vuex": "^3.1.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.1",
+    "vue-loader": "^15.7.0",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.6.10",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.3.1"
+  }
+}
