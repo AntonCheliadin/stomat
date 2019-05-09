@@ -20,13 +20,15 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
 
     public Schedule addSchedule(Doctor doctor, ScheduleDto scheduleDto) {
-        Schedule schedule = new Schedule() {{
-            setDoctor(doctor);
-            setDayOfWeek(scheduleDto.getDayOfWeek());
-            setTimeFrom(scheduleDto.getTimeFrom());
-            setTimeTo(scheduleDto.getTimeTo());
-        }};
+        Schedule schedule = new Schedule();
+        schedule.setDoctor(doctor);
+        return saveByDto(schedule, scheduleDto);
+    }
 
+    public Schedule saveByDto(Schedule schedule, ScheduleDto scheduleDto) {
+        schedule.setDayOfWeek(scheduleDto.getDayOfWeek());
+        schedule.setTimeFrom(scheduleDto.getTimeFrom());
+        schedule.setTimeTo(scheduleDto.getTimeTo());
         return scheduleRepository.save(schedule);
     }
 }

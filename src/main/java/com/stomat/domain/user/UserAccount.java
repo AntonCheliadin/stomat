@@ -45,10 +45,11 @@ public class UserAccount implements UserDetails {
     @JsonIgnore
     private String activationCode;
 
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            mappedBy = "user")
-    private Doctor doctor;
+    /**
+     * contains doctors which can be managed by user
+     */
+    @ManyToMany(mappedBy = "managers")
+    private Set<Doctor> doctors;
 
 
     @ElementCollection(fetch = FetchType.EAGER, targetClass = Role.class)
@@ -130,12 +131,12 @@ public class UserAccount implements UserDetails {
         this.activationCode = activationCode;
     }
 
-    public Doctor getDoctor() {
-        return doctor;
+    public Set<Doctor> getDoctors() {
+        return doctors;
     }
 
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
+    public void setDoctors(Set<Doctor> doctors) {
+        this.doctors = doctors;
     }
 
     @Override
