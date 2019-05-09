@@ -23,6 +23,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
+        logger.error(ex.getMessage(), ex);
         ApiResponseError apiResponseError = new ApiResponseError(
                 HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage());
         return new ResponseEntity<Object>(

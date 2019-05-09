@@ -1,7 +1,9 @@
 package com.stomat.domain.schedule;
 
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.stomat.domain.profile.Doctor;
+import com.stomat.transfer.views.Views;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -19,6 +21,7 @@ public class Schedule implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonView(Views.ScheduleView.class)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -31,14 +34,17 @@ public class Schedule implements Serializable {
      */
     @Min(1)
     @Max(7)
+    @JsonView(Views.ScheduleView.class)
     private int dayOfWeek;//todo: try byte instead of int
 
     @NotNull
     @Temporal(TemporalType.TIME)
+    @JsonView(Views.ScheduleView.class)
     private Date timeFrom;
 
     @NotNull
     @Temporal(TemporalType.TIME)
+    @JsonView(Views.ScheduleView.class)
     private Date timeTo;
 
     public Long getId() {

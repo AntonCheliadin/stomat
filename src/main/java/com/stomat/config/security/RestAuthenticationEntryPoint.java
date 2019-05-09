@@ -14,7 +14,7 @@ import java.io.IOException;
  * - otherwise redirect to login page
  */
 @Component
-public final class  RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public final class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(
@@ -22,7 +22,7 @@ public final class  RestAuthenticationEntryPoint implements AuthenticationEntryP
             final HttpServletResponse response,
             final AuthenticationException authException) throws IOException {
 
-        if (request.getRequestURI().startsWith("/api")){
+        if (request.getRequestURI().startsWith("/api")) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
         } else {
             response.sendRedirect(request.getContextPath() + "/login");
