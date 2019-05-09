@@ -1,13 +1,9 @@
 package com.stomat.transfer.schedule;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
-
-import static com.stomat.constants.DateFormat.API_DATE_TIME;
+import java.time.LocalTime;
 
 public class ScheduleDto {
 
@@ -19,14 +15,14 @@ public class ScheduleDto {
     @Max(7)
     private int dayOfWeek;
 
+    @NotNull
+    private long doctor;
 
     @NotNull
-    @DateTimeFormat(pattern = API_DATE_TIME)
-    private Date timeFrom;
+    private LocalTime timeFrom;
 
     @NotNull
-    @DateTimeFormat(pattern = API_DATE_TIME)
-    private Date timeTo;
+    private LocalTime timeTo;
 
     public int getDayOfWeek() {
         return dayOfWeek;
@@ -36,19 +32,27 @@ public class ScheduleDto {
         this.dayOfWeek = dayOfWeek;
     }
 
-    public Date getTimeFrom() {
+    public LocalTime getTimeFrom() {
         return timeFrom;
     }
 
-    public void setTimeFrom(Date timeFrom) {
+    public void setTimeFrom(LocalTime timeFrom) {
         this.timeFrom = timeFrom;
     }
 
-    public Date getTimeTo() {
+    public LocalTime getTimeTo() {
         return timeTo;
     }
 
-    public void setTimeTo(Date timeTo) {
+    public void setTimeTo(LocalTime timeTo) {
         this.timeTo = timeTo;
+    }
+
+    public long getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(long doctor) {
+        this.doctor = doctor;
     }
 }

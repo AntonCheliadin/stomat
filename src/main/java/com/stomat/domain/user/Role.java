@@ -12,13 +12,11 @@ public enum Role {
     OWNER,
 
     /**
-     * A person employed in an office to answer the telephone, deal with clients.
+     * A person who can manage doctors
      */
-    RECEPTIONIST,
+    MANAGER,
 
     DOCTOR,
 
-    USER,
-
-    ADMIN
+    USER
 }

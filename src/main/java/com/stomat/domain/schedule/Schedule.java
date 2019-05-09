@@ -10,6 +10,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalTime;
 import java.util.Date;
 
 /**
@@ -38,14 +39,12 @@ public class Schedule implements Serializable {
     private int dayOfWeek;//todo: try byte instead of int
 
     @NotNull
-    @Temporal(TemporalType.TIME)
     @JsonView(Views.ScheduleView.class)
-    private Date timeFrom;
+    private LocalTime timeFrom;
 
     @NotNull
-    @Temporal(TemporalType.TIME)
     @JsonView(Views.ScheduleView.class)
-    private Date timeTo;
+    private LocalTime timeTo;
 
     public Long getId() {
         return id;
@@ -55,19 +54,19 @@ public class Schedule implements Serializable {
         this.id = id;
     }
 
-    public Date getTimeFrom() {
+    public LocalTime getTimeFrom() {
         return timeFrom;
     }
 
-    public void setTimeFrom(Date timeFrom) {
+    public void setTimeFrom(LocalTime timeFrom) {
         this.timeFrom = timeFrom;
     }
 
-    public Date getTimeTo() {
+    public LocalTime getTimeTo() {
         return timeTo;
     }
 
-    public void setTimeTo(Date timeTo) {
+    public void setTimeTo(LocalTime timeTo) {
         this.timeTo = timeTo;
     }
 

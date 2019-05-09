@@ -22,9 +22,9 @@ import java.util.Collection;
 
 @RestController
 @RequestMapping("/schedule/extra")
-public class ScheduleExtraApi {
+public class ScheduleExtraApiController {
 
-    public ScheduleExtraApi(ScheduleAdditionalTimeRepository additionalTimeRepository, PermissionService permissionService) {
+    public ScheduleExtraApiController(ScheduleAdditionalTimeRepository additionalTimeRepository, PermissionService permissionService) {
         this.additionalTimeRepository = additionalTimeRepository;
         this.permissionService = permissionService;
     }

@@ -1,4 +1,4 @@
-package com.stomat.controllers.schedule;
+package com.stomat.api.schedule;
 
 import com.stomat.api.user.auth.MockMvcTestPrototype;
 import com.stomat.api.user.auth.WithMockCustomUser;
@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class ScheduleWeekApiControllerTest extends MockMvcTestPrototype {
 
-    final String TEST_DOCTOR_ID = "10";
+    final String TEST_DOCTOR_ID = "12345678901";
 
     @Test
     @WithMockCustomUser()

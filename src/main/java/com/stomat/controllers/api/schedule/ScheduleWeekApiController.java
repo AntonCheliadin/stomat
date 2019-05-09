@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.stomat.domain.profile.Doctor;
 import com.stomat.domain.schedule.Schedule;
 import com.stomat.domain.user.UserAccount;
+import com.stomat.repository.profile.DoctorRepository;
 import com.stomat.repository.schedule.ScheduleRepository;
 import com.stomat.services.schedule.ScheduleService;
 import com.stomat.services.security.PermissionService;
@@ -16,10 +17,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
-import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -32,15 +31,17 @@ public class ScheduleWeekApiController {
 
     @Autowired
     public ScheduleWeekApiController(ScheduleRepository scheduleRepository,
-                                     ScheduleService scheduleService, PermissionService permissionService) {
+                                     ScheduleService scheduleService, PermissionService permissionService, DoctorRepository doctorRepository) {
         this.scheduleRepository = scheduleRepository;
         this.scheduleService = scheduleService;
         this.permissionService = permissionService;
+        this.doctorRepository = doctorRepository;
     }
 
     private final ScheduleRepository scheduleRepository;
     private final ScheduleService scheduleService;
     private final PermissionService permissionService;
+    private final DoctorRepository doctorRepository;
 
     @GetMapping
     @JsonView(Views.ScheduleView.class)
@@ -59,31 +60,34 @@ public class ScheduleWeekApiController {
     @PostMapping
     @JsonView(Views.ScheduleView.class)
     public ResponseEntity addWeekSchedule(
-            @AuthenticationPrincipal UserAccount currentUser, @RequestParam Doctor doctor,
-            @Valid @RequestBody ScheduleDto scheduleDto, BindingResult bindingResult, Model model) {
-
+            @AuthenticationPrincipal UserAccount currentUser,
+            @Valid @RequestBody ScheduleDto scheduleDto,
+            BindingResult bindingResult, Model model
+    ) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        if (!permissionService.isAccessAllowed(currentUser, doctor)) {
+        Optional<Doctor> optionalDoctor = doctorRepository.findById(scheduleDto.getDoctor());
+        if (optionalDoctor.isEmpty() || !permissionService.isAccessAllowed(currentUser, optionalDoctor.get())) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
-        return ResponseEntity.ok(scheduleService.addSchedule(doctor, scheduleDto));
+        return ResponseEntity.ok(scheduleService.addSchedule(optionalDoctor.get(), scheduleDto));
     }
 
     @PutMapping("{id}")
     @JsonView(Views.ScheduleView.class)
     public ResponseEntity updateWeekSchedule(
-            @AuthenticationPrincipal UserAccount currentUser, @RequestParam Doctor doctor, @PathVariable("id") long id,
+            @AuthenticationPrincipal UserAccount currentUser, @PathVariable("id") long id,
             @Valid @RequestBody ScheduleDto scheduleDto, BindingResult bindingResult, Model model) {
 
         Optional<Schedule> scheduleOptional = scheduleRepository.findById(id);
+        Optional<Doctor> optionalDoctor = doctorRepository.findById(scheduleDto.getDoctor());
 
-        if (scheduleOptional.isEmpty() || bindingResult.hasErrors()) {
+        if (scheduleOptional.isEmpty() || optionalDoctor.isEmpty() || bindingResult.hasErrors()) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        if (!permissionService.isAccessAllowed(currentUser, doctor)) {
+        if (!permissionService.isAccessAllowed(currentUser, optionalDoctor.get())) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
@@ -91,9 +95,8 @@ public class ScheduleWeekApiController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity deleteUser(
-            @AuthenticationPrincipal UserAccount currentUser, @RequestParam Doctor doctor, @PathVariable("id") long id,
-            Model model) {
+    public ResponseEntity deleteUser(@AuthenticationPrincipal UserAccount currentUser, @RequestParam Doctor doctor,
+                                     @PathVariable("id") long id, Model model) {
         if (!permissionService.isAccessAllowed(currentUser, doctor)) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }

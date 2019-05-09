@@ -4,6 +4,7 @@ import com.stomat.domain.profile.Doctor;
 import com.stomat.domain.schedule.Schedule;
 import com.stomat.repository.schedule.ScheduleRepository;
 import com.stomat.transfer.schedule.ScheduleDto;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -26,9 +27,7 @@ public class ScheduleService {
     }
 
     public Schedule saveByDto(Schedule schedule, ScheduleDto scheduleDto) {
-        schedule.setDayOfWeek(scheduleDto.getDayOfWeek());
-        schedule.setTimeFrom(scheduleDto.getTimeFrom());
-        schedule.setTimeTo(scheduleDto.getTimeTo());
+        BeanUtils.copyProperties(scheduleDto, schedule, "doctor");
         return scheduleRepository.save(schedule);
     }
 }

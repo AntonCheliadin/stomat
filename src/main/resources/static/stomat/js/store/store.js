@@ -52,7 +52,7 @@ export default new Vuex.Store({
             commit('setScheduleWeek', json)
         },
         async addScheduleWeekAction({commit, state}, data) {
-            const result = await scheduleWeekApi.add(data.doctor.id, data.scheduleItem);
+            const result = await scheduleWeekApi.add(data);
             const json = await result.json();
             const index = state.scheduleWeek.findIndex(item => item.id === json.id);
 
@@ -63,7 +63,7 @@ export default new Vuex.Store({
             }
         },
         async updateScheduleWeekAction({commit}, data) {
-            const result = await scheduleWeekApi.update(data.doctor.id, data.scheduleItem);
+            const result = await scheduleWeekApi.update(data);
             const json = await result.json();
             commit('updateScheduleWeekItem', json)
         },
