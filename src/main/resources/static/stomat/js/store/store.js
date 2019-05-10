@@ -12,9 +12,7 @@ export default new Vuex.Store({
     getters: {
         scheduleWeekCalendarEvents: (state) => {
             let events = [];
-
-            for (let i in state.scheduleWeek) {
-                let scheduleItem = state.scheduleWeek[i];
+            for (let scheduleItem of state.scheduleWeek) {
                 let weekDay = moment().startOf('week').add(scheduleItem.dayOfWeek, 'days');
 
                 events.push({
