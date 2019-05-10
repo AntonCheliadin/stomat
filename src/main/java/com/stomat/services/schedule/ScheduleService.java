@@ -21,13 +21,13 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
 
     public Schedule addSchedule(Doctor doctor, ScheduleDto scheduleDto) {
-        Schedule schedule = new Schedule();
+        var schedule = new Schedule();
         schedule.setDoctor(doctor);
         return saveByDto(schedule, scheduleDto);
     }
 
     public Schedule saveByDto(Schedule schedule, ScheduleDto scheduleDto) {
-        BeanUtils.copyProperties(scheduleDto, schedule, "doctor");
+        BeanUtils.copyProperties(scheduleDto, schedule, "doctor", "id");
         return scheduleRepository.save(schedule);
     }
 }

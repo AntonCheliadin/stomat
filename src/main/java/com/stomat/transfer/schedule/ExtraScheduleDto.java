@@ -1,36 +1,20 @@
-package com.stomat.domain.schedule;
+package com.stomat.transfer.schedule;
 
 import com.stomat.domain.profile.Doctor;
+import com.stomat.domain.schedule.AdditionalTimeTypeEnum;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
-/**
- * @author Anton Chelyadin.
- * @since 29.12.18.
- */
-@Entity
-public class ScheduleAdditionalTime implements Serializable {
+public class ExtraScheduleDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doctor_id", nullable = false)
-    private Doctor doctor;
+    private Long doctor;
 
     private LocalDateTime fromDate;
 
-    @NotNull
     private LocalDateTime toDate;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
     private AdditionalTimeTypeEnum type;
 
     private boolean allDay;
@@ -41,6 +25,14 @@ public class ScheduleAdditionalTime implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Long doctor) {
+        this.doctor = doctor;
     }
 
     public LocalDateTime getFromDate() {
@@ -57,14 +49,6 @@ public class ScheduleAdditionalTime implements Serializable {
 
     public void setToDate(LocalDateTime toDate) {
         this.toDate = toDate;
-    }
-
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
     }
 
     public AdditionalTimeTypeEnum getType() {

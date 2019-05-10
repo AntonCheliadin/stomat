@@ -3,6 +3,7 @@ package com.stomat.transfer.schedule;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.Date;
 
 import static com.stomat.constants.DateFormat.API_DATE;
@@ -14,26 +15,35 @@ import static com.stomat.constants.DateFormat.API_DATE;
 public class PeriodDto {
 
     @NotNull
-    @DateTimeFormat(pattern = API_DATE)
-    private Date from;
+    private Long doctor;
 
     @NotNull
-    @DateTimeFormat(pattern = API_DATE)
-    private Date to;
+    private LocalDate from;
 
-    public Date getFrom() {
+    @NotNull
+    private LocalDate to;
+
+    public LocalDate getFrom() {
         return from;
     }
 
-    public void setFrom(Date from) {
+    public void setFrom(LocalDate from) {
         this.from = from;
     }
 
-    public Date getTo() {
+    public LocalDate getTo() {
         return to;
     }
 
-    public void setTo(Date to) {
+    public void setTo(LocalDate to) {
         this.to = to;
+    }
+
+    public Long getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Long doctor) {
+        this.doctor = doctor;
     }
 }
