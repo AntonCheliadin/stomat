@@ -95,15 +95,21 @@ public class ScheduleWeekApiController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity deleteUser(@AuthenticationPrincipal UserAccount currentUser, @RequestParam Doctor doctor,
-                                     @PathVariable("id") long id, Model model) {
-        if (!permissionService.isAccessAllowed(currentUser, doctor)) {
+    public ResponseEntity deleteUser(
+            @AuthenticationPrincipal UserAccount currentUser, @PathVariable("id") long id,
+            @Valid @RequestBody ScheduleDto scheduleDto, BindingResult bindingResult, Model model) {
+
+        Optional<Schedule> scheduleOptional = scheduleRepository.findById(id);
+        Optional<Doctor> optionalDoctor = doctorRepository.findById(scheduleDto.getDoctor());
+
+        if (scheduleOptional.isEmpty() || optionalDoctor.isEmpty() || bindingResult.hasErrors()) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        if (!permissionService.isAccessAllowed(currentUser, optionalDoctor.get())) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
-        Schedule schedule = scheduleRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid schedule Id:" + id));
-        scheduleRepository.delete(schedule);
+        scheduleRepository.delete(scheduleOptional.get());
         return new ResponseEntity(HttpStatus.OK);
     }
 }

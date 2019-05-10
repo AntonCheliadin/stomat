@@ -18,6 +18,7 @@
                 @eventClick="handleEventClick"
                 @eventDrop="handleEventMove"
                 @eventResize="handleEventMove"
+                @eventRender="eventRender"
                 @select="handleSelect"/>
     </div>
 </template>
@@ -63,30 +64,59 @@
             }
         },
         methods: {
-            ...mapActions(['loadScheduleWeekAction', 'addScheduleWeekAction', 'updateScheduleWeekAction']),
+            ...mapActions(['loadScheduleWeekAction', 'addScheduleWeekAction', 'updateScheduleWeekAction',
+                'removeScheduleWeekAction']),
             handleSelect(arg) {
                 this.addScheduleWeekAction(this._fullCalendarEventToScheduleItem(arg))
             },
             handleEventClick(arg) {
-                console.log(arg)
+                // console.log(arg)
             },
             handleEventMove(arg) {
                 this.updateScheduleWeekAction(this._fullCalendarEventToScheduleItem(arg.event))
             },
             _fullCalendarEventToScheduleItem(event) {
+                let day = event.start.getDay();
                 return {
                     doctor: 10,
-                    id: event.id,
-                    dayOfWeek: event.start.getDay() + 1,
+                    id: event.id ? Number(event.id) : null,
+                    dayOfWeek: day === 0 ? 7 : day,
                     timeFrom: moment(event.start).format("HH:mm"),
                     timeTo: moment(event.end).format("HH:mm")
                 }
+            },
+            eventRender: function (arg) {
+                this.addRemoveBtn(arg);
+            },
+            addRemoveBtn(arg) {
+                let removeBtn = document.createElement("div");
+                removeBtn.textContent = "x";
+                removeBtn.className = "remove-btn";
+                arg.el.firstChild.appendChild(removeBtn);
+                removeBtn.addEventListener("click", () => this.handleEventRemove(arg));
+            },
+            handleEventRemove(arg) {
+                this.removeScheduleWeekAction(this._fullCalendarEventToScheduleItem(arg.event))
             }
         }
     }
 </script>
 
-<style scoped>
+<style>
     @import '~@fullcalendar/core/main.css';
     @import '~@fullcalendar/timegrid/main.css';
+
+    .remove-btn {
+        color: black;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 13px;
+        height: 13px;
+        text-align: center;
+        border-radius: 50%;
+        font-size: 9px;
+        cursor: pointer;
+        background-color: #FFF
+    }
 </style>

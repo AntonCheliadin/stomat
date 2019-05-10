@@ -15,7 +15,7 @@ export default new Vuex.Store({
 
             for (let i in state.scheduleWeek) {
                 let scheduleItem = state.scheduleWeek[i];
-                let weekDay = moment().startOf('week').add(scheduleItem.dayOfWeek - 1, 'days');
+                let weekDay = moment().startOf('week').add(scheduleItem.dayOfWeek, 'days');
 
                 events.push({
                     id: scheduleItem.id,
@@ -32,16 +32,14 @@ export default new Vuex.Store({
             state.scheduleWeek = scheduleWeek
         },
         addScheduleWeekItem(state, scheduleItem) {
-            state.scheduleWeek = [...state.scheduleWeek, scheduleItem]
+            state.scheduleWeek.push(scheduleItem)
         },
         updateScheduleWeekItem(state, scheduleItem) {
-            state.scheduleWeek = [
-                ...state.scheduleWeek.filter(item => item.id !== scheduleItem.id),
-                scheduleItem
-            ]
+            state.scheduleWeek = state.scheduleWeek.filter(item => item.id !== scheduleItem.id);
+            state.scheduleWeek.push(scheduleItem)
         },
         removeScheduleWeekItem(state, scheduleItem) {
-            state.scheduleWeek = state.scheduleWeek.filter(item => item !== scheduleItem)
+            state.scheduleWeek = state.scheduleWeek.filter(item => item.id !== scheduleItem.id)
         }
     },
     actions: {
@@ -68,10 +66,10 @@ export default new Vuex.Store({
             commit('updateScheduleWeekItem', json)
         },
         async removeScheduleWeekAction({commit}, data) {
-            const result = await scheduleWeekApi.remove(data.doctor.id, data.scheduleItem.id);
+            const result = await scheduleWeekApi.remove(data);
 
             if (result.ok) {
-                commit('removeScheduleWeekItem', scheduleItem)
+                commit('removeScheduleWeekItem', data)
             }
         },
     }

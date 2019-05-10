@@ -46,7 +46,7 @@ public class Doctor {
 
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Schedule> schedules;
-
+//todo: move schedules and additionalTimes into another domain DoctorSchedule
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ScheduleAdditionalTime> additionalTimes;
 
