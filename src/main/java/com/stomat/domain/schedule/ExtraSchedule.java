@@ -14,7 +14,7 @@ import java.util.Date;
  * @since 29.12.18.
  */
 @Entity
-public class ScheduleAdditionalTime implements Serializable {
+public class ExtraSchedule implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

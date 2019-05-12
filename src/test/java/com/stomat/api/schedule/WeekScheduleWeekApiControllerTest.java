@@ -10,7 +10,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ScheduleWeekApiControllerTest extends MockMvcTestPrototype {
+public class WeekScheduleWeekApiControllerTest extends MockMvcTestPrototype {
 
     final String TEST_DOCTOR_ID = "12345678901";
 

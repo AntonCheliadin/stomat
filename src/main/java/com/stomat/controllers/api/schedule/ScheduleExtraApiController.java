@@ -2,14 +2,14 @@ package com.stomat.controllers.api.schedule;
 
 
 import com.stomat.domain.profile.Doctor;
-import com.stomat.domain.schedule.ScheduleAdditionalTime;
+import com.stomat.domain.schedule.ExtraSchedule;
 import com.stomat.domain.user.UserAccount;
 import com.stomat.repository.profile.DoctorRepository;
 import com.stomat.repository.schedule.ScheduleAdditionalTimeRepository;
 import com.stomat.services.schedule.ExtraScheduleService;
 import com.stomat.services.security.PermissionService;
 import com.stomat.transfer.schedule.ExtraScheduleDto;
-import com.stomat.transfer.schedule.PeriodDto;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @RestController
@@ -40,27 +41,26 @@ public class ScheduleExtraApiController {
     private final ExtraScheduleService extraScheduleService;
 
     @GetMapping
-    public ResponseEntity getAdditionalTimes(
-            @AuthenticationPrincipal UserAccount currentUser,
-            @Valid @RequestParam PeriodDto periodDto, BindingResult bindingResult, Model model) {
-
-        if (bindingResult.hasErrors()) {
+    public ResponseEntity getExtraSchedule(
+            @AuthenticationPrincipal UserAccount currentUser, @RequestParam Doctor doctor,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
+        if (doctor == null) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        Optional<Doctor> optionalDoctor = doctorRepository.findById(periodDto.getDoctor());
 
-        if (optionalDoctor.isEmpty() || !permissionService.isAccessAllowed(currentUser, optionalDoctor.get())) {
+        if (!permissionService.isAccessAllowed(currentUser, doctor)) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
         var extraTimes = additionalTimeRepository.findAllByDoctorEqualsAndFromDateAfterAndToDateBefore(
-                optionalDoctor.get(), periodDto.getFrom().atStartOfDay(), periodDto.getTo().atStartOfDay());
+                doctor, from.atStartOfDay(), to.atStartOfDay());
 
         return ResponseEntity.ok(extraTimes);
     }
 
     @PostMapping
-    public ResponseEntity createAdditionalTimes(
+    public ResponseEntity createExtraSchedule(
             @AuthenticationPrincipal UserAccount currentUser,
             @Valid @RequestParam ExtraScheduleDto extraScheduleDto, BindingResult bindingResult, Model model) {
 
@@ -78,12 +78,12 @@ public class ScheduleExtraApiController {
         return ResponseEntity.ok(extraSchedule);
     }
 
-    @PutMapping("${id}")
-    public ResponseEntity updateAdditionalTimes(
+    @PutMapping("{id}")
+    public ResponseEntity updateExtraSchedule(
             @AuthenticationPrincipal UserAccount currentUser, @PathVariable("id") long id,
             @Valid @RequestParam ExtraScheduleDto extraScheduleDto, BindingResult bindingResult, Model model) {
 
-        Optional<ScheduleAdditionalTime> optExtraSchedule = additionalTimeRepository.findById(id);
+        Optional<ExtraSchedule> optExtraSchedule = additionalTimeRepository.findById(id);
         if (optExtraSchedule.isEmpty() || bindingResult.hasErrors()) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
@@ -98,12 +98,12 @@ public class ScheduleExtraApiController {
         return ResponseEntity.ok(extraSchedule);
     }
 
-    @DeleteMapping("${id}")
-    public ResponseEntity deleteAdditionalTimes(
+    @DeleteMapping("{id}")
+    public ResponseEntity deleteExtraSchedule(
             @AuthenticationPrincipal UserAccount currentUser, @PathVariable("id") long id,
             @Valid @RequestParam ExtraScheduleDto extraScheduleDto, BindingResult bindingResult, Model model) {
 
-        Optional<ScheduleAdditionalTime> optExtraSchedule = additionalTimeRepository.findById(id);
+        Optional<ExtraSchedule> optExtraSchedule = additionalTimeRepository.findById(id);
         if (optExtraSchedule.isEmpty() || bindingResult.hasErrors()) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }

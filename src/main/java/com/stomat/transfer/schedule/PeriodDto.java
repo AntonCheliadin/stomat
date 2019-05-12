@@ -18,9 +18,11 @@ public class PeriodDto {
     private Long doctor;
 
     @NotNull
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate from;
 
     @NotNull
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate to;
 
     public LocalDate getFrom() {

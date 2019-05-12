@@ -1,7 +1,7 @@
 package com.stomat.services.schedule;
 
 import com.stomat.domain.profile.Doctor;
-import com.stomat.domain.schedule.Schedule;
+import com.stomat.domain.schedule.WeekSchedule;
 import com.stomat.repository.schedule.ScheduleRepository;
 import com.stomat.transfer.schedule.ScheduleDto;
 import org.springframework.beans.BeanUtils;
@@ -20,14 +20,14 @@ public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
 
-    public Schedule addSchedule(Doctor doctor, ScheduleDto scheduleDto) {
-        var schedule = new Schedule();
+    public WeekSchedule addSchedule(Doctor doctor, ScheduleDto scheduleDto) {
+        var schedule = new WeekSchedule();
         schedule.setDoctor(doctor);
         return saveByDto(schedule, scheduleDto);
     }
 
-    public Schedule saveByDto(Schedule schedule, ScheduleDto scheduleDto) {
-        BeanUtils.copyProperties(scheduleDto, schedule, "doctor", "id");
-        return scheduleRepository.save(schedule);
+    public WeekSchedule saveByDto(WeekSchedule weekSchedule, ScheduleDto scheduleDto) {
+        BeanUtils.copyProperties(scheduleDto, weekSchedule, "doctor", "id");
+        return scheduleRepository.save(weekSchedule);
     }
 }

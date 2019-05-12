@@ -1,10 +1,10 @@
 package com.stomat.repository.schedule;
 
 import com.stomat.domain.profile.Doctor;
-import com.stomat.domain.schedule.Schedule;
+import com.stomat.domain.schedule.WeekSchedule;
 import org.springframework.data.repository.CrudRepository;
 
-public interface ScheduleRepository extends CrudRepository<Schedule, Long> {
+public interface ScheduleRepository extends CrudRepository<WeekSchedule, Long> {
 
-    Schedule findByDoctorAndDayOfWeek(Doctor doctor, int dayOfWeek);
+    WeekSchedule findByDoctorAndDayOfWeek(Doctor doctor, int dayOfWeek);
 }

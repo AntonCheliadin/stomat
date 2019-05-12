@@ -1,8 +1,7 @@
 package com.stomat.domain.profile;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.stomat.domain.schedule.Schedule;
-import com.stomat.domain.schedule.ScheduleAdditionalTime;
+import com.stomat.domain.schedule.WeekSchedule;
+import com.stomat.domain.schedule.ExtraSchedule;
 import com.stomat.domain.user.UserAccount;
 
 import javax.persistence.*;
@@ -45,10 +44,10 @@ public class Doctor {
     private Clinic clinic;
 
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Schedule> schedules;
-//todo: move schedules and additionalTimes into another domain DoctorSchedule
+    private Set<WeekSchedule> weekSchedules;
+//todo: move schedules and extraSchedules into another domain DoctorSchedule
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<ScheduleAdditionalTime> additionalTimes;
+    private Set<ExtraSchedule> extraSchedules;
 
     public Long getId() {
         return id;
@@ -74,20 +73,20 @@ public class Doctor {
         this.clinic = clinic;
     }
 
-    public Set<Schedule> getSchedules() {
-        return schedules;
+    public Set<WeekSchedule> getWeekSchedules() {
+        return weekSchedules;
     }
 
-    public void setSchedules(Set<Schedule> schedules) {
-        this.schedules = schedules;
+    public void setWeekSchedules(Set<WeekSchedule> weekSchedules) {
+        this.weekSchedules = weekSchedules;
     }
 
-    public Set<ScheduleAdditionalTime> getAdditionalTimes() {
-        return additionalTimes;
+    public Set<ExtraSchedule> getExtraSchedules() {
+        return extraSchedules;
     }
 
-    public void setAdditionalTimes(Set<ScheduleAdditionalTime> additionalTimes) {
-        this.additionalTimes = additionalTimes;
+    public void setExtraSchedules(Set<ExtraSchedule> extraSchedules) {
+        this.extraSchedules = extraSchedules;
     }
 
     public String getFirstName() {

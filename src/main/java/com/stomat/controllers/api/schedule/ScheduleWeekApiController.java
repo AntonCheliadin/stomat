@@ -2,7 +2,7 @@ package com.stomat.controllers.api.schedule;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.stomat.domain.profile.Doctor;
-import com.stomat.domain.schedule.Schedule;
+import com.stomat.domain.schedule.WeekSchedule;
 import com.stomat.domain.user.UserAccount;
 import com.stomat.repository.profile.DoctorRepository;
 import com.stomat.repository.schedule.ScheduleRepository;
@@ -54,7 +54,7 @@ public class ScheduleWeekApiController {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
-        return ResponseEntity.ok(doctor.getSchedules());
+        return ResponseEntity.ok(doctor.getWeekSchedules());
     }
 
     @PostMapping
@@ -81,7 +81,7 @@ public class ScheduleWeekApiController {
             @AuthenticationPrincipal UserAccount currentUser, @PathVariable("id") long id,
             @Valid @RequestBody ScheduleDto scheduleDto, BindingResult bindingResult, Model model) {
 
-        Optional<Schedule> scheduleOptional = scheduleRepository.findById(id);
+        Optional<WeekSchedule> scheduleOptional = scheduleRepository.findById(id);
         Optional<Doctor> optionalDoctor = doctorRepository.findById(scheduleDto.getDoctor());
 
         if (scheduleOptional.isEmpty() || optionalDoctor.isEmpty() || bindingResult.hasErrors()) {
@@ -99,7 +99,7 @@ public class ScheduleWeekApiController {
             @AuthenticationPrincipal UserAccount currentUser, @PathVariable("id") long id,
             @Valid @RequestBody ScheduleDto scheduleDto, BindingResult bindingResult, Model model) {
 
-        Optional<Schedule> scheduleOptional = scheduleRepository.findById(id);
+        Optional<WeekSchedule> scheduleOptional = scheduleRepository.findById(id);
         Optional<Doctor> optionalDoctor = doctorRepository.findById(scheduleDto.getDoctor());
 
         if (scheduleOptional.isEmpty() || optionalDoctor.isEmpty() || bindingResult.hasErrors()) {

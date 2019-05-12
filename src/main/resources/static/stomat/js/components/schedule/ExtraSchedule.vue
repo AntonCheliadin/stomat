@@ -14,7 +14,7 @@
                 :allDaySlot="allDaySlot"
                 :minTime="minTime"
                 :maxTime="maxTime"
-                :events="weekScheduleCalendarEvents"
+                :events="extraScheduleCalendarEvents"
                 @eventClick="handleEventClick"
                 @eventDrop="handleEventMove"
                 @eventResize="handleEventMove"
@@ -31,11 +31,16 @@
     import moment from 'moment'
 
     export default {
-        name: "WeekSchedule",
+        name: "ExtraSchedule",
         components: {FullCalendar},
-        computed: mapGetters(['weekScheduleCalendarEvents']),
+        computed: mapGetters(['extraScheduleCalendarEvents']),
         created() {
-            this.loadWeekScheduleAction({id: 10});
+            this.loadExtraScheduleAction(
+                {
+                    doctor: 10,
+                    from: moment().startOf('week').format("YYYY-MM-DD"),
+                    to: moment().startOf('week').add(7, 'days').format("YYYY-MM-DD")
+                });
         },
         data() {
             return {
@@ -43,46 +48,48 @@
                 editable: true,
                 selectable: true,
                 header: {
-                    left: '',
+                    left: 'title',
                     center: '',
-                    right: ''
+                    right: 'today prev,next'
                 },
                 columnHeaderFormat: {
-                    weekday: 'long'
+                    weekday: 'short',
+                    month: 'numeric',
+                    day: 'numeric',
+                    omitCommas: true
                 },
-                slotDuration: "00:30",
-                slotLabelInterval: "01:00",
+                slotDuration: "00:15",
+                slotLabelInterval: "00:30",
                 slotLabelFormat: {
                     hour: '2-digit',
                     minute: '2-digit',
                     hour12: false
                 },
                 firstDay: 1,
-                allDaySlot: false,
+                allDaySlot: true,
                 minTime: "06:00:00",
                 maxTime: "23:00:00",
             }
         },
         methods: {
-            ...mapActions(['loadWeekScheduleAction', 'addWeekScheduleAction', 'updateWeekScheduleAction',
-                'removeWeekScheduleAction']),
+            ...mapActions(['loadExtraScheduleAction', 'addExtraScheduleAction', 'updateExtraScheduleAction',
+                'removeExtraScheduleAction']),
             handleSelect(arg) {
-                this.addWeekScheduleAction(this._fullCalendarEventToScheduleItem(arg))
+                this.addExtraScheduleAction(this._fullCalendarEventToScheduleItem(arg))
             },
             handleEventClick(arg) {
                 // console.log(arg)
             },
             handleEventMove(arg) {
-                this.updateWeekScheduleAction(this._fullCalendarEventToScheduleItem(arg.event))
+                this.updateExtraScheduleAction(this._fullCalendarEventToScheduleItem(arg.event))
             },
             _fullCalendarEventToScheduleItem(event) {
-                let day = event.start.getDay();
                 return {
+                    item: event.item,
                     doctor: 10,
                     id: event.id ? Number(event.id) : null,
-                    dayOfWeek: day === 0 ? 7 : day,
-                    timeFrom: moment(event.start).format("HH:mm"),
-                    timeTo: moment(event.end).format("HH:mm")
+                    fromDate: moment(event.start).format("YYYY-MM-DD HH:mm"),
+                    toDate: moment(event.end).format("YYYY-MM-DD HH:mm")
                 }
             },
             eventRender: function (arg) {
@@ -96,7 +103,7 @@
                 removeBtn.addEventListener("click", () => this.handleEventRemove(arg));
             },
             handleEventRemove(arg) {
-                this.removeWeekScheduleAction(this._fullCalendarEventToScheduleItem(arg.event))
+                this.removeExtraScheduleAction(this._fullCalendarEventToScheduleItem(arg.event))
             }
         }
     }

@@ -18,7 +18,7 @@ import java.util.Date;
  * @since 29.12.18.
  */
 @Entity
-public class Schedule implements Serializable {
+public class WeekSchedule implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

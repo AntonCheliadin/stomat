@@ -1,19 +1,21 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import scheduleWeekApi from 'api/scheduleWeek'
+import weekScheduleApi from 'api/weekScheduleApi'
+import extraScheduleApi from 'api/extraScheduleApi'
 import moment from 'moment'
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        scheduleWeek: [] //list of scheduleItem
+        weekSchedule: [], //list of scheduleItem
+        extraSchedule: []
     },
     getters: {
-        scheduleWeekCalendarEvents: (state) => {
+        weekScheduleCalendarEvents: (state) => {
             let events = [];
-            for (let scheduleItem of state.scheduleWeek) {
-                let weekDay = moment().startOf('week').add(scheduleItem.dayOfWeek, 'days');
+            for (let scheduleItem of state.weekSchedule) {
+                let weekDay = moment().startOf('isoWeek').add(scheduleItem.dayOfWeek - 1, 'days');
 
                 events.push({
                     id: scheduleItem.id,
@@ -23,51 +25,107 @@ export default new Vuex.Store({
                 })
             }
             return events;
+        },
+        extraScheduleCalendarEvents: (state) => {
+            let events = [];
+            for (let scheduleItem of state.extraSchedule) {
+
+                events.push({
+                    item: scheduleItem,
+                    id: scheduleItem.id,
+                    title: scheduleItem.id,
+                    start: scheduleItem.fromDate,
+                    end: scheduleItem.toDate
+                })
+            }
+            return events;
         }
     },
     mutations: {
-        setScheduleWeek(state, scheduleWeek) {
-            state.scheduleWeek = scheduleWeek
+        setWeekSchedule(state, weekSchedule) {
+            state.weekSchedule = weekSchedule
         },
-        addScheduleWeekItem(state, scheduleItem) {
-            state.scheduleWeek.push(scheduleItem)
+        addWeekScheduleItem(state, scheduleItem) {
+            state.weekSchedule.push(scheduleItem)
         },
-        updateScheduleWeekItem(state, scheduleItem) {
-            state.scheduleWeek = state.scheduleWeek.filter(item => item.id !== scheduleItem.id);
-            state.scheduleWeek.push(scheduleItem)
+        updateWeekScheduleItem(state, scheduleItem) {
+            state.weekSchedule = state.weekSchedule.filter(item => item.id !== scheduleItem.id);
+            state.weekSchedule.push(scheduleItem)
         },
-        removeScheduleWeekItem(state, scheduleItem) {
-            state.scheduleWeek = state.scheduleWeek.filter(item => item.id !== scheduleItem.id)
+        removeWeekScheduleItem(state, scheduleItem) {
+            state.weekSchedule = state.weekSchedule.filter(item => item.id !== scheduleItem.id)
+        },
+        setExtraSchedule(state, schedule) {
+            state.extraSchedule = schedule
+        },
+        addExtraScheduleItem(state, scheduleItem) {
+            state.extraSchedule.push(scheduleItem)
+        },
+        updateExtraScheduleItem(state, scheduleItem) {
+            state.extraSchedule = state.extraSchedule.filter(item => item.id !== scheduleItem.id);
+            state.extraSchedule.push(scheduleItem)
+        },
+        removeExtraScheduleItem(state, scheduleItem) {
+            state.extraSchedule = state.extraSchedule.filter(item => item.id !== scheduleItem.id)
         }
     },
     actions: {
-        async loadScheduleWeekAction({commit, state}, doctor) {
-            const response = await scheduleWeekApi.get(doctor.id);
+        async loadWeekScheduleAction({commit, state}, doctor) {
+            const response = await weekScheduleApi.get(doctor.id);
             const json = await response.json();
 
-            commit('setScheduleWeek', json)
+            commit('setWeekSchedule', json)
         },
-        async addScheduleWeekAction({commit, state}, data) {
-            const result = await scheduleWeekApi.add(data);
+        async addWeekScheduleAction({commit, state}, data) {
+            const result = await weekScheduleApi.add(data);
             const json = await result.json();
-            const index = state.scheduleWeek.findIndex(item => item.id === json.id);
+            const index = state.weekSchedule.findIndex(item => item.id === json.id);
 
             if (index > -1) {
-                commit('updateScheduleWeekItem', json)
+                commit('updateWeekScheduleItem', json)
             } else {
-                commit('addScheduleWeekItem', json)
+                commit('addWeekScheduleItem', json)
             }
         },
-        async updateScheduleWeekAction({commit}, data) {
-            const result = await scheduleWeekApi.update(data);
+        async updateWeekScheduleAction({commit}, data) {
+            const result = await weekScheduleApi.update(data);
             const json = await result.json();
-            commit('updateScheduleWeekItem', json)
+            commit('updateWeekScheduleItem', json)
         },
-        async removeScheduleWeekAction({commit}, data) {
-            const result = await scheduleWeekApi.remove(data);
+        async removeWeekScheduleAction({commit}, data) {
+            const result = await weekScheduleApi.remove(data);
 
             if (result.ok) {
-                commit('removeScheduleWeekItem', data)
+                commit('removeWeekScheduleItem', data)
+            }
+        },
+        async loadExtraScheduleAction({commit, state}, data) {
+            const response = await extraScheduleApi.get(data);
+            const json = await response.json();
+
+            commit('setExtraSchedule', json)
+        },
+        async addExtraScheduleAction({commit, state}, data) {
+            const result = await extraScheduleApi.add(data);
+            const json = await result.json();
+            const index = state.extraSchedule.findIndex(item => item.id === json.id);
+
+            if (index > -1) {
+                commit('updateExtraScheduleItem', json)
+            } else {
+                commit('addExtraScheduleItem', json)
+            }
+        },
+        async updateExtraScheduleAction({commit}, data) {
+            const result = await extraScheduleApi.update(data);
+            const json = await result.json();
+            commit('updateExtraScheduleItem', json)
+        },
+        async removeExtraScheduleAction({commit}, data) {
+            const result = await extraScheduleApi.remove(data);
+
+            if (result.ok) {
+                commit('removeExtraScheduleItem', data)
             }
         },
     }
