@@ -29,7 +29,6 @@ public class ExtraSchedule implements Serializable {
     @JsonView(Views.ScheduleView.class)
     private LocalDateTime fromDate;
 
-    @NotNull
     @JsonView(Views.ScheduleView.class)
     private LocalDateTime toDate;
 

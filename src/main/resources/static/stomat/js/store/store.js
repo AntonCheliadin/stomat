@@ -35,7 +35,8 @@ export default new Vuex.Store({
                     id: scheduleItem.id,
                     title: scheduleItem.id,
                     start: scheduleItem.fromDate,
-                    end: scheduleItem.toDate
+                    end: scheduleItem.toDate,
+                    allDay: scheduleItem.allDay
                 })
             }
             return events;

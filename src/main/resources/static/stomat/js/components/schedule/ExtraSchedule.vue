@@ -98,7 +98,19 @@
                     id: event.id ? Number(event.id) : null,
                     type: "ADDING",
                     fromDate: moment(event.start).format("YYYY-MM-DD HH:mm"),
-                    toDate: moment(event.end).format("YYYY-MM-DD HH:mm")
+                    toDate: this._calculateEndDate(event),
+                    allDay: event.allDay
+                }
+            },
+            _calculateEndDate(event) {
+                if (!event.allDay) {
+                    let toDate;
+                    if (event.end) {
+                        toDate = moment(event.end);
+                    } else {
+                        toDate = moment(event.start).add(1, 'hour');
+                    }
+                    return toDate.format("YYYY-MM-DD HH:mm")
                 }
             },
             eventRender: function (arg) {
