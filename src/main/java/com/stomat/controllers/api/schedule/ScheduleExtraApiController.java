@@ -12,7 +12,6 @@ import com.stomat.services.security.PermissionService;
 import com.stomat.transfer.schedule.ExtraScheduleDto;
 import com.stomat.transfer.views.Views;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,7 +19,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -62,7 +60,7 @@ public class ScheduleExtraApiController {
 
         return ResponseEntity.ok(extraTimes);
     }
-
+//todo: handle events on the whole day
     @PostMapping
     @JsonView(Views.ScheduleView.class)
     public ResponseEntity createExtraSchedule(

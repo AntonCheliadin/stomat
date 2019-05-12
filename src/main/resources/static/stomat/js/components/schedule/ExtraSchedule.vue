@@ -29,6 +29,8 @@
     import timeGridPlugin from '@fullcalendar/timegrid'
     import interactionPlugin from '@fullcalendar/interaction'
     import moment from 'moment'
+    import ExtraSchedulePopup from "./ExtraSchedulePopup.vue";
+    import {default as Vuedals, Component as Vuedal, Bus as VuedalsBus} from 'vuedals';
 
     export default {
         name: "ExtraSchedule",
@@ -78,7 +80,13 @@
                 this.addExtraScheduleAction(this._fullCalendarEventToScheduleItem(arg))
             },
             handleEventClick(arg) {
-                // console.log(arg)
+                VuedalsBus.$emit('new', {
+                    name: 'update-extra-schedule-popup',
+                    props: {
+                        event: arg.event
+                    },
+                    component: ExtraSchedulePopup
+                });
             },
             handleEventMove(arg) {
                 this.updateExtraScheduleAction(this._fullCalendarEventToScheduleItem(arg.event))
@@ -111,20 +119,5 @@
 </script>
 
 <style>
-    @import '~@fullcalendar/core/main.css';
-    @import '~@fullcalendar/timegrid/main.css';
 
-    .remove-btn {
-        color: black;
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 13px;
-        height: 13px;
-        text-align: center;
-        border-radius: 50%;
-        font-size: 9px;
-        cursor: pointer;
-        background-color: #FFF
-    }
 </style>

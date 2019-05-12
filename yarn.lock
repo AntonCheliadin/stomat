@@ -4963,10 +4963,17 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue@^2.6.10:
+vue@^2.1.10, vue@^2.6.10:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
   integrity sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ==
+
+vuedals@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/vuedals/-/vuedals-1.7.0.tgz#22d35db165382e139bc98b3cac7faa1fe3fe4d0c"
+  integrity sha1-ItNdsWU4LhObyYs8rH+qH+P+TQw=
+  dependencies:
+    vue "^2.1.10"
 
 vuex@^3.1.1:
   version "3.1.1"
