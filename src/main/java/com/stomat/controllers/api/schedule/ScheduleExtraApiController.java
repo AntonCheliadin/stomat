@@ -1,6 +1,7 @@
 package com.stomat.controllers.api.schedule;
 
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.stomat.domain.profile.Doctor;
 import com.stomat.domain.schedule.ExtraSchedule;
 import com.stomat.domain.user.UserAccount;
@@ -9,7 +10,9 @@ import com.stomat.repository.schedule.ScheduleAdditionalTimeRepository;
 import com.stomat.services.schedule.ExtraScheduleService;
 import com.stomat.services.security.PermissionService;
 import com.stomat.transfer.schedule.ExtraScheduleDto;
+import com.stomat.transfer.views.Views;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -41,6 +44,7 @@ public class ScheduleExtraApiController {
     private final ExtraScheduleService extraScheduleService;
 
     @GetMapping
+    @JsonView(Views.ScheduleView.class)
     public ResponseEntity getExtraSchedule(
             @AuthenticationPrincipal UserAccount currentUser, @RequestParam Doctor doctor,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
@@ -60,9 +64,10 @@ public class ScheduleExtraApiController {
     }
 
     @PostMapping
+    @JsonView(Views.ScheduleView.class)
     public ResponseEntity createExtraSchedule(
             @AuthenticationPrincipal UserAccount currentUser,
-            @Valid @RequestParam ExtraScheduleDto extraScheduleDto, BindingResult bindingResult, Model model) {
+            @RequestBody ExtraScheduleDto extraScheduleDto, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -79,9 +84,10 @@ public class ScheduleExtraApiController {
     }
 
     @PutMapping("{id}")
+    @JsonView(Views.ScheduleView.class)
     public ResponseEntity updateExtraSchedule(
             @AuthenticationPrincipal UserAccount currentUser, @PathVariable("id") long id,
-            @Valid @RequestParam ExtraScheduleDto extraScheduleDto, BindingResult bindingResult, Model model) {
+            @RequestBody ExtraScheduleDto extraScheduleDto, BindingResult bindingResult, Model model) {
 
         Optional<ExtraSchedule> optExtraSchedule = additionalTimeRepository.findById(id);
         if (optExtraSchedule.isEmpty() || bindingResult.hasErrors()) {
@@ -101,7 +107,7 @@ public class ScheduleExtraApiController {
     @DeleteMapping("{id}")
     public ResponseEntity deleteExtraSchedule(
             @AuthenticationPrincipal UserAccount currentUser, @PathVariable("id") long id,
-            @Valid @RequestParam ExtraScheduleDto extraScheduleDto, BindingResult bindingResult, Model model) {
+            @RequestBody ExtraScheduleDto extraScheduleDto, BindingResult bindingResult, Model model) {
 
         Optional<ExtraSchedule> optExtraSchedule = additionalTimeRepository.findById(id);
         if (optExtraSchedule.isEmpty() || bindingResult.hasErrors()) {

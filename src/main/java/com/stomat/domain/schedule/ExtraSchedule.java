@@ -1,13 +1,13 @@
 package com.stomat.domain.schedule;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.stomat.domain.profile.Doctor;
+import com.stomat.transfer.views.Views;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * @author Anton Chelyadin.
@@ -18,21 +18,27 @@ public class ExtraSchedule implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonView(Views.ScheduleView.class)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
+    @NotNull
+    @JsonView(Views.ScheduleView.class)
     private LocalDateTime fromDate;
 
     @NotNull
+    @JsonView(Views.ScheduleView.class)
     private LocalDateTime toDate;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private AdditionalTimeTypeEnum type;
+    @JsonView(Views.ScheduleView.class)
+    private ExtraScheduleTypeEnum type;
 
+    @JsonView(Views.ScheduleView.class)
     private boolean allDay;
 
     public Long getId() {
@@ -67,11 +73,11 @@ public class ExtraSchedule implements Serializable {
         this.doctor = doctor;
     }
 
-    public AdditionalTimeTypeEnum getType() {
+    public ExtraScheduleTypeEnum getType() {
         return type;
     }
 
-    public void setType(AdditionalTimeTypeEnum type) {
+    public void setType(ExtraScheduleTypeEnum type) {
         this.type = type;
     }
 

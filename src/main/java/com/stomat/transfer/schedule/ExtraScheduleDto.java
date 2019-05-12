@@ -1,7 +1,7 @@
 package com.stomat.transfer.schedule;
 
-import com.stomat.domain.profile.Doctor;
-import com.stomat.domain.schedule.AdditionalTimeTypeEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.stomat.domain.schedule.ExtraScheduleTypeEnum;
 
 import java.time.LocalDateTime;
 
@@ -11,11 +11,13 @@ public class ExtraScheduleDto {
 
     private Long doctor;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime fromDate;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime toDate;
 
-    private AdditionalTimeTypeEnum type;
+    private ExtraScheduleTypeEnum type;
 
     private boolean allDay;
 
@@ -43,6 +45,7 @@ public class ExtraScheduleDto {
         this.fromDate = fromDate;
     }
 
+
     public LocalDateTime getToDate() {
         return toDate;
     }
@@ -51,11 +54,11 @@ public class ExtraScheduleDto {
         this.toDate = toDate;
     }
 
-    public AdditionalTimeTypeEnum getType() {
+    public ExtraScheduleTypeEnum getType() {
         return type;
     }
 
-    public void setType(AdditionalTimeTypeEnum type) {
+    public void setType(ExtraScheduleTypeEnum type) {
         this.type = type;
     }
 

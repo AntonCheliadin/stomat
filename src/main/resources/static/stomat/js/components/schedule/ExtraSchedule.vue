@@ -38,8 +38,8 @@
             this.loadExtraScheduleAction(
                 {
                     doctor: 10,
-                    from: moment().startOf('week').format("YYYY-MM-DD"),
-                    to: moment().startOf('week').add(7, 'days').format("YYYY-MM-DD")
+                    from: moment().startOf('isoWeek').format("YYYY-MM-DD"),
+                    to: moment().startOf('isoWeek').add(7, 'days').format("YYYY-MM-DD")
                 });
         },
         data() {
@@ -88,6 +88,7 @@
                     item: event.item,
                     doctor: 10,
                     id: event.id ? Number(event.id) : null,
+                    type: "ADDING",
                     fromDate: moment(event.start).format("YYYY-MM-DD HH:mm"),
                     toDate: moment(event.end).format("YYYY-MM-DD HH:mm")
                 }
