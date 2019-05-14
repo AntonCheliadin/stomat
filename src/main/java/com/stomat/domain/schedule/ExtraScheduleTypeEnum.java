@@ -6,7 +6,7 @@ package com.stomat.domain.schedule;
  */
 public enum ExtraScheduleTypeEnum {
 
-    ADDING,
+    INCLUDE,
 
-    DELETION
+    EXCLUDE
 }

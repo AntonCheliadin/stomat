@@ -55,12 +55,12 @@ public class ScheduleExtraApiController {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
-        var extraTimes = additionalTimeRepository.findAllByDoctorEqualsAndFromDateAfterAndToDateBefore(
+        var extraTimes = additionalTimeRepository.findAllByDoctorEqualsAndFromDateAfterAndFromDateBefore(
                 doctor, from.atStartOfDay(), to.atStartOfDay());
 
         return ResponseEntity.ok(extraTimes);
     }
-//todo: handle events on the whole day
+
     @PostMapping
     @JsonView(Views.ScheduleView.class)
     public ResponseEntity createExtraSchedule(

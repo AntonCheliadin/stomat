@@ -9,7 +9,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         weekSchedule: [], //list of scheduleItem
-        extraSchedule: []
+        extraSchedule: [],
+        doctor: 10
     },
     getters: {
         weekScheduleCalendarEvents: (state) => {
@@ -40,6 +41,9 @@ export default new Vuex.Store({
                 })
             }
             return events;
+        },
+        extraScheduleById: (state) => (id) => {
+            return state.extraSchedule.find(item => item.id == id);
         }
     },
     mutations: {
@@ -57,7 +61,10 @@ export default new Vuex.Store({
             state.weekSchedule = state.weekSchedule.filter(item => item.id !== scheduleItem.id)
         },
         setExtraSchedule(state, schedule) {
-            state.extraSchedule = schedule
+            state.extraSchedule = schedule.map((it) => {
+                it.doctor = state.doctor;
+                return it;
+            })
         },
         addExtraScheduleItem(state, scheduleItem) {
             state.extraSchedule.push(scheduleItem)
@@ -67,7 +74,7 @@ export default new Vuex.Store({
             state.extraSchedule.push(scheduleItem)
         },
         removeExtraScheduleItem(state, scheduleItem) {
-            state.extraSchedule = state.extraSchedule.filter(item => item.id !== scheduleItem.id)
+            state.extraSchedule = state.extraSchedule.filter(item => item.id !== Number(scheduleItem.id))
         }
     },
     actions: {
@@ -101,12 +108,14 @@ export default new Vuex.Store({
             }
         },
         async loadExtraScheduleAction({commit, state}, data) {
+            data.doctor = state.doctor;
             const response = await extraScheduleApi.get(data);
             const json = await response.json();
 
             commit('setExtraSchedule', json)
         },
         async addExtraScheduleAction({commit, state}, data) {
+            data.doctor = state.doctor;
             const result = await extraScheduleApi.add(data);
             const json = await result.json();
             const index = state.extraSchedule.findIndex(item => item.id === json.id);
@@ -117,12 +126,14 @@ export default new Vuex.Store({
                 commit('addExtraScheduleItem', json)
             }
         },
-        async updateExtraScheduleAction({commit}, data) {
+        async updateExtraScheduleAction({commit, state}, data) {
+            data.doctor = state.doctor;
             const result = await extraScheduleApi.update(data);
             const json = await result.json();
             commit('updateExtraScheduleItem', json)
         },
-        async removeExtraScheduleAction({commit}, data) {
+        async removeExtraScheduleAction({commit, state}, data) {
+            data.doctor = state.doctor;
             const result = await extraScheduleApi.remove(data);
 
             if (result.ok) {

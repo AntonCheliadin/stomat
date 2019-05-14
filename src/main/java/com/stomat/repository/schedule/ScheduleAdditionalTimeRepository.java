@@ -9,5 +9,5 @@ import java.util.Collection;
 
 public interface ScheduleAdditionalTimeRepository extends CrudRepository<ExtraSchedule, Long> {
 
-    Collection<ExtraSchedule> findAllByDoctorEqualsAndFromDateAfterAndToDateBefore(Doctor doctor, LocalDateTime from, LocalDateTime to);
+    Collection<ExtraSchedule> findAllByDoctorEqualsAndFromDateAfterAndFromDateBefore(Doctor doctor, LocalDateTime from, LocalDateTime to);
 }

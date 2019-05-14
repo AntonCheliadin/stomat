@@ -31,11 +31,15 @@
     import moment from 'moment'
     import ExtraSchedulePopup from "./ExtraSchedulePopup.vue";
     import {default as Vuedals, Component as Vuedal, Bus as VuedalsBus} from 'vuedals';
+    import {
+        fullCalendarEventToExtraSchedule,
+        moveExtraSchedule
+    } from "./converters/extraScheduleConverter";
 
     export default {
         name: "ExtraSchedule",
         components: {FullCalendar},
-        computed: mapGetters(['extraScheduleCalendarEvents']),
+        computed: mapGetters(['extraScheduleCalendarEvents', 'extraScheduleById']),
         created() {
             this.loadExtraScheduleAction(
                 {
@@ -76,42 +80,29 @@
         methods: {
             ...mapActions(['loadExtraScheduleAction', 'addExtraScheduleAction', 'updateExtraScheduleAction',
                 'removeExtraScheduleAction']),
-            handleSelect(arg) {
-                this.addExtraScheduleAction(this._fullCalendarEventToScheduleItem(arg))
-            },
-            handleEventClick(arg) {
+            handleSelect(event) {
                 VuedalsBus.$emit('new', {
-                    name: 'update-extra-schedule-popup',
+                    name: 'create-extra-schedule-popup',
+                    component: ExtraSchedulePopup,
                     props: {
-                        event: arg.event
+                        event: fullCalendarEventToExtraSchedule(event)
                     },
-                    component: ExtraSchedulePopup
                 });
             },
+            handleEventClick(arg) {
+                if (!arg.jsEvent.target.classList.contains('remove-btn')) {
+                    VuedalsBus.$emit('new', {
+                        name: 'update-extra-schedule-popup',
+                        component: ExtraSchedulePopup,
+                        props: {
+                            event: this.extraScheduleById(arg.event.id)
+                        },
+                    });
+                }
+            },
             handleEventMove(arg) {
-                this.updateExtraScheduleAction(this._fullCalendarEventToScheduleItem(arg.event))
-            },
-            _fullCalendarEventToScheduleItem(event) {
-                return {
-                    item: event.item,
-                    doctor: 10,
-                    id: event.id ? Number(event.id) : null,
-                    type: "ADDING",
-                    fromDate: moment(event.start).format("YYYY-MM-DD HH:mm"),
-                    toDate: this._calculateEndDate(event),
-                    allDay: event.allDay
-                }
-            },
-            _calculateEndDate(event) {
-                if (!event.allDay) {
-                    let toDate;
-                    if (event.end) {
-                        toDate = moment(event.end);
-                    } else {
-                        toDate = moment(event.start).add(1, 'hour');
-                    }
-                    return toDate.format("YYYY-MM-DD HH:mm")
-                }
+                let extraSchedule = this.extraScheduleById(arg.event.id);
+                this.updateExtraScheduleAction(moveExtraSchedule(extraSchedule, arg.event))
             },
             eventRender: function (arg) {
                 this.addRemoveBtn(arg);
@@ -124,7 +115,7 @@
                 removeBtn.addEventListener("click", () => this.handleEventRemove(arg));
             },
             handleEventRemove(arg) {
-                this.removeExtraScheduleAction(this._fullCalendarEventToScheduleItem(arg.event))
+                this.removeExtraScheduleAction(arg.event)
             }
         }
     }
