@@ -10,7 +10,9 @@ export default new Vuex.Store({
     state: {
         weekSchedule: [], //list of scheduleItem
         extraSchedule: [],
-        doctor: 10
+        weekScheduleBackground: [],
+        doctor: 10,
+        calendarDate: moment()
     },
     getters: {
         weekScheduleCalendarEvents: (state) => {
@@ -27,20 +29,72 @@ export default new Vuex.Store({
             }
             return events;
         },
-        extraScheduleCalendarEvents: (state) => {
+        // weekScheduleBackgroundCalendarEvents: (state) => {
+        //     this._generateWeekScheduleEvents(state.weekScheduleBackground, true)
+        // },
+        // _generateWeekScheduleEvents: (state) => (weekSchedule, background) => {
+        //     console.log("_generateWeekScheduleEvents", state, weekSchedule, background)
+        //     let events = [];
+        //     for (let scheduleItem of weekSchedule) {
+        //         let weekDay = moment().startOf('isoWeek').add(scheduleItem.dayOfWeek - 1, 'days');
+        //
+        //         events.push({
+        //             id: scheduleItem.id,
+        //             title: scheduleItem.id,
+        //             start: weekDay.format("YYYY-MM-DD ") + scheduleItem.timeFrom,
+        //             end: weekDay.format("YYYY-MM-DD ") + scheduleItem.timeTo,
+        //             background: background
+        //         })
+        //     }
+        //     return events;
+        // },
+        // extraScheduleCalendarEvents: (state) => {
+        //     console.log("extraScheduleCalendarEvents", this, state)
+        //     let events = [];
+        //     for (let scheduleItem of state.extraSchedule) {
+        //
+        //         events.push({
+        //             id: scheduleItem.id,
+        //             className: 'extra-schedule-type-' + scheduleItem.type,
+        //             title: scheduleItem.type,
+        //             start: scheduleItem.fromDate,
+        //             end: scheduleItem.toDate,
+        //             allDay: scheduleItem.allDay
+        //         })
+        //     }
+        //     return events;
+        // },
+        //todo: optimize
+        eventsForExtraScheduleCalendar: (state) => {
             let events = [];
             for (let scheduleItem of state.extraSchedule) {
 
                 events.push({
-                    item: scheduleItem,
                     id: scheduleItem.id,
-                    title: scheduleItem.id,
+                    className: 'extra-schedule-type-' + scheduleItem.type,
+                    title: scheduleItem.type,
                     start: scheduleItem.fromDate,
                     end: scheduleItem.toDate,
                     allDay: scheduleItem.allDay
                 })
             }
+
+            let weekStart = state.calendarDate.startOf('isoWeek');
+
+            for (let scheduleItem of state.weekScheduleBackground) {
+                let weekDay = weekStart.clone().add(scheduleItem.dayOfWeek - 1, 'days');
+
+                events.push({
+                    start: weekDay.format("YYYY-MM-DD ") + scheduleItem.timeFrom,
+                    end: weekDay.format("YYYY-MM-DD ") + scheduleItem.timeTo,
+                    rendering: 'background'
+                })
+            }
+
             return events;
+
+            // return this.extraScheduleCalendarEvents(state)
+            //     .concat(this.weekScheduleBackgroundCalendarEvents())
         },
         extraScheduleById: (state) => (id) => {
             return state.extraSchedule.find(item => item.id == id);
@@ -49,6 +103,12 @@ export default new Vuex.Store({
     mutations: {
         setWeekSchedule(state, weekSchedule) {
             state.weekSchedule = weekSchedule
+        },
+        setWeekScheduleBackground(state, weekScheduleBackground) {
+            state.weekScheduleBackground = weekScheduleBackground
+        },
+        setCalendarDate(state, calendarDate) {
+            state.calendarDate = calendarDate
         },
         addWeekScheduleItem(state, scheduleItem) {
             state.weekSchedule.push(scheduleItem)
@@ -83,6 +143,12 @@ export default new Vuex.Store({
             const json = await response.json();
 
             commit('setWeekSchedule', json)
+        },
+        async loadBackgroundWeekScheduleAction({commit, state}, doctor) {
+            const response = await weekScheduleApi.get(doctor.id);
+            const json = await response.json();
+
+            commit('setWeekScheduleBackground', json)
         },
         async addWeekScheduleAction({commit, state}, data) {
             const result = await weekScheduleApi.add(data);

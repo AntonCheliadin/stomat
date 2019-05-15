@@ -14,7 +14,7 @@
                 :allDaySlot="allDaySlot"
                 :minTime="minTime"
                 :maxTime="maxTime"
-                :events="extraScheduleCalendarEvents"
+                :events="eventsForExtraScheduleCalendar"
                 @eventClick="handleEventClick"
                 @eventDrop="handleEventMove"
                 @eventResize="handleEventMove"
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-    import {mapGetters, mapActions} from 'vuex'
+    import {mapGetters, mapActions, mapMutations} from 'vuex'
     import FullCalendar from '@fullcalendar/vue'
     import timeGridPlugin from '@fullcalendar/timegrid'
     import interactionPlugin from '@fullcalendar/interaction'
@@ -40,7 +40,10 @@
     export default {
         name: "ExtraSchedule",
         components: {FullCalendar},
-        computed: mapGetters(['extraScheduleCalendarEvents', 'extraScheduleById']),
+        computed: mapGetters(['eventsForExtraScheduleCalendar', 'extraScheduleById']),
+        created() {
+            this.loadBackgroundWeekScheduleAction({id: 10});
+        },
         data() {
             return {
                 calendarPlugins: [timeGridPlugin, interactionPlugin],
@@ -72,7 +75,8 @@
         },
         methods: {
             ...mapActions(['loadExtraScheduleAction', 'addExtraScheduleAction', 'updateExtraScheduleAction',
-                'removeExtraScheduleAction']),
+                'removeExtraScheduleAction', 'loadBackgroundWeekScheduleAction']),
+            ...mapMutations(['setCalendarDate']),
             handleSelect(event) {
                 VuedalsBus.$emit('new', {
                     name: 'create-extra-schedule-popup',
@@ -98,7 +102,9 @@
                 this.updateExtraScheduleAction(moveExtraSchedule(extraSchedule, arg.event))
             },
             eventRender: function (arg) {
-                this.addRemoveBtn(arg);
+                if (arg.event.rendering !== "background") {
+                    this.addRemoveBtn(arg);
+                }
             },
             addRemoveBtn(arg) {
                 let removeBtn = document.createElement("div");
@@ -111,15 +117,24 @@
                 this.removeExtraScheduleAction(arg.event)
             },
             datesRender: function (arg) {
+                this.setCalendarDate( moment(arg.view.currentStart));
                 this.loadExtraScheduleAction({
                     from: moment(arg.view.currentStart).format("YYYY-MM-DD"),
                     to: moment(arg.view.currentEnd).format("YYYY-MM-DD")
-                })
+                });
             },
         }
     }
 </script>
 
 <style>
+
+    .extra-schedule-type-INCLUDE {
+        background-color: #23b017;
+    }
+
+    .extra-schedule-type-EXCLUDE {
+        background-color: #ed0000;
+    }
 
 </style>
