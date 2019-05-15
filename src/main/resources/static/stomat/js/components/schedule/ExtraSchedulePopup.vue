@@ -18,7 +18,7 @@
         <label for="toDate">До</label>
         <br>
         <button @click="save">Save</button>
-        <button @click="deleteClick">Delete</button>
+        <button v-if="id" @click="deleteClick">Delete</button>
     </div>
 </template>
 
@@ -35,9 +35,10 @@
         },
         data() {
             return {
+                id: this.event.id,
                 type: this.event.type ? this.event.type : "INCLUDE",
                 fromDate: moment(this.event.fromDate).format('YYYY-MM-DD HH:mm'),
-                toDate: moment(this.event.toDate).format('YYYY-MM-DD HH:mm'),
+                toDate: this.event.toDate ? moment(this.event.toDate).format('YYYY-MM-DD HH:mm') : "",
                 allDay: this.event.allDay
             }
         },
@@ -49,7 +50,11 @@
                 this.event.fromDate = this.fromDate;
                 this.event.toDate = this.toDate;
                 this.event.allDay = this.allDay;
-                this.addExtraScheduleAction(this.event);
+                if (this.event.id == null) {
+                    this.addExtraScheduleAction(this.event);
+                } else {
+                    this.updateExtraScheduleAction(this.event);
+                }
                 this.$emit('vuedals:close');
             },
             deleteClick() {

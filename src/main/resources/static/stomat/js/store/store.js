@@ -118,13 +118,7 @@ export default new Vuex.Store({
             data.doctor = state.doctor;
             const result = await extraScheduleApi.add(data);
             const json = await result.json();
-            const index = state.extraSchedule.findIndex(item => item.id === json.id);
-
-            if (index > -1) {
-                commit('updateExtraScheduleItem', json)
-            } else {
-                commit('addExtraScheduleItem', json)
-            }
+            commit('addExtraScheduleItem', json)
         },
         async updateExtraScheduleAction({commit, state}, data) {
             data.doctor = state.doctor;
