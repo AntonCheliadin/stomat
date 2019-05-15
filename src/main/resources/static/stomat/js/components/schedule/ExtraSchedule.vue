@@ -19,6 +19,7 @@
                 @eventDrop="handleEventMove"
                 @eventResize="handleEventMove"
                 @eventRender="eventRender"
+                @datesRender="datesRender"
                 @select="handleSelect"/>
     </div>
 </template>
@@ -40,14 +41,6 @@
         name: "ExtraSchedule",
         components: {FullCalendar},
         computed: mapGetters(['extraScheduleCalendarEvents', 'extraScheduleById']),
-        created() {
-            this.loadExtraScheduleAction(
-                {
-                    doctor: 10,
-                    from: moment().startOf('isoWeek').format("YYYY-MM-DD"),
-                    to: moment().startOf('isoWeek').add(7, 'days').format("YYYY-MM-DD")
-                });
-        },
         data() {
             return {
                 calendarPlugins: [timeGridPlugin, interactionPlugin],
@@ -116,7 +109,13 @@
             },
             handleEventRemove(arg) {
                 this.removeExtraScheduleAction(arg.event)
-            }
+            },
+            datesRender: function (arg) {
+                this.loadExtraScheduleAction({
+                    from: moment(arg.view.currentStart).format("YYYY-MM-DD"),
+                    to: moment(arg.view.currentEnd).format("YYYY-MM-DD")
+                })
+            },
         }
     }
 </script>
