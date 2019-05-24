@@ -2,7 +2,7 @@ package com.stomat.services.schedule;
 
 import com.stomat.domain.profile.Doctor;
 import com.stomat.domain.schedule.ExtraSchedule;
-import com.stomat.repository.schedule.ScheduleAdditionalTimeRepository;
+import com.stomat.repository.schedule.ExtraScheduleRepository;
 import com.stomat.transfer.schedule.ExtraScheduleDto;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class ExtraScheduleService {
 
-    private final ScheduleAdditionalTimeRepository scheduleAdditionalTimeRepository;
+    private final ExtraScheduleRepository extraScheduleRepository;
 
-    public ExtraScheduleService(ScheduleAdditionalTimeRepository scheduleAdditionalTimeRepository) {
-        this.scheduleAdditionalTimeRepository = scheduleAdditionalTimeRepository;
+    public ExtraScheduleService(ExtraScheduleRepository extraScheduleRepository) {
+        this.extraScheduleRepository = extraScheduleRepository;
     }
 
     public ExtraSchedule addExtraSchedule(Doctor doctor, ExtraScheduleDto extraScheduleDto) {
@@ -24,6 +24,6 @@ public class ExtraScheduleService {
 
     public ExtraSchedule saveByDto(ExtraSchedule schedule, ExtraScheduleDto scheduleDto) {
         BeanUtils.copyProperties(scheduleDto, schedule, "doctor", "id");
-        return scheduleAdditionalTimeRepository.save(schedule);
+        return extraScheduleRepository.save(schedule);
     }
 }

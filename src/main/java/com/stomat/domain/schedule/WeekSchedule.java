@@ -6,12 +6,10 @@ import com.stomat.domain.profile.Doctor;
 import com.stomat.transfer.views.Views;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.Date;
 
 /**
  * @author Anton Chelyadin.
@@ -19,6 +17,20 @@ import java.util.Date;
  */
 @Entity
 public class WeekSchedule implements Serializable {
+
+    public WeekSchedule() {
+    }
+
+    public WeekSchedule(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public WeekSchedule(Doctor doctor, DayOfWeek dayOfWeek, @NotNull LocalTime timeFrom, @NotNull LocalTime timeTo) {
+        this.doctor = doctor;
+        this.dayOfWeek = dayOfWeek;
+        this.timeFrom = timeFrom;
+        this.timeTo = timeTo;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,14 +41,8 @@ public class WeekSchedule implements Serializable {
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
-    /**
-     * SUNDAY = 1
-     * ...
-     */
-    @Min(1)
-    @Max(7)
     @JsonView(Views.ScheduleView.class)
-    private int dayOfWeek;//todo: try byte instead of int
+    private DayOfWeek dayOfWeek;
 
     @NotNull
     @JsonView(Views.ScheduleView.class)
@@ -78,11 +84,11 @@ public class WeekSchedule implements Serializable {
         this.doctor = doctor;
     }
 
-    public int getDayOfWeek() {
+    public DayOfWeek getDayOfWeek() {
         return dayOfWeek;
     }
 
-    public void setDayOfWeek(int dayOfWeek) {
+    public void setDayOfWeek(DayOfWeek dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
     }
 }

@@ -21,9 +21,7 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
 
     public WeekSchedule addSchedule(Doctor doctor, ScheduleDto scheduleDto) {
-        var schedule = new WeekSchedule();
-        schedule.setDoctor(doctor);
-        return saveByDto(schedule, scheduleDto);
+        return saveByDto(new WeekSchedule(doctor), scheduleDto);
     }
 
     public WeekSchedule saveByDto(WeekSchedule weekSchedule, ScheduleDto scheduleDto) {

@@ -6,7 +6,7 @@ import com.stomat.domain.profile.Doctor;
 import com.stomat.domain.schedule.ExtraSchedule;
 import com.stomat.domain.user.UserAccount;
 import com.stomat.repository.profile.DoctorRepository;
-import com.stomat.repository.schedule.ScheduleAdditionalTimeRepository;
+import com.stomat.repository.schedule.ExtraScheduleRepository;
 import com.stomat.services.schedule.ExtraScheduleService;
 import com.stomat.services.security.PermissionService;
 import com.stomat.transfer.schedule.ExtraScheduleDto;
@@ -27,7 +27,7 @@ import java.util.Optional;
 public class ScheduleExtraApiController {
 
     public ScheduleExtraApiController(
-            ScheduleAdditionalTimeRepository additionalTimeRepository,
+            ExtraScheduleRepository additionalTimeRepository,
             PermissionService permissionService, DoctorRepository doctorRepository,
             ExtraScheduleService extraScheduleService) {
         this.additionalTimeRepository = additionalTimeRepository;
@@ -36,7 +36,7 @@ public class ScheduleExtraApiController {
         this.extraScheduleService = extraScheduleService;
     }
 
-    private final ScheduleAdditionalTimeRepository additionalTimeRepository;
+    private final ExtraScheduleRepository additionalTimeRepository;
     private final PermissionService permissionService;
     private final DoctorRepository doctorRepository;
     private final ExtraScheduleService extraScheduleService;

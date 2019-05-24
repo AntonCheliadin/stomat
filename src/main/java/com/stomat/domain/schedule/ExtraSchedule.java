@@ -16,6 +16,17 @@ import java.time.LocalDateTime;
 @Entity
 public class ExtraSchedule implements Serializable {
 
+    public ExtraSchedule() {
+    }
+
+    public ExtraSchedule(Doctor doctor, @NotNull LocalDateTime fromDate, LocalDateTime toDate, @NotNull ExtraScheduleTypeEnum type, boolean allDay) {
+        this.doctor = doctor;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
+        this.type = type;
+        this.allDay = allDay;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonView(Views.ScheduleView.class)
