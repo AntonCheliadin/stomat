@@ -4,7 +4,7 @@ import com.stomat.domain.profile.Doctor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @author Anton Chelyadin.
@@ -13,11 +13,22 @@ import java.util.Date;
 @Entity
 public class Booking {
 
+    public Booking() {
+    }
+
+    public Booking(Patient patient, Doctor doctor, LocalDateTime startDate, LocalDateTime endDate, String description) {
+        this.patient = patient;
+        this.doctor = doctor;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.description = description;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
 
@@ -26,12 +37,10 @@ public class Booking {
     private Doctor doctor;
 
     @NotNull
-    @Temporal(TemporalType.DATE)
-    private Date fromDate;
+    private LocalDateTime startDate;
 
     @NotNull
-    @Temporal(TemporalType.DATE)
-    private Date toDate;
+    private LocalDateTime endDate;
 
     private String description;
 
@@ -59,20 +68,20 @@ public class Booking {
         this.doctor = doctor;
     }
 
-    public Date getFromDate() {
-        return fromDate;
+    public LocalDateTime getStartDate() {
+        return startDate;
     }
 
-    public void setFromDate(Date fromDate) {
-        this.fromDate = fromDate;
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
     }
 
-    public Date getToDate() {
-        return toDate;
+    public LocalDateTime getEndDate() {
+        return endDate;
     }
 
-    public void setToDate(Date toDate) {
-        this.toDate = toDate;
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
     }
 
     public String getDescription() {

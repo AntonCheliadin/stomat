@@ -1,8 +1,8 @@
 <template>
     <div>
         booking popup
-        <p v-text="fromDate"></p>
-        <p v-text="toDate"></p>
+        <p v-text="start"></p>
+        <p v-text="end"></p>
 
         <br>
         <input id="firstName" v-model="firstName"/>
@@ -13,6 +13,9 @@
         <br>
         <input id="phone" v-model="phoneNumber"/>
         <label for="phone">телефон</label>
+        <br>
+        <input id="description" v-model="description"/>
+        <label for="description">description</label>
         <br>
         <br>
 
@@ -39,11 +42,12 @@
         },
         data() {
             return {
-                fromDate: moment(this.event.start).format('YYYY-MM-DD HH:mm'),
-                toDate: moment(this.event.end).format('YYYY-MM-DD HH:mm'),
+                start: moment(this.event.start).format('YYYY-MM-DD HH:mm'),
+                end: moment(this.event.end).format('YYYY-MM-DD HH:mm'),
                 firstName: "",
                 lastName: "",
-                phoneNumber: ""
+                phoneNumber: "",
+                description: "",
             }
         },
         methods: {
@@ -55,24 +59,25 @@
                     this.firstName = bookingParams.firstName;
                     this.lastName = bookingParams.lastName;
                     this.phoneNumber = bookingParams.phoneNumber;
+                    this.description = bookingParams.description;
                 }
             },
             save() {
                 let bookingParams = {
-                    from: this.fromDate,
-                    to: this.toDate,
+                    start: this.start,
+                    end: this.end,
                     firstName: this.firstName,
                     lastName: this.lastName,
                     phoneNumber: this.phoneNumber.replace(/\s/g, ''),
+                    description: this.description,
                     doctor: 10
                 };
                 this.setBookingParams(bookingParams);
 
                 bookingApi.add(bookingParams)
                     .then((response) => {
-                        const json = response.json();
                         this.$emit('vuedals:close');
-                        this.showSuccessPopup(json);
+                        this.showSuccessPopup(bookingParams);
                     }, (response) => {
                         this.$emit('vuedals:close');
                         this.showFailPopup(response.status);

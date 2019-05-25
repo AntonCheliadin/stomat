@@ -4,7 +4,6 @@ import com.stomat.domain.booking.Booking;
 import com.stomat.domain.user.UserAccount;
 import com.stomat.services.booking.BookingService;
 import com.stomat.transfer.booking.BookingDto;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,7 +23,7 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
-    @RequestMapping(value = "/api/booking/submit", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/booking/create", method = RequestMethod.POST)
     public ResponseEntity submitBooking(
             @AuthenticationPrincipal UserAccount currentUser,
             @RequestBody BookingDto bookingDto, BindingResult bindingResult, Model model) {
@@ -37,8 +36,8 @@ public class BookingController {
             return new ResponseEntity(HttpStatus.CONFLICT);
         }
 
-        Booking booking = bookingService.submit(bookingDto, currentUser);
+        Booking booking = bookingService.create(bookingDto);
 
-        return ResponseEntity.ok(booking);
+        return ResponseEntity.ok(booking.getId());
     }
 }

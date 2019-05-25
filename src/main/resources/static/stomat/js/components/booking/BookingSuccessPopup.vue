@@ -10,9 +10,7 @@
         props: ['booking'],
         data() {
             console.log("this.booking", this.booking);
-            return {
-                booking: this.booking
-            }
+            return {}
         }
     }
 </script>

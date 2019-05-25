@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
@@ -12,10 +13,10 @@ public class BookingDto {
     private Long doctor;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime fromDate;
+    private LocalDateTime start;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime toDate;
+    private LocalDateTime end;
 
     @NotNull
     @NotBlank
@@ -27,8 +28,11 @@ public class BookingDto {
 
     @NotNull
     @NotBlank
-    @Size(min = 6, max = 13)
+    @Pattern(regexp = "^(\\+)?[0-9]{7,12}")
     private String phoneNumber;
+
+    @Size(max = 255)
+    private String description;
 
     public Long getDoctor() {
         return doctor;
@@ -38,20 +42,20 @@ public class BookingDto {
         this.doctor = doctor;
     }
 
-    public LocalDateTime getFromDate() {
-        return fromDate;
+    public LocalDateTime getStart() {
+        return start;
     }
 
-    public void setFromDate(LocalDateTime fromDate) {
-        this.fromDate = fromDate;
+    public void setStart(LocalDateTime start) {
+        this.start = start;
     }
 
-    public LocalDateTime getToDate() {
-        return toDate;
+    public LocalDateTime getEnd() {
+        return end;
     }
 
-    public void setToDate(LocalDateTime toDate) {
-        this.toDate = toDate;
+    public void setEnd(LocalDateTime end) {
+        this.end = end;
     }
 
     public String getFirstName() {
@@ -78,4 +82,11 @@ public class BookingDto {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

@@ -6,7 +6,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.util.Date;
 
 /**
  * @author Anton Chelyadin.
@@ -14,6 +13,15 @@ import java.util.Date;
  */
 @Entity
 public class Patient {
+
+    public Patient() {
+    }
+
+    public Patient(String firstName, String lastName, String phone) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,19 +32,16 @@ public class Patient {
     private UserAccount user;
 
     @NotBlank
+    @NotNull
     private String firstName;
 
     @NotBlank
+    @NotNull
     private String lastName;
 
     @NotNull
     @Pattern(regexp = "^(\\+)?[0-9]{7,12}")
     private String phone;
-
-    @NotNull
-    @Temporal(TemporalType.DATE)
-    private Date dateOfBirth;
-
 
     public Long getId() {
         return id;
@@ -78,11 +83,4 @@ public class Patient {
         this.phone = phone;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
 }
