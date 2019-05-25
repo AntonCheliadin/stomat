@@ -3,14 +3,11 @@ package com.stomat.transfer.schedule;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 public class ScheduleDto {
 
-    /**
-     * SUNDAY = 1
-     * ...
-     */
     @Min(1)
     @Max(7)
     private int dayOfWeek;
@@ -24,8 +21,8 @@ public class ScheduleDto {
     @NotNull
     private LocalTime timeTo;
 
-    public int getDayOfWeek() {
-        return dayOfWeek;
+    public DayOfWeek getDayOfWeek() {
+        return DayOfWeek.of(dayOfWeek);
     }
 
     public void setDayOfWeek(int dayOfWeek) {

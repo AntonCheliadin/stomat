@@ -6,6 +6,7 @@ import com.stomat.domain.profile.Doctor;
 import com.stomat.domain.schedule.ExtraSchedule;
 import com.stomat.domain.schedule.WeekSchedule;
 import com.stomat.repository.schedule.ExtraScheduleRepository;
+import com.stomat.transfer.booking.FreeTimeDto;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,8 +19,10 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Set;
 
+import static com.google.common.collect.ImmutableRangeSet.unionOf;
 import static com.stomat.domain.schedule.ExtraScheduleTypeEnum.EXCLUDE;
 import static com.stomat.domain.schedule.ExtraScheduleTypeEnum.INCLUDE;
 
@@ -56,14 +59,15 @@ public class FreeTimeCalculationServiceTest {
 
 
         // build expected result
-        var builder = ImmutableRangeSet.builder();
-        builder.add(Range.closedOpen(nextMonday.atTime(8, 0), nextMonday.atTime(10, 30)));
-        builder.add(Range.closedOpen(nextMonday.atTime(12, 10), nextMonday.atTime(16, 0)));
         var nextTue = nextMonday.plusDays(1);
-        builder.add(Range.closedOpen(nextTue.atTime(8, 0), nextTue.atTime(17, 0)));
+        var er = unionOf(List.of(
+                Range.closedOpen(nextMonday.atTime(8, 0), nextMonday.atTime(10, 30)),
+                Range.closedOpen(nextMonday.atTime(12, 10), nextMonday.atTime(16, 0)),
+                Range.closedOpen(nextTue.atTime(8, 0), nextTue.atTime(17, 0))
+        ));
 
         //then
-        TestCase.assertEquals(builder.build(), ar);
+        TestCase.assertEquals(er, ar);
     }
 
     @Test
@@ -87,12 +91,13 @@ public class FreeTimeCalculationServiceTest {
 
 
         // build expected result
-        var builder = ImmutableRangeSet.builder();
-        builder.add(Range.closedOpen(nextMonday.atTime(8, 0), nextMonday.atTime(10, 30)));
-        builder.add(Range.closedOpen(nextMonday.atTime(12, 10), nextMonday.atTime(16, 0)));
+        var er = unionOf(List.of(
+                Range.closedOpen(nextMonday.atTime(8, 0), nextMonday.atTime(10, 30)),
+                Range.closedOpen(nextMonday.atTime(12, 10), nextMonday.atTime(16, 0))
+        ));
 
         //then
-        TestCase.assertEquals(builder.build(), ar);
+        TestCase.assertEquals(er, ar);
     }
 
     @Test
@@ -119,13 +124,14 @@ public class FreeTimeCalculationServiceTest {
 
 
         // build expected result
-        var builder = ImmutableRangeSet.builder();
-        builder.add(Range.closedOpen(nextMonday.atTime(8, 0), nextMonday.atTime(10, 30)));
-        builder.add(Range.closedOpen(nextMonday.atTime(12, 10), nextMonday.atTime(16, 0)));
-        builder.add(Range.closedOpen(nextTue.atTime(0, 0), nextTue.plusDays(1).atTime(0, 0)));
+        var er = unionOf(List.of(
+                Range.closedOpen(nextMonday.atTime(8, 0), nextMonday.atTime(10, 30)),
+                Range.closedOpen(nextMonday.atTime(12, 10), nextMonday.atTime(16, 0)),
+                Range.closedOpen(nextTue.atTime(0, 0), nextTue.plusDays(1).atTime(0, 0))
+        ));
 
         //then
-        TestCase.assertEquals(builder.build(), ar);
+        TestCase.assertEquals(er, ar);
     }
 
     @Test
@@ -170,14 +176,15 @@ public class FreeTimeCalculationServiceTest {
 
 
         // build expected result
-        var builder = ImmutableRangeSet.builder();
-        builder.add(Range.closedOpen(nextMonday.atTime(8, 0), nextMonday.atTime(17, 0)));
-        builder.add(Range.closedOpen(nextMonday.atTime(18, 0), nextMonday.atTime(19, 30)));
-        builder.add(Range.closedOpen(nextTue.atTime(8, 0), nextTue.atTime(12, 30)));
-        builder.add(Range.closedOpen(nextTue.atTime(14, 0), nextTue.atTime(17, 0)));
+        var er = unionOf(List.of(
+                Range.closedOpen(nextMonday.atTime(8, 0), nextMonday.atTime(17, 0)),
+                Range.closedOpen(nextMonday.atTime(18, 0), nextMonday.atTime(19, 30)),
+                Range.closedOpen(nextTue.atTime(8, 0), nextTue.atTime(12, 30)),
+                Range.closedOpen(nextTue.atTime(14, 0), nextTue.atTime(17, 0))
+        ));
 
         //then
-        TestCase.assertEquals(builder.build(), ar);
+        TestCase.assertEquals(er, ar);
     }
 
     @Test
@@ -197,6 +204,29 @@ public class FreeTimeCalculationServiceTest {
 
         //then
         TestCase.assertEquals(ImmutableRangeSet.of(), ar);
+    }
+
+    @Test
+    public void testSplitOnBookingEvent() {
+        //given
+        LocalDate nextMonday = nextMonday();
+        var freeTimes = unionOf(List.of(
+                Range.closedOpen(nextMonday.atTime(8, 0), nextMonday.atTime(11, 0)),
+                Range.closedOpen(nextMonday.atTime(14, 0), nextMonday.atTime(16, 0))
+        ));
+
+        //when
+        var ar = freeTimeCalculationService.buildFreeTimeDto(freeTimes);
+
+        //build er
+        var freeTimeDtos = List.of(
+                new FreeTimeDto(nextMonday.atTime(8, 0), nextMonday.atTime(9, 30)),
+                new FreeTimeDto(nextMonday.atTime(9, 30), nextMonday.atTime(11, 0)),
+                new FreeTimeDto(nextMonday.atTime(14, 0), nextMonday.atTime(15, 30))
+        );
+
+        //then
+        TestCase.assertEquals(freeTimeDtos, ar);
     }
 
     private LocalDate nextMonday() {

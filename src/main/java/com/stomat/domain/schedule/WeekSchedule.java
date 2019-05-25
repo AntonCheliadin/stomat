@@ -1,6 +1,7 @@
 package com.stomat.domain.schedule;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.stomat.domain.profile.Doctor;
 import com.stomat.transfer.views.Views;
@@ -41,7 +42,6 @@ public class WeekSchedule implements Serializable {
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
-    @JsonView(Views.ScheduleView.class)
     private DayOfWeek dayOfWeek;
 
     @NotNull
@@ -90,5 +90,11 @@ public class WeekSchedule implements Serializable {
 
     public void setDayOfWeek(DayOfWeek dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
+    }
+
+    @JsonView(Views.ScheduleView.class)
+    @JsonProperty("dayOfWeek")
+    public int getDayOfWeekNumber() {
+        return dayOfWeek.getValue();
     }
 }

@@ -6,5 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface ScheduleRepository extends CrudRepository<WeekSchedule, Long> {
 
-    WeekSchedule findByDoctorAndDayOfWeek(Doctor doctor, int dayOfWeek);
+    WeekSchedule findAllByDoctor(Doctor doctor);
+    WeekSchedule findAllByDoctorAndDayOfWeek(Doctor doctor, int dayOfWeek);
 }

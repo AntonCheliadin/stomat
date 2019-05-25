@@ -4,11 +4,16 @@ import com.google.common.collect.ImmutableRangeSet;
 import com.google.common.collect.Range;
 import com.stomat.domain.profile.Doctor;
 import com.stomat.domain.schedule.ExtraScheduleTypeEnum;
+import com.stomat.domain.schedule.WeekSchedule;
 import com.stomat.repository.schedule.ExtraScheduleRepository;
+import com.stomat.transfer.booking.FreeTimeDto;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.google.common.collect.ImmutableRangeSet.unionOf;
@@ -16,10 +21,18 @@ import static com.google.common.collect.ImmutableRangeSet.unionOf;
 @Service
 public class FreeTimeCalculationService {
 
+    static int BOOKING_REASON_LENGTH = 90;//todo: reason domain
+
     private ExtraScheduleRepository extraScheduleRepository;
 
     public FreeTimeCalculationService(ExtraScheduleRepository extraScheduleRepository) {
         this.extraScheduleRepository = extraScheduleRepository;
+    }
+
+    public List<FreeTimeDto> collectFreeTimes(Doctor doctor, LocalDate start, LocalDate end) {
+        ImmutableRangeSet<LocalDateTime> freeTimes = calculateFreeTimes(doctor, start, end);
+
+        return buildFreeTimeDto(freeTimes);
     }
 
     ImmutableRangeSet<LocalDateTime> calculateFreeTimes(Doctor doctor, LocalDate start, LocalDate end) {
@@ -32,6 +45,26 @@ public class FreeTimeCalculationService {
         return freeTimes;
     }
 
+    List<FreeTimeDto> buildFreeTimeDto(ImmutableRangeSet<LocalDateTime> freeTimes) {
+
+        var freeTimeDtos = new ArrayList<FreeTimeDto>();
+
+        freeTimes.asRanges().forEach(range -> {
+            var startEvent = range.lowerEndpoint();
+            var endEvent = startEvent.plusMinutes(BOOKING_REASON_LENGTH);
+
+            while (!endEvent.isAfter(range.upperEndpoint())) {
+
+                freeTimeDtos.add(new FreeTimeDto(startEvent, endEvent));
+
+                startEvent = endEvent;
+                endEvent = startEvent.plusMinutes(BOOKING_REASON_LENGTH);
+            }
+        });
+
+        return freeTimeDtos;
+    }
+
     ImmutableRangeSet<LocalDateTime> minBookingTime() {
         LocalDateTime minTime = LocalDateTime.now().plusHours(2).withMinute(0);//todo: to doctor field
 
@@ -39,12 +72,18 @@ public class FreeTimeCalculationService {
     }
 
     ImmutableRangeSet<LocalDateTime> weekScheduleRanges(Doctor doctor, LocalDate start, LocalDate end) {
+        Set<WeekSchedule> weekSchedules = doctor.getWeekSchedules();
+
+        if (weekSchedules.isEmpty()) {
+            return ImmutableRangeSet.of();
+        }
+
         var rangeSetBuilder = ImmutableRangeSet.<LocalDateTime>builder();
 
         start.datesUntil(end).forEach(day -> {
             final LocalDate finalDay = day;
 
-            doctor.getWeekSchedules()
+            weekSchedules
                     .stream()
                     .filter(it ->
                             it.getDayOfWeek() == finalDay.getDayOfWeek())

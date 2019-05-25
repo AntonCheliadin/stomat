@@ -14,7 +14,7 @@
                 :allDaySlot="allDaySlot"
                 :minTime="minTime"
                 :maxTime="maxTime"
-                :events="weekScheduleCalendarEvents"
+                :events="weekScheduleToCalendarEvents"
                 @eventClick="handleEventClick"
                 @eventDrop="handleEventMove"
                 @eventResize="handleEventMove"
@@ -33,7 +33,7 @@
     export default {
         name: "WeekSchedule",
         components: {FullCalendar},
-        computed: mapGetters(['weekScheduleCalendarEvents']),
+        computed: mapGetters(['weekScheduleToCalendarEvents']),
         created() {
             this.loadWeekScheduleAction({id: 10});
         },

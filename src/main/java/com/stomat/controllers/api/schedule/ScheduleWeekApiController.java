@@ -91,7 +91,7 @@ public class ScheduleWeekApiController {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
-        return ResponseEntity.ok(scheduleService.saveByDto(scheduleOptional.get(), scheduleDto));
+        return ResponseEntity.ok(scheduleService.updateSchedule(scheduleOptional.get(), scheduleDto));
     }
 
     @DeleteMapping("{id}")

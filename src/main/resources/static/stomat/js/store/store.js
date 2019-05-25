@@ -15,7 +15,7 @@ export default new Vuex.Store({
         calendarDate: moment()
     },
     getters: {
-        weekScheduleCalendarEvents: (state) => {
+        weekScheduleToCalendarEvents: (state) => {
             let events = [];
             for (let scheduleItem of state.weekSchedule) {
                 let weekDay = moment().startOf('isoWeek').add(scheduleItem.dayOfWeek - 1, 'days');
