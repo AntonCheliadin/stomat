@@ -31,7 +31,7 @@ public class BookingFreeTimeApiController {
                                     @RequestParam Doctor doctor,
                                     @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
                                     @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
-        if (doctor == null) {
+        if (doctor == null || from == null || to == null) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 

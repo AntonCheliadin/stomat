@@ -14,6 +14,7 @@
                 :allDaySlot="allDaySlot"
                 :minTime="minTime"
                 :maxTime="maxTime"
+                :eventTimeFormat="eventTimeFormat"
                 :events="weekScheduleToCalendarEvents"
                 @eventClick="handleEventClick"
                 @eventDrop="handleEventMove"
@@ -61,6 +62,11 @@
                 allDaySlot: false,
                 minTime: "06:00:00",
                 maxTime: "23:00:00",
+                eventTimeFormat: {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: false
+                }
             }
         },
         methods: {
