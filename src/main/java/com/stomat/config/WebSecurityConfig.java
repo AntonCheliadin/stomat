@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {//todo: update /schedule permitions
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/home", "/registration", "/activate/*", "/static/**").permitAll()
+                .antMatchers("/", "/api/**", "/home", "/registration", "/activate/*", "/static/**").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").permitAll()
                 .and().logout().permitAll()

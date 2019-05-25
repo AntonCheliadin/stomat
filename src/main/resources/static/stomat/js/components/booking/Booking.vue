@@ -27,6 +27,8 @@
     import interactionPlugin from '@fullcalendar/interaction'
     import moment from 'moment'
     import {mapGetters, mapActions, mapMutations} from 'vuex'
+    import {default as Vuedals, Component as Vuedal, Bus as VuedalsBus} from 'vuedals';
+    import BookingPopup from "./BookingPopup.vue";
 
     export default {
         name: "Booking",
@@ -73,7 +75,13 @@
             ...mapActions(['loadFreeTimesAction', 'loadBackgroundWeekScheduleAction']),
             ...mapMutations(['setBookingCalendarDate']),
             handleEventClick(arg) {
-                console.log(arg)
+                VuedalsBus.$emit('new', {
+                    name: 'booking-popup',
+                    component: BookingPopup,
+                    props: {
+                        event: arg.event
+                    },
+                });
             },
             datesRender: function (arg) {
                 this.setBookingCalendarDate(moment(arg.view.currentStart));

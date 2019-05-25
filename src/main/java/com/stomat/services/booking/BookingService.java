@@ -1,5 +1,8 @@
 package com.stomat.services.booking;
 
+import com.stomat.domain.booking.Booking;
+import com.stomat.domain.user.UserAccount;
+import com.stomat.transfer.booking.BookingDto;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,7 +12,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class BookingService {
 
-    public BookingService() {
+    public boolean validate(BookingDto bookingDto) {
+        return false;
+    }
 
+    public Booking submit(BookingDto bookingDto, UserAccount currentUser) {
+
+        return null;
     }
 }

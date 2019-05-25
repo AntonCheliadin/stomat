@@ -5,7 +5,8 @@ export default {
     state: {
         freeTimes: [], //list of scheduleItem
         doctor: 10,
-        bookingCalendarDate: moment()
+        bookingCalendarDate: moment(),
+        bookingParams: null
     },
     getters: {
         freeTimesToCalendarEvents: (state) => {
@@ -21,6 +22,9 @@ export default {
             }
 
             return events;
+        },
+        getBookingParams: (state) => {
+            return state.bookingParams;
         }
     },
 
@@ -30,6 +34,9 @@ export default {
         },
         setBookingCalendarDate(state, date) {
             state.bookingCalendarDate = date;
+        },
+        setBookingParams(state, data) {
+            state.bookingParams = data;
         }
     },
     actions: {
@@ -39,6 +46,18 @@ export default {
             const json = await response.json();
 
             commit('setFreeTimes', json)
-        }
+        },
+        // async bookingAction({commit, state}, data) {
+        //     data.doctor = state.doctor;
+        //
+        //     const response = await bookingApi.add(data);
+        //
+        //     if (response.ok) {
+        //         const json = await response.json();
+        //
+        //     }
+        //
+        //     console.log("bookingAction json", json)
+        // }
     }
 }
