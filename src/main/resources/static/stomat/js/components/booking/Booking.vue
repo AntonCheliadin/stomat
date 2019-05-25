@@ -85,10 +85,7 @@
             },
             datesRender: function (arg) {
                 this.setBookingCalendarDate(moment(arg.view.currentStart));
-                this.loadFreeTimesAction({
-                    from: moment(arg.view.currentStart).format("YYYY-MM-DD"),
-                    to: moment(arg.view.currentEnd).format("YYYY-MM-DD")
-                });
+                this.loadFreeTimesAction();
             },
         }
     }

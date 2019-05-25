@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 public class BookingController {
 
@@ -25,10 +27,9 @@ public class BookingController {
 
     @RequestMapping(value = "/api/booking/create", method = RequestMethod.POST)
     public ResponseEntity submitBooking(
-            @AuthenticationPrincipal UserAccount currentUser,
-            @RequestBody BookingDto bookingDto, BindingResult bindingResult, Model model) {
+            @Valid @RequestBody BookingDto bookingDto, BindingResult bindingResult, Model model) {
 
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {//todo: return errors of bindingResult
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 

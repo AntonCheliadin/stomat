@@ -9,7 +9,6 @@
         name: "BookingSuccessPopup",
         props: ['booking'],
         data() {
-            console.log("this.booking", this.booking);
             return {}
         }
     }

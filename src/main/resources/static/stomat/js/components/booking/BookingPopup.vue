@@ -20,19 +20,19 @@
         <br>
 
         <button @click="save">Записаться</button>
-        <button @click="close">Отменить</button>
+        <button @click="closePopup">Отменить</button>
     </div>
 
 </template>
 
 <script>
-    import {default as Vuedals, Component as Vuedal, Bus as VuedalsBus} from 'vuedals';
-    import {mapGetters, mapActions, mapMutations} from 'vuex';
+    import {Bus as VuedalsBus} from 'vuedals';
+    import {mapGetters, mapMutations, mapActions} from 'vuex';
     import moment from 'moment'
     import bookingApi from '../../api/bookingApi'
-    import HttpStatus from "../../constants/HttpStatus";
     import BookingSuccessPopup from "./BookingSuccessPopup.vue";
     import BookingFailPopup from "./BookingFailPopup.vue";
+    import HttpStatus from "../../constants/HttpStatus";
 
     export default {
         name: "BookingPopup",
@@ -52,6 +52,7 @@
         },
         methods: {
             ...mapMutations(['setBookingParams']),
+            ...mapActions(['loadFreeTimesAction']),
             ...mapGetters(['getBookingParams']),
             bindDefaultParams() {
                 let bookingParams = this.getBookingParams();
@@ -76,14 +77,19 @@
 
                 bookingApi.add(bookingParams)
                     .then((response) => {
-                        this.$emit('vuedals:close');
+                        this.closePopup();
                         this.showSuccessPopup(bookingParams);
                     }, (response) => {
-                        this.$emit('vuedals:close');
-                        this.showFailPopup(response.status);
+                        if (response.status === HttpStatus.BAD_REQUEST) {
+                            console.log("Validation error!")
+                        } else {
+                            this.closePopup();
+                            this.showFailPopup(response.status);
+                        }
                     });
             },
-            close() {
+            closePopup() {
+                this.loadFreeTimesAction();
                 this.$emit('vuedals:close');
             },
             showSuccessPopup(booking) {

@@ -5,6 +5,7 @@ import com.google.common.collect.Range;
 import com.stomat.domain.profile.Doctor;
 import com.stomat.domain.schedule.ExtraSchedule;
 import com.stomat.domain.schedule.WeekSchedule;
+import com.stomat.repository.booking.BookingRepository;
 import com.stomat.repository.schedule.ExtraScheduleRepository;
 import com.stomat.transfer.booking.FreeTimeDto;
 import junit.framework.TestCase;
@@ -32,9 +33,12 @@ public class FreeTimeCalculationServiceTest {
     @MockBean
     private ExtraScheduleRepository extraScheduleRepository;
 
+    @MockBean
+    private BookingRepository bookingRepository;
+
     @Before
     public void setUp() {
-        freeTimeCalculationService = new FreeTimeCalculationService(extraScheduleRepository);
+        freeTimeCalculationService = new FreeTimeCalculationService(extraScheduleRepository, bookingRepository);
     }
 
     private FreeTimeCalculationService freeTimeCalculationService;

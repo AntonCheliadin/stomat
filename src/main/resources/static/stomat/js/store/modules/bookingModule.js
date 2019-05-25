@@ -41,23 +41,17 @@ export default {
     },
     actions: {
         async loadFreeTimesAction({commit, state}, data) {
-            data.doctor = state.doctor;
+            let weekStart = state.bookingCalendarDate.clone();
+            data = {
+                doctor: state.doctor,
+                from: weekStart.format("YYYY-MM-DD"),
+                to: weekStart.add(1, 'weeks').format("YYYY-MM-DD")
+            };
+
             const response = await freeTimeApi.get(data);
             const json = await response.json();
 
             commit('setFreeTimes', json)
         },
-        // async bookingAction({commit, state}, data) {
-        //     data.doctor = state.doctor;
-        //
-        //     const response = await bookingApi.add(data);
-        //
-        //     if (response.ok) {
-        //         const json = await response.json();
-        //
-        //     }
-        //
-        //     console.log("bookingAction json", json)
-        // }
     }
 }
