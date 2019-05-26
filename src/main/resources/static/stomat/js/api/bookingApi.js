@@ -1,7 +1,19 @@
 import Vue from 'vue'
 
-const bookingApi = Vue.resource('/api/booking/create');
+var bookingsActions = {
+    list: {method: 'GET', url: 'api/booking/list'},
+    create: {method: 'POST', url: 'api/booking/create'},
+    move: {method: 'PUT', url: 'api/booking/move{/id}'}
+};
+
+const bookingApi = Vue.resource('/api/booking{/id}', {}, bookingsActions);
 
 export default {
-    add: data => bookingApi.save({}, data)
+    create: booking => bookingApi.create({}, booking),//by patient (with free time only)
+    list: data => bookingApi.list(data),
+    get: id => bookingApi.get({id: id}),
+    add: booking => bookingApi.save({}, booking), //by manager (ignore validation)
+    move: data => bookingApi.move({id: data.id}, data),
+    update: booking => bookingApi.update({id: booking.id}, booking),
+    remove: id => bookingApi.remove({id: id}),
 }

@@ -13,10 +13,10 @@ public class BookingDto {
     private Long doctor;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime start;
+    private LocalDateTime startDate;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime end;
+    private LocalDateTime endDate;
 
     @NotNull
     @NotBlank
@@ -42,20 +42,20 @@ public class BookingDto {
         this.doctor = doctor;
     }
 
-    public LocalDateTime getStart() {
-        return start;
+    public LocalDateTime getStartDate() {
+        return startDate;
     }
 
-    public void setStart(LocalDateTime start) {
-        this.start = start;
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
     }
 
-    public LocalDateTime getEnd() {
-        return end;
+    public LocalDateTime getEndDate() {
+        return endDate;
     }
 
-    public void setEnd(LocalDateTime end) {
-        this.end = end;
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
     }
 
     public String getFirstName() {

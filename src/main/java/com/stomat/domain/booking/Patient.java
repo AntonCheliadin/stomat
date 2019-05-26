@@ -1,6 +1,8 @@
 package com.stomat.domain.booking;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.stomat.domain.user.UserAccount;
+import com.stomat.transfer.views.Views;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -25,22 +27,22 @@ public class Patient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonView(Views.BookingsView.class)
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private UserAccount user;
 
     @NotBlank
     @NotNull
+    @JsonView(Views.BookingsView.class)
     private String firstName;
 
     @NotBlank
     @NotNull
+    @JsonView(Views.BookingsView.class)
     private String lastName;
 
     @NotNull
     @Pattern(regexp = "^(\\+)?[0-9]{7,12}")
+    @JsonView(Views.BookingsView.class)
     private String phone;
 
     public Long getId() {
@@ -49,14 +51,6 @@ public class Patient {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public UserAccount getUser() {
-        return user;
-    }
-
-    public void setUser(UserAccount user) {
-        this.user = user;
     }
 
     public String getFirstName() {

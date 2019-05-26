@@ -1,5 +1,6 @@
 package com.stomat.transfer.views;
 
 public final class Views {
-    public interface ScheduleView { }
+    public interface ScheduleView {}
+    public interface BookingsView {}
 }

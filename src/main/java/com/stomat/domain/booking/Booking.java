@@ -1,6 +1,8 @@
 package com.stomat.domain.booking;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.stomat.domain.profile.Doctor;
+import com.stomat.transfer.views.Views;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -26,10 +28,12 @@ public class Booking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonView(Views.BookingsView.class)
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "patient_id", nullable = false)
+    @JsonView(Views.BookingsView.class)
     private Patient patient;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -37,11 +41,14 @@ public class Booking {
     private Doctor doctor;
 
     @NotNull
+    @JsonView(Views.BookingsView.class)
     private LocalDateTime startDate;
 
     @NotNull
+    @JsonView(Views.BookingsView.class)
     private LocalDateTime endDate;
 
+    @JsonView(Views.BookingsView.class)
     private String description;
 
     public Long getId() {

@@ -1,8 +1,7 @@
 <template>
     <div>
-        booking popup
-        <p v-text="start"></p>
-        <p v-text="end"></p>
+        <p v-text="startDate"></p>
+        <p v-text="endDate"></p>
 
         <br>
         <input id="firstName" v-model="firstName"/>
@@ -42,8 +41,8 @@
         },
         data() {
             return {
-                start: moment(this.event.start).format('YYYY-MM-DD HH:mm'),
-                end: moment(this.event.end).format('YYYY-MM-DD HH:mm'),
+                startDate: moment(this.event.start).format('YYYY-MM-DD HH:mm'),
+                endDate: moment(this.event.end).format('YYYY-MM-DD HH:mm'),
                 firstName: "",
                 lastName: "",
                 phoneNumber: "",
@@ -65,8 +64,8 @@
             },
             save() {
                 let bookingParams = {
-                    start: this.start,
-                    end: this.end,
+                    startDate: this.startDate,
+                    endDate: this.endDate,
                     firstName: this.firstName,
                     lastName: this.lastName,
                     phoneNumber: this.phoneNumber.replace(/\s/g, ''),
@@ -75,7 +74,7 @@
                 };
                 this.setBookingParams(bookingParams);
 
-                bookingApi.add(bookingParams)
+                bookingApi.create(bookingParams)
                     .then((response) => {
                         this.closePopup();
                         this.showSuccessPopup(bookingParams);

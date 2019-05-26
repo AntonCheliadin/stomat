@@ -15,7 +15,7 @@ export default {
 
                 events.push({
                     className: 'free-time',
-                    // title: freeTime.type,
+                    title: "free time",
                     start: freeTime.from,
                     end: freeTime.to
                 })

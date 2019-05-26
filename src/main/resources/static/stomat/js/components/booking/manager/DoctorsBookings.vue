@@ -15,27 +15,30 @@
                 :minTime="minTime"
                 :maxTime="maxTime"
                 :eventTimeFormat="eventTimeFormat"
-                :events="weekScheduleToCalendarEvents"
+                :events="bookingsToCalendarEvents"
+                @eventClick="handleEventClick"
                 @eventDrop="handleEventMove"
                 @eventResize="handleEventMove"
+                @select="handleSelect"
                 @eventRender="eventRender"
-                @select="handleSelect"/>
+                @datesRender="datesRender"/>
     </div>
 </template>
 
 <script>
-    import {mapGetters, mapActions} from 'vuex'
     import FullCalendar from '@fullcalendar/vue'
     import timeGridPlugin from '@fullcalendar/timegrid'
     import interactionPlugin from '@fullcalendar/interaction'
     import moment from 'moment'
+    import {mapActions, mapGetters, mapMutations} from 'vuex'
+    import ManagerBookingPopup from "./ManagerBookingPopup.vue"
+    import {default as Vuedals, Component as Vuedal, Bus as VuedalsBus} from 'vuedals'
 
     export default {
-        name: "WeekSchedule",
+        name: "DoctorsBookings",
         components: {FullCalendar},
-        computed: mapGetters(['weekScheduleToCalendarEvents']),
+        computed: mapGetters(['bookingsToCalendarEvents', 'bookingById']),
         created() {
-            this.loadWeekScheduleAction({id: 10});
         },
         data() {
             return {
@@ -43,15 +46,18 @@
                 editable: true,
                 selectable: true,
                 header: {
-                    left: '',
+                    left: 'title',
                     center: '',
-                    right: ''
+                    right: 'today prev,next'
                 },
                 columnHeaderFormat: {
-                    weekday: 'long'
+                    weekday: 'short',
+                    month: 'numeric',
+                    day: 'numeric',
+                    omitCommas: true
                 },
                 slotDuration: "00:30",
-                slotLabelInterval: "01:00",
+                slotLabelInterval: "00:30",
                 slotLabelFormat: {
                     hour: '2-digit',
                     minute: '2-digit',
@@ -69,26 +75,44 @@
             }
         },
         methods: {
-            ...mapActions(['loadWeekScheduleAction', 'addWeekScheduleAction', 'updateWeekScheduleAction',
-                'removeWeekScheduleAction']),
-            handleSelect(arg) {
-                this.addWeekScheduleAction(this._fullCalendarEventToScheduleItem(arg))
+            ...mapActions(['loadBookingsAction', 'updateBookingAction', 'moveBookingAction', 'removeBookingAction']),
+            ...mapMutations(['setBookingCalendarDate']),
+            handleSelect(event) {
+                VuedalsBus.$emit('new', {
+                    name: 'create-booking-by-manager-popup',
+                    component: ManagerBookingPopup,
+                    props: {
+                        booking: {
+                            startDate: event.start,
+                            endDate: event.end,
+                            patient: {}
+                        }
+                    },
+                });
             },
-            handleEventMove(arg) {
-                this.updateWeekScheduleAction(this._fullCalendarEventToScheduleItem(arg.event))
-            },
-            _fullCalendarEventToScheduleItem(event) {
-                let day = event.start.getDay();
-                return {
-                    doctor: 10,
-                    id: event.id ? Number(event.id) : null,
-                    dayOfWeek: day === 0 ? 7 : day,
-                    timeFrom: moment(event.start).format("HH:mm"),
-                    timeTo: moment(event.end).format("HH:mm")
+            handleEventClick(arg) {
+                if (!arg.jsEvent.target.classList.contains('remove-btn')) {
+                    VuedalsBus.$emit('new', {
+                        name: 'update-booking-by-manager-popup',
+                        component: ManagerBookingPopup,
+                        props: {
+                            booking: this.bookingById(arg.event.id)
+                        },
+                    });
                 }
             },
+            handleEventMove(arg) {
+                let booking = {
+                    id: arg.event.id,
+                    startDate: moment(arg.event.start).format("YYYY-MM-DD HH:mm"),
+                    endDate: moment(arg.event.end).format("YYYY-MM-DD HH:mm")
+                };
+                this.moveBookingAction(booking);
+            },
             eventRender: function (arg) {
-                this.addRemoveBtn(arg);
+                if (arg.event.rendering !== "background") {
+                    this.addRemoveBtn(arg);
+                }
             },
             addRemoveBtn(arg) {
                 let removeBtn = document.createElement("div");
@@ -98,8 +122,12 @@
                 removeBtn.addEventListener("click", () => this.handleEventRemove(arg));
             },
             handleEventRemove(arg) {
-                this.removeWeekScheduleAction(this._fullCalendarEventToScheduleItem(arg.event))
-            }
+                this.removeBookingAction(arg.event.id)
+            },
+            datesRender: function (arg) {
+                this.setBookingCalendarDate(moment(arg.view.currentStart));
+                this.loadBookingsAction();
+            },
         }
     }
 </script>
@@ -108,17 +136,7 @@
     @import '~@fullcalendar/core/main.css';
     @import '~@fullcalendar/timegrid/main.css';
 
-    .remove-btn {
-        color: black;
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 13px;
-        height: 13px;
-        text-align: center;
-        border-radius: 50%;
-        font-size: 9px;
+    .doctor-booking {
         cursor: pointer;
-        background-color: #FFF
     }
 </style>

@@ -12,7 +12,7 @@
         name: "BookingFailPopup",
         props: ['responseCode'],
         data() {
-            return {//if (response.code === HttpStatus.CONFLICT) {
+            return {
                 errorMessage: this.responseCode === HttpStatus.CONFLICT
                     ? "Время уже занято"
                     : "Что-то пошло не так, попробуйте еще раз или позвоните нам"
