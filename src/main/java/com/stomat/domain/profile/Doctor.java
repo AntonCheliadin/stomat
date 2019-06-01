@@ -15,6 +15,16 @@ import java.util.Set;
 @Entity
 public class Doctor {
 
+    public Doctor() {
+    }
+
+    public Doctor(String firstName, String fathersName, String lastName, String email) {
+        this.firstName = firstName;
+        this.fathersName = fathersName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -45,7 +55,7 @@ public class Doctor {
 
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<WeekSchedule> weekSchedules;
-//todo: move schedules and extraSchedules into another domain DoctorSchedule
+    //todo: move schedules and extraSchedules into another domain DoctorSchedule
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ExtraSchedule> extraSchedules;
 

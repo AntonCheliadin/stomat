@@ -40,6 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(restAuthenticationEntryPoint);
+//        .and().antMatcher("/admin/**").authorizeRequests().anyRequest().hasRole("OWNER")
     }
 
     @Bean
