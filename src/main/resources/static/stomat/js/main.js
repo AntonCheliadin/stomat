@@ -10,5 +10,9 @@ Vue.use(Vuedals);
 new Vue({
     el: '#app',
     store,
-    render: a => a(App)
+    render: h => h(App, {
+        props: {
+            doctor: doctorId
+        }
+    })
 });

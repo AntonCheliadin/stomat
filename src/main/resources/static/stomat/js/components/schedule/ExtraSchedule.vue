@@ -42,8 +42,9 @@
         name: "ExtraSchedule",
         components: {FullCalendar},
         computed: mapGetters(['eventsForExtraScheduleCalendar', 'extraScheduleById']),
+        props: ['doctor'],
         created() {
-            this.loadBackgroundWeekScheduleAction({id: 10});
+            this.loadBackgroundWeekScheduleAction(this.doctor);
         },
         data() {
             return {
@@ -73,10 +74,10 @@
                 minTime: "06:00:00",
                 maxTime: "23:00:00",
                 eventTimeFormat: {
-                hour: '2-digit',
+                    hour: '2-digit',
                     minute: '2-digit',
                     hour12: false
-            }
+                }
             }
         },
         methods: {
@@ -88,7 +89,7 @@
                     name: 'create-extra-schedule-popup',
                     component: ExtraSchedulePopup,
                     props: {
-                        event: fullCalendarEventToExtraSchedule(event)
+                        event: fullCalendarEventToExtraSchedule(event, this.doctor),
                     },
                 });
             },
@@ -105,6 +106,7 @@
             },
             handleEventMove(arg) {
                 let extraSchedule = this.extraScheduleById(arg.event.id);
+                console.log("extraSched by Id", extraSchedule)
                 this.updateExtraScheduleAction(moveExtraSchedule(extraSchedule, arg.event))
             },
             eventRender: function (arg) {
@@ -120,11 +122,12 @@
                 removeBtn.addEventListener("click", () => this.handleEventRemove(arg));
             },
             handleEventRemove(arg) {
-                this.removeExtraScheduleAction(arg.event)
+                this.removeExtraScheduleAction(arg.event.id)
             },
             datesRender: function (arg) {
-                this.setCalendarDate( moment(arg.view.currentStart));
+                this.setCalendarDate(moment(arg.view.currentStart));
                 this.loadExtraScheduleAction({
+                    doctor: this.doctor,
                     from: moment(arg.view.currentStart).format("YYYY-MM-DD"),
                     to: moment(arg.view.currentEnd).format("YYYY-MM-DD")
                 });

@@ -38,6 +38,7 @@
         name: "DoctorsBookings",
         components: {FullCalendar},
         computed: mapGetters(['bookingsToCalendarEvents', 'bookingById']),
+        props: ['doctor'],
         created() {
         },
         data() {
@@ -75,7 +76,7 @@
             }
         },
         methods: {
-            ...mapActions(['loadBookingsAction', 'updateBookingAction', 'moveBookingAction', 'removeBookingAction']),
+            ...mapActions(['loadBookingsAction', 'moveBookingAction', 'removeBookingAction']),
             ...mapMutations(['setBookingCalendarDate']),
             handleSelect(event) {
                 VuedalsBus.$emit('new', {
@@ -85,7 +86,8 @@
                         booking: {
                             startDate: event.start,
                             endDate: event.end,
-                            patient: {}
+                            patient: {},
+                            doctor: this.doctor
                         }
                     },
                 });
@@ -126,7 +128,7 @@
             },
             datesRender: function (arg) {
                 this.setBookingCalendarDate(moment(arg.view.currentStart));
-                this.loadBookingsAction();
+                this.loadBookingsAction({doctor: this.doctor});
             },
         }
     }

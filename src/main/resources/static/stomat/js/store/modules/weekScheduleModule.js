@@ -4,7 +4,6 @@ import weekScheduleApi from "../../api/weekScheduleApi";
 export default {
     state: {
         weekSchedule: [], //list of scheduleItem
-        doctor: 10,
         calendarDate: moment()
     },
     getters: {
@@ -44,7 +43,7 @@ export default {
     },
     actions: {
         async loadWeekScheduleAction({commit, state}, doctor) {
-            const response = await weekScheduleApi.get(doctor.id);
+            const response = await weekScheduleApi.get(doctor);
             const json = await response.json();
 
             commit('setWeekSchedule', json)

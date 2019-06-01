@@ -6,7 +6,6 @@ export default {
     state: {
         extraSchedule: [],
         weekScheduleBackground: [],
-        doctor: 10,
         calendarDate: moment()
     },
     getters: {
@@ -53,9 +52,9 @@ export default {
         // setCalendarDate(state, calendarDate) {
         //     state.calendarDate = calendarDate
         // },
-        setExtraSchedule(state, schedule) {
-            state.extraSchedule = schedule.map((it) => {
-                it.doctor = state.doctor;
+        setExtraSchedule(state, data) {
+            state.extraSchedule = data.json.map((it) => {
+                it.doctor = data.doctor;
                 return it;
             })
         },
@@ -66,42 +65,39 @@ export default {
             state.extraSchedule = state.extraSchedule.filter(item => item.id !== scheduleItem.id);
             state.extraSchedule.push(scheduleItem)
         },
-        removeExtraScheduleItem(state, scheduleItem) {
-            state.extraSchedule = state.extraSchedule.filter(item => item.id !== Number(scheduleItem.id))
+        removeExtraScheduleItem(state, scheduleItemId) {
+            state.extraSchedule = state.extraSchedule.filter(item => item.id !== Number(scheduleItemId))
         }
     },
     actions: {
         async loadBackgroundWeekScheduleAction({commit, state}, doctor) {
-            const response = await weekScheduleApi.get(doctor.id);
+            const response = await weekScheduleApi.get(doctor);
             const json = await response.json();
 
             commit('setWeekScheduleBackground', json)
         },
         async loadExtraScheduleAction({commit, state}, data) {
-            data.doctor = state.doctor;
             const response = await extraScheduleApi.get(data);
             const json = await response.json();
 
-            commit('setExtraSchedule', json)
+            commit('setExtraSchedule', {json: json, doctor: data.doctor})//todo: return doctorId for schedule...
         },
         async addExtraScheduleAction({commit, state}, data) {
-            data.doctor = state.doctor;
             const result = await extraScheduleApi.add(data);
             const json = await result.json();
             commit('addExtraScheduleItem', json)
         },
         async updateExtraScheduleAction({commit, state}, data) {
-            data.doctor = state.doctor;
             const result = await extraScheduleApi.update(data);
             const json = await result.json();
+            json.doctor = data.doctor;//todo: return doctorId for schedule...
             commit('updateExtraScheduleItem', json)
         },
-        async removeExtraScheduleAction({commit, state}, data) {
-            data.doctor = state.doctor;
-            const result = await extraScheduleApi.remove(data);
+        async removeExtraScheduleAction({commit, state}, itemId) {
+            const result = await extraScheduleApi.remove(itemId);
 
             if (result.ok) {
-                commit('removeExtraScheduleItem', data)
+                commit('removeExtraScheduleItem', itemId)
             }
         },
     }

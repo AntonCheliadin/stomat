@@ -4,7 +4,6 @@ import bookingApi from "../../api/bookingApi";
 export default {
     state: {
         bookings: [],
-        doctor: 10,
         bookingCalendarDate: moment()
     },
     getters: {
@@ -49,11 +48,10 @@ export default {
     actions: {
         async loadBookingsAction({commit, state}, data) {
             let weekStart = state.bookingCalendarDate.clone();
-            data = {
-                doctor: state.doctor,
+            Object.assign(data, {
                 from: weekStart.format("YYYY-MM-DD"),
                 to: weekStart.add(1, 'weeks').format("YYYY-MM-DD")
-            };
+            });
 
             const response = await bookingApi.list(data);
             const json = await response.json();
@@ -66,7 +64,6 @@ export default {
             commit('updateBooking', json)
         },
         async updateBookingAction({commit, state}, data) {
-            data.doctor = state.doctor;
             const result = await bookingApi.update(data);
             const json = await result.json();
             commit('updateBooking', json)

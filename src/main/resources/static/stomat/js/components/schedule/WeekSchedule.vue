@@ -34,8 +34,9 @@
         name: "WeekSchedule",
         components: {FullCalendar},
         computed: mapGetters(['weekScheduleToCalendarEvents']),
+        props: ['doctor'],
         created() {
-            this.loadWeekScheduleAction({id: 10});
+            this.loadWeekScheduleAction(this.doctor);
         },
         data() {
             return {
@@ -80,7 +81,7 @@
             _fullCalendarEventToScheduleItem(event) {
                 let day = event.start.getDay();
                 return {
-                    doctor: 10,
+                    doctor: this.doctor,
                     id: event.id ? Number(event.id) : null,
                     dayOfWeek: day === 0 ? 7 : day,
                     timeFrom: moment(event.start).format("HH:mm"),

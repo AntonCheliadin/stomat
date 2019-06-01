@@ -34,8 +34,9 @@
         name: "Booking",
         components: {FullCalendar},
         computed: mapGetters(['freeTimesToCalendarEvents']),
+        props: ['doctor'],
         created() {
-            this.loadBackgroundWeekScheduleAction({id: 10});
+            this.loadBackgroundWeekScheduleAction(this.doctor);
         },
         data() {
             return {
@@ -79,13 +80,14 @@
                     name: 'booking-popup',
                     component: BookingPopup,
                     props: {
-                        event: arg.event
+                        event: arg.event,
+                        doctor: this.doctor
                     },
                 });
             },
             datesRender: function (arg) {
                 this.setBookingCalendarDate(moment(arg.view.currentStart));
-                this.loadFreeTimesAction();
+                this.loadFreeTimesAction({doctor: this.doctor});
             },
         }
     }

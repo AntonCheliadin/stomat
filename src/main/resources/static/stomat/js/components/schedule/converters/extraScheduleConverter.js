@@ -13,13 +13,14 @@ let calculateEndDate = (event) => {
     }
 };
 
-export const fullCalendarEventToExtraSchedule = (event) => {
+export const fullCalendarEventToExtraSchedule = (event, doctor) => {
     return {
         id: event.id ? Number(event.id) : null,
         type: event.type,
         fromDate: moment(event.start).format("YYYY-MM-DD HH:mm"),
         toDate: calculateEndDate(event),
-        allDay: event.allDay
+        allDay: event.allDay,
+        doctor: doctor
     }
 };
 

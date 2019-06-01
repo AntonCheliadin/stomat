@@ -35,7 +35,7 @@
 
     export default {
         name: "BookingPopup",
-        props: ['event'],
+        props: ['event', 'doctor'],
         created() {
             this.bindDefaultParams();
         },
@@ -70,7 +70,7 @@
                     lastName: this.lastName,
                     phoneNumber: this.phoneNumber.replace(/\s/g, ''),
                     description: this.description,
-                    doctor: 10
+                    doctor: this.doctor
                 };
                 this.setBookingParams(bookingParams);
 
@@ -88,7 +88,7 @@
                     });
             },
             closePopup() {
-                this.loadFreeTimesAction();
+                this.loadFreeTimesAction({doctor: this.doctor});
                 this.$emit('vuedals:close');
             },
             showSuccessPopup(booking) {

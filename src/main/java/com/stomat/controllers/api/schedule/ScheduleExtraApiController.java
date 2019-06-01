@@ -104,16 +104,16 @@ public class ScheduleExtraApiController {
 
     @DeleteMapping("{id}")
     public ResponseEntity deleteExtraSchedule(
-            @AuthenticationPrincipal UserAccount currentUser, @PathVariable("id") long id,
-            @RequestBody ExtraScheduleDto extraScheduleDto, BindingResult bindingResult, Model model) {
+            @AuthenticationPrincipal UserAccount currentUser, @PathVariable("id") long id) {
 
         Optional<ExtraSchedule> optExtraSchedule = additionalTimeRepository.findById(id);
-        if (optExtraSchedule.isEmpty() || bindingResult.hasErrors()) {
+        if (optExtraSchedule.isEmpty()) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        Optional<Doctor> optionalDoctor = doctorRepository.findById(extraScheduleDto.getDoctor());
 
-        if (optionalDoctor.isEmpty() || !permissionService.isAccessAllowed(currentUser, optionalDoctor.get())) {
+        Doctor doctor = optExtraSchedule.get().getDoctor();
+
+        if (!permissionService.isAccessAllowed(currentUser, doctor)) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 

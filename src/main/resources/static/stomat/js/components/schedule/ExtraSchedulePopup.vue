@@ -39,7 +39,8 @@
                 type: this.event.type ? this.event.type : "INCLUDE",
                 fromDate: moment(this.event.fromDate).format('YYYY-MM-DD HH:mm'),
                 toDate: this.event.toDate ? moment(this.event.toDate).format('YYYY-MM-DD HH:mm') : "",
-                allDay: this.event.allDay
+                allDay: this.event.allDay,
+                doctor: this.event.doctor,
             }
         },
         methods: {
@@ -50,6 +51,8 @@
                 this.event.fromDate = this.fromDate;
                 this.event.toDate = this.toDate;
                 this.event.allDay = this.allDay;
+                this.event.doctor = this.doctor;
+
                 if (this.event.id == null) {
                     this.addExtraScheduleAction(this.event);
                 } else {
@@ -58,7 +61,7 @@
                 this.$emit('vuedals:close');
             },
             deleteClick() {
-                this.removeExtraScheduleAction(this.event);
+                this.removeExtraScheduleAction(this.event.id);
                 this.$emit('vuedals:close');
             },
         }

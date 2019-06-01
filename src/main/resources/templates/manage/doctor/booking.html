@@ -12,6 +12,10 @@
 
 </div>
 
+<script th:inline="javascript">
+    var doctorId = /*[[${doctor.id}]]*/ 0;
+</script>
+
 <!--todo: /js/main.js if not dev mode-->
 <script th:src="${true} ? 'http://localhost:8000/main.js' : '/js/main.js'"></script>
 </body>

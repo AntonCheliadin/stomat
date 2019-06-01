@@ -1,9 +1,9 @@
 <template>
     <div>
-        <doctors-bookings></doctors-bookings>
-        <booking></booking>
-        <extra-schedule></extra-schedule>
-        <week-schedule></week-schedule>
+        <doctors-bookings v-bind:doctor="doctor"></doctors-bookings>
+        <booking v-bind:doctor="doctor"></booking>
+        <extra-schedule v-bind:doctor="doctor"></extra-schedule>
+        <week-schedule v-bind:doctor="doctor"></week-schedule>
         <vuedal></vuedal>
     </div>
 </template>
@@ -17,9 +17,7 @@
 
     export default {
         components: {DoctorsBookings, Booking, ExtraSchedule, WeekSchedule, Vuedal},
-        data() {
-            return {}
-        }
+        props: ['doctor']
     }
 </script>
 

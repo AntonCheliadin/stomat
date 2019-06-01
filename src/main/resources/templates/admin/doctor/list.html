@@ -12,6 +12,7 @@
         <td th:text="${doctor.firstName}"/>
         <td th:text="${doctor.lastName}"/>
         <td><a th:href="${'/admin/doctor/update/'+doctor.id}">update</a></td>
+        <td><a th:href="${'/manage/doctor/booking/'+doctor.id}">booking</a></td>
     </tr>
 </table>
 

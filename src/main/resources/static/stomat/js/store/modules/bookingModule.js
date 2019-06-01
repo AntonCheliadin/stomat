@@ -4,7 +4,6 @@ import moment from 'moment';
 export default {
     state: {
         freeTimes: [], //list of scheduleItem
-        doctor: 10,
         bookingCalendarDate: moment(),
         bookingParams: null
     },
@@ -42,11 +41,10 @@ export default {
     actions: {
         async loadFreeTimesAction({commit, state}, data) {
             let weekStart = state.bookingCalendarDate.clone();
-            data = {
-                doctor: state.doctor,
+            Object.assign(data, {
                 from: weekStart.format("YYYY-MM-DD"),
                 to: weekStart.add(1, 'weeks').format("YYYY-MM-DD")
-            };
+            });
 
             const response = await freeTimeApi.get(data);
             const json = await response.json();

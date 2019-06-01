@@ -40,7 +40,8 @@
                 firstName: this.booking.patient.firstName,
                 lastName: this.booking.patient.lastName,
                 phoneNumber: this.booking.patient.phone,
-                description: this.booking.description
+                description: this.booking.description,
+                doctor: this.booking.doctor,
             }
         },
         methods: {
@@ -54,7 +55,7 @@
                     lastName: this.lastName,
                     phoneNumber: this.phoneNumber ? this.phoneNumber.replace(/\s/g, '') : '',
                     description: this.description,
-                    doctor: 10
+                    doctor: this.doctor
                 };
 
                 if (this.id) {
