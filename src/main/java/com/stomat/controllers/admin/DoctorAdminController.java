@@ -38,7 +38,7 @@ public class DoctorAdminController {
     public String getCreateDoctor(Model model) {
         model.addAttribute("doctor", new DoctorDto());
 
-        return "admin/doctor/edit";
+        return "admin/doctor/create";
     }
 
     @PostMapping("/create")
@@ -47,7 +47,7 @@ public class DoctorAdminController {
                                    Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("doctor", doctorDto);
-            return "admin/doctor/edit";//todo: fix highlighting errors
+            return "admin/doctor/create";//todo: fix highlighting errors
         }
 
         Doctor doctor = doctorService.create(doctorDto, userAccount.getId());
