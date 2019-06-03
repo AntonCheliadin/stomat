@@ -14,11 +14,11 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/manage/doctor")
-public class ManageDoctorController {
+public class DoctorManagerController {
 
     private DoctorRepository doctorRepository;
 
-    public ManageDoctorController(DoctorRepository doctorRepository) {
+    public DoctorManagerController(DoctorRepository doctorRepository) {
         this.doctorRepository = doctorRepository;
     }
 
