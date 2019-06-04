@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div class="content-title">Week schedule</div>
         <FullCalendar
                 defaultView="timeGridWeek"
                 :plugins="calendarPlugins"

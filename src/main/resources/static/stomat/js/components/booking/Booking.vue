@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div class="content-title">Make an appointment</div>
         <FullCalendar
                 defaultView="timeGridWeek"
                 :plugins="calendarPlugins"
