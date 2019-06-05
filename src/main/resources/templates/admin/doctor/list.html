@@ -2,20 +2,32 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Doctor</title>
+    <title th:text="#{admin.doctor.list.page.title}">Doctor</title>
 </head>
 <body>
 
 <div>
-    doctors size [[${doctors.size()}]]
+    <span th:text="#{admin.doctor.list.size.title}">doctors size</span>
+    <span th:text="${doctors.size()}">999</span>
+    <br>
+    <a th:href="${'/admin/doctor/create'}" th:text="#{admin.doctor.list.create.link}">create</a>
 </div>
 <table>
+    <tr>
+        <th>id</th>
+        <th th:text="#{global.first.name.label}">first name</th>
+        <th th:text="#{global.fathers.name.label}">fathers name</th>
+        <th th:text="#{global.last.name.label}">last name</th>
+        <th></th>
+        <th></th>
+    </tr>
     <tr th:each="doctor: ${doctors}">
         <td th:text="${doctor.id}"/>
         <td th:text="${doctor.firstName}"/>
+        <td th:text="${doctor.fathersName}"/>
         <td th:text="${doctor.lastName}"/>
-        <td><a th:href="${'/admin/doctor/update/'+doctor.id}">update</a></td>
-        <td><a th:href="${'/manage/doctor/booking/'+doctor.id}">booking</a></td>
+        <td><a th:href="${'/admin/doctor/update/'+doctor.id}" th:text="#{admin.doctor.list.update.link}">update</a></td>
+        <td><a th:href="${'/manage/doctor/booking/'+doctor.id}" th:text="#{admin.doctor.list.booking.link}">booking</a></td>
     </tr>
 </table>
 

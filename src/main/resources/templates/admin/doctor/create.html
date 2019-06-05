@@ -2,24 +2,24 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Doctor</title>
+    <title th:text="#{admin.doctor.create.page.title}">Doctor</title>
 </head>
 <body>
 <form th:action="@{/admin/doctor/create}"
       th:object="${doctor}" method="POST">
-    First Name:
+    <label th:text="#{global.first.name.label}">First Name</label>
     <input type="text" th:field="*{firstName}"/>
     <br/>
-    Father's Name:
+    <label th:text="#{global.fathers.name.label}">Father's Name</label>
     <input type="text" th:field="*{fathersName}"/>
     <br/>
-    Last Name:
+    <label th:text="#{global.last.name.label}">Last Name</label>
     <input type="text" th:field="*{lastName}"/>
     <br/>
-    Email:
+    <label th:text="#{global.email.label}">Email</label>
     <input type="text" th:field="*{email}"/>
     <br/>
-    <input type="submit" value="create"/>
+    <input type="submit" th:value="#{global.save.label}"/>
 </form>
 </body>
 </html>

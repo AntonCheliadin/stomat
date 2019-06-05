@@ -9,17 +9,17 @@
 
 <form th:action="@{/registration}" th:object="${userAccountDto}" method="post">
     <div>
-        <label th:text="#{user.first.name.label}"></label>
+        <label th:text="#{global.first.name.label}"></label>
         <input type="text" th:field="*{firstName}" />
         <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"/>
     </div>
     <div>
-        <label th:text="#{user.last.name.label}"></label>
+        <label th:text="#{global.last.name.label}"></label>
         <input type="text" th:field="*{lastName}"/>
         <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"/>
     </div>
     <div>
-        <label th:text="#{user.email.label}"></label>
+        <label th:text="#{global.email.label}"></label>
         <input type="text" th:field="*{email}"/>
         <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"/>
     </div>
