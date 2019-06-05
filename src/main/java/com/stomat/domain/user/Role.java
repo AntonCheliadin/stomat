@@ -7,9 +7,9 @@ package com.stomat.domain.user;
 public enum Role {
 
     /**
-     * Owner of the service (the highest role)
+     * Admin of the service (the highest role)
      */
-    OWNER,
+    ADMIN,
 
     /**
      * A person who can manage doctors

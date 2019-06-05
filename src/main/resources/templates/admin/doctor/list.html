@@ -6,6 +6,9 @@
 </head>
 <body>
 
+<div>
+    doctors size [[${doctors.size()}]]
+</div>
 <table>
     <tr th:each="doctor: ${doctors}">
         <td th:text="${doctor.id}"/>
