@@ -55,9 +55,12 @@ public class Doctor {
 
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<WeekSchedule> weekSchedules;
-    //todo: move schedules and extraSchedules into another domain DoctorSchedule
+
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ExtraSchedule> extraSchedules;
+
+    /* booking allowed after now plus minBookingTime (in minutes) */
+    private Integer minBookingTime;
 
     public Long getId() {
         return id;
@@ -129,5 +132,13 @@ public class Doctor {
 
     public void setFathersName(String fathersName) {
         this.fathersName = fathersName;
+    }
+
+    public Integer getMinBookingTime() {
+        return minBookingTime;
+    }
+
+    public void setMinBookingTime(Integer minBookingTime) {
+        this.minBookingTime = minBookingTime;
     }
 }

@@ -9,6 +9,7 @@ import com.stomat.domain.schedule.WeekSchedule;
 import com.stomat.repository.booking.BookingRepository;
 import com.stomat.repository.schedule.ExtraScheduleRepository;
 import com.stomat.transfer.booking.FreeTimeDto;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -28,6 +29,9 @@ public class FreeTimeCalculationService {
     private ExtraScheduleRepository extraScheduleRepository;
     private BookingRepository bookingRepository;
 
+    @Value("${booking.round.to.minute}")
+    public Integer roundToMinute;
+
     public FreeTimeCalculationService(ExtraScheduleRepository extraScheduleRepository, BookingRepository bookingRepository) {
         this.extraScheduleRepository = extraScheduleRepository;
         this.bookingRepository = bookingRepository;
@@ -45,7 +49,7 @@ public class FreeTimeCalculationService {
                 .union(extraScheduleIncludeRanges(doctor, start, end))
                 .difference(extraScheduleExcludeRanges(doctor, start, end))
                 .difference(bookingsRangeSet(doctor, start, end))
-                .intersection(minBookingTime());
+                .intersection(minBookingTime(doctor));
 
         return freeTimes;
     }
@@ -70,10 +74,18 @@ public class FreeTimeCalculationService {
         return freeTimeDtos;
     }
 
-    ImmutableRangeSet<LocalDateTime> minBookingTime() {
-        LocalDateTime minTime = LocalDateTime.now().plusHours(2).withMinute(0);//todo: to doctor field
+    private ImmutableRangeSet<LocalDateTime> minBookingTime(Doctor doctor) {
+        LocalDateTime minTime = LocalDateTime.now();
+        minTime.withSecond(0);
+        minTime.withNano(0);
 
-        return ImmutableRangeSet.of(Range.atLeast(minTime));
+        if (doctor.getMinBookingTime() != null) {
+            minTime = minTime.plusMinutes(doctor.getMinBookingTime());
+        }
+
+        var roundedMinTime = minTime.withMinute(minTime.getMinute() + (roundToMinute - (minTime.getMinute() % roundToMinute)));
+
+        return ImmutableRangeSet.of(Range.atLeast(roundedMinTime));
     }
 
     ImmutableRangeSet<LocalDateTime> weekScheduleRanges(Doctor doctor, LocalDate start, LocalDate end) {
