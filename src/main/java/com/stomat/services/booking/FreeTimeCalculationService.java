@@ -3,6 +3,7 @@ package com.stomat.services.booking;
 import com.google.common.collect.ImmutableRangeSet;
 import com.google.common.collect.Range;
 import com.stomat.domain.booking.Booking;
+import com.stomat.domain.booking.Reason;
 import com.stomat.domain.profile.Doctor;
 import com.stomat.domain.schedule.ExtraScheduleTypeEnum;
 import com.stomat.domain.schedule.WeekSchedule;
@@ -24,8 +25,6 @@ import static com.google.common.collect.ImmutableRangeSet.unionOf;
 @Service
 public class FreeTimeCalculationService {
 
-    static int BOOKING_REASON_LENGTH = 90;//todo: reason domain
-
     private ExtraScheduleRepository extraScheduleRepository;
     private BookingRepository bookingRepository;
 
@@ -37,10 +36,10 @@ public class FreeTimeCalculationService {
         this.bookingRepository = bookingRepository;
     }
 
-    public List<FreeTimeDto> collectFreeTimes(Doctor doctor, LocalDate start, LocalDate end) {
+    public List<FreeTimeDto> collectFreeTimes(Doctor doctor, Reason reason, LocalDate start, LocalDate end) {
         ImmutableRangeSet<LocalDateTime> freeTimes = calculateFreeTimes(doctor, start, end);
 
-        return buildFreeTimeDto(freeTimes);
+        return buildFreeTimeDto(freeTimes, reason);
     }
 
     ImmutableRangeSet<LocalDateTime> calculateFreeTimes(Doctor doctor, LocalDate start, LocalDate end) {
@@ -54,20 +53,20 @@ public class FreeTimeCalculationService {
         return freeTimes;
     }
 
-    List<FreeTimeDto> buildFreeTimeDto(ImmutableRangeSet<LocalDateTime> freeTimes) {
+    List<FreeTimeDto> buildFreeTimeDto(ImmutableRangeSet<LocalDateTime> freeTimes, Reason reason) {
 
         var freeTimeDtos = new ArrayList<FreeTimeDto>();
 
         freeTimes.asRanges().forEach(range -> {
             var startEvent = range.lowerEndpoint();
-            var endEvent = startEvent.plusMinutes(BOOKING_REASON_LENGTH);
+            var endEvent = startEvent.plusMinutes(reason.getDuration());
 
             while (!endEvent.isAfter(range.upperEndpoint())) {
 
                 freeTimeDtos.add(new FreeTimeDto(startEvent, endEvent));
 
                 startEvent = endEvent;
-                endEvent = startEvent.plusMinutes(BOOKING_REASON_LENGTH);
+                endEvent = startEvent.plusMinutes(reason.getDuration());
             }
         });
 

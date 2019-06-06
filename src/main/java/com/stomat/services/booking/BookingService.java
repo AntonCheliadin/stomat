@@ -2,6 +2,7 @@ package com.stomat.services.booking;
 
 import com.stomat.domain.booking.Booking;
 import com.stomat.domain.booking.Patient;
+import com.stomat.domain.booking.Reason;
 import com.stomat.domain.profile.Doctor;
 import com.stomat.repository.booking.BookingRepository;
 import com.stomat.repository.profile.DoctorRepository;
@@ -22,18 +23,21 @@ public class BookingService {
     private FreeTimeCalculationService freeTimeCalculationService;
     private DoctorRepository doctorRepository;
     private BookingRepository bookingRepository;
+    private ReasonService reasonService;
 
     public BookingService(FreeTimeCalculationService freeTimeCalculationService, DoctorRepository doctorRepository,
-                          BookingRepository bookingRepository) {
+                          BookingRepository bookingRepository, ReasonService reasonService) {
         this.freeTimeCalculationService = freeTimeCalculationService;
         this.doctorRepository = doctorRepository;
         this.bookingRepository = bookingRepository;
+        this.reasonService = reasonService;
     }
 
     public boolean validate(BookingDto bookingDto) {
         Doctor doctor = doctorRepository.findById(bookingDto.getDoctor()).orElseThrow();
+        Reason reason = reasonService.findByIdOrGetDefaults(bookingDto.getReason());
 
-        List<FreeTimeDto> freeTimeDtos = freeTimeCalculationService.collectFreeTimes(doctor,
+        List<FreeTimeDto> freeTimeDtos = freeTimeCalculationService.collectFreeTimes(doctor, reason,
                 bookingDto.getStartDate().toLocalDate(),
                 bookingDto.getEndDate().toLocalDate().plusDays(1));
 
@@ -41,12 +45,13 @@ public class BookingService {
     }
 
     public Booking create(BookingDto bookingDto) {
-        Doctor doctor = doctorRepository.findById(bookingDto.getDoctor()).orElseThrow();
-
+        var doctor = doctorRepository.findById(bookingDto.getDoctor()).orElseThrow();
+        var reason = reasonService.findByIdOrGetDefaults(bookingDto.getReason());
         //todo: find patient by phone at first
-        Patient patient = new Patient(bookingDto.getFirstName(), bookingDto.getLastName(), bookingDto.getPhoneNumber());
+        var patient = new Patient(bookingDto.getFirstName(), bookingDto.getLastName(), bookingDto.getPhoneNumber());
 
-        Booking booking = new Booking(patient, doctor, bookingDto.getStartDate(), bookingDto.getEndDate(), bookingDto.getDescription());
+        var booking = new Booking(patient, doctor, reason, bookingDto.getStartDate(), bookingDto.getEndDate(),
+                bookingDto.getDescription());
 
         return bookingRepository.save(booking);
     }
@@ -54,7 +59,7 @@ public class BookingService {
     public Booking move(Booking booking, LocalDateTime start, LocalDateTime end) {
         booking.setStartDate(start);
         booking.setEndDate(end);
-//todo: don't create overlapping booking
+
         return bookingRepository.save(booking);
     }
 

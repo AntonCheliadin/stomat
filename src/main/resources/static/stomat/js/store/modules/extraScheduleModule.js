@@ -90,7 +90,7 @@ export default {
         async updateExtraScheduleAction({commit, state}, data) {
             const result = await extraScheduleApi.update(data);
             const json = await result.json();
-            json.doctor = data.doctor;//todo: return doctorId for schedule...
+            json.doctor = data.doctor;
             commit('updateExtraScheduleItem', json)
         },
         async removeExtraScheduleAction({commit, state}, itemId) {

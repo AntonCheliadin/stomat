@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 public class BookingDto {
 
+    @NotNull
     private Long doctor;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
@@ -33,6 +34,8 @@ public class BookingDto {
 
     @Size(max = 255)
     private String description;
+
+    private Long reason;
 
     public Long getDoctor() {
         return doctor;
@@ -88,5 +91,13 @@ public class BookingDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getReason() {
+        return reason;
+    }
+
+    public void setReason(Long reason) {
+        this.reason = reason;
     }
 }

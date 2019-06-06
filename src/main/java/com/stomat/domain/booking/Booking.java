@@ -18,9 +18,10 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(Patient patient, Doctor doctor, LocalDateTime startDate, LocalDateTime endDate, String description) {
+    public Booking(Patient patient, Doctor doctor, Reason reason, LocalDateTime startDate, LocalDateTime endDate, String description) {
         this.patient = patient;
         this.doctor = doctor;
+        this.reason = reason;
         this.startDate = startDate;
         this.endDate = endDate;
         this.description = description;
@@ -50,6 +51,10 @@ public class Booking {
 
     @JsonView(Views.BookingsView.class)
     private String description;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reason_id", nullable = false)
+    private Reason reason;
 
     public Long getId() {
         return id;
@@ -97,5 +102,13 @@ public class Booking {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Reason getReason() {
+        return reason;
+    }
+
+    public void setReason(Reason reason) {
+        this.reason = reason;
     }
 }

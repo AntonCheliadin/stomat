@@ -47,7 +47,7 @@ public class DoctorAdminController {
                                    Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("doctor", doctorDto);
-            return "admin/doctor/create";//todo: fix highlighting errors
+            return "admin/doctor/create";
         }
 
         Doctor doctor = doctorService.create(doctorDto, userAccount.getId());
@@ -68,7 +68,7 @@ public class DoctorAdminController {
                                    Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("doctor", doctorDto);
-            return "admin/doctor/update";//todo: fix highlighting errors
+            return "admin/doctor/update";
         }
 
         Doctor doctor = doctorService.update(doctorDto);
