@@ -1,5 +1,7 @@
 package com.stomat.domain.booking;
 
+import com.stomat.config.locale.Translator;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +27,10 @@ public class Reason {
     private Integer duration;
 
     private boolean defaults;
+
+    public String getName() {
+        return Translator.localize(nameCode);
+    }
 
     public Long getId() {
         return id;
