@@ -4,7 +4,6 @@ import weekScheduleApi from "../../api/weekScheduleApi";
 export default {
     state: {
         weekSchedule: [], //list of scheduleItem
-        calendarDate: moment()
     },
     getters: {
         weekScheduleToCalendarEvents: (state) => {
@@ -26,9 +25,6 @@ export default {
     mutations: {
         setWeekSchedule(state, weekSchedule) {
             state.weekSchedule = weekSchedule
-        },
-        setCalendarDate(state, calendarDate) {
-            state.calendarDate = calendarDate
         },
         addWeekScheduleItem(state, scheduleItem) {
             state.weekSchedule.push(scheduleItem)

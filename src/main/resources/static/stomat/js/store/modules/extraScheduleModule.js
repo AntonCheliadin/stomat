@@ -1,6 +1,7 @@
 import moment from "moment";
 import weekScheduleApi from "../../api/weekScheduleApi";
 import extraScheduleApi from "../../api/extraScheduleApi";
+import {extraScheduleToRequestParams} from "../../components/schedule/converters/extraScheduleConverter";
 
 export default {
     state: {
@@ -36,12 +37,9 @@ export default {
             }
 
             return events;
-
-            // return this.extraScheduleCalendarEvents(state)
-            //     .concat(this.weekScheduleBackgroundCalendarEvents())
         },
         extraScheduleById: (state) => (id) => {
-            return state.extraSchedule.find(item => item.id == id);
+            return state.extraSchedule.find(item => item.id === Number(id));
         }
     },
 
@@ -49,14 +47,11 @@ export default {
         setWeekScheduleBackground(state, weekScheduleBackground) {
             state.weekScheduleBackground = weekScheduleBackground
         },
-        // setCalendarDate(state, calendarDate) {
-        //     state.calendarDate = calendarDate
-        // },
-        setExtraSchedule(state, data) {
-            state.extraSchedule = data.json.map((it) => {
-                it.doctor = data.doctor;
-                return it;
-            })
+        setExtraCalendarDate(state, calendarDate) {
+            state.calendarDate = calendarDate
+        },
+        setExtraSchedule(state, extraSchedule) {
+            state.extraSchedule = extraSchedule;
         },
         addExtraScheduleItem(state, scheduleItem) {
             state.extraSchedule.push(scheduleItem)
@@ -80,17 +75,16 @@ export default {
             const response = await extraScheduleApi.get(data);
             const json = await response.json();
 
-            commit('setExtraSchedule', {json: json, doctor: data.doctor})//todo: return doctorId for schedule...
+            commit('setExtraSchedule', json)
         },
         async addExtraScheduleAction({commit, state}, data) {
             const result = await extraScheduleApi.add(data);
             const json = await result.json();
             commit('addExtraScheduleItem', json)
         },
-        async updateExtraScheduleAction({commit, state}, data) {
-            const result = await extraScheduleApi.update(data);
+        async updateExtraScheduleAction({commit, state}, extraSchedule) {
+            const result = await extraScheduleApi.update(extraScheduleToRequestParams(extraSchedule));
             const json = await result.json();
-            json.doctor = data.doctor;
             commit('updateExtraScheduleItem', json)
         },
         async removeExtraScheduleAction({commit, state}, itemId) {

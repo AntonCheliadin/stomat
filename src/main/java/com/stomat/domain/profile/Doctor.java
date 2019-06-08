@@ -1,8 +1,10 @@
 package com.stomat.domain.profile;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.stomat.domain.schedule.WeekSchedule;
 import com.stomat.domain.schedule.ExtraSchedule;
 import com.stomat.domain.user.UserAccount;
+import com.stomat.transfer.views.Views;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -27,6 +29,7 @@ public class Doctor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonView(Views.ScheduleView.class)
     private Long id;
 
     @NotBlank

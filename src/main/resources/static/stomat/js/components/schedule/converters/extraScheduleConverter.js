@@ -31,6 +31,17 @@ export const moveExtraSchedule = (extraSchedule, event) => {
     return extraSchedule;
 };
 
+export const extraScheduleToRequestParams = (extraSchedule) => {
+    return {
+        id: extraSchedule.id,
+        doctor: extraSchedule.doctor.id,
+        fromDate: extraSchedule.fromDate,
+        toDate: extraSchedule.toDate,
+        type: extraSchedule.type,
+        allDay: extraSchedule.allDay,
+    }
+};
+
 // export const extraScheduleToFullCalendar = (state) => {
 //     let events = [];
 //     for (let scheduleItem of state.extraSchedule) {

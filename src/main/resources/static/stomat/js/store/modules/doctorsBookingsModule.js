@@ -23,7 +23,7 @@ export default {
             return events;
         },
         bookingById: (state) => (id) => {
-            return state.bookings.find(item => item.id == id);
+            return state.bookings.find(item => item.id === Number(id));
         }
     },
 
@@ -38,11 +38,11 @@ export default {
             state.bookings.push(booking)
         },
         updateBooking(state, booking) {
-            state.bookings = state.bookings.filter(item => item.id != booking.id);
+            state.bookings = state.bookings.filter(item => item.id !== Number(booking.id));
             state.bookings.push(booking)
         },
         removeBooking(state, id) {
-            state.bookings = state.bookings.filter(item => item.id != id)
+            state.bookings = state.bookings.filter(item => item.id !== Number(id))
         }
     },
     actions: {

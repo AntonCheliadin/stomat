@@ -1,6 +1,7 @@
 package com.stomat.transfer.booking;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 
 public class BookingDto {
 
-    @NotNull
+    @Nullable
     private Long doctor;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")

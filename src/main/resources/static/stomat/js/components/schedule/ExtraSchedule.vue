@@ -84,7 +84,7 @@
         methods: {
             ...mapActions(['loadExtraScheduleAction', 'addExtraScheduleAction', 'updateExtraScheduleAction',
                 'removeExtraScheduleAction', 'loadBackgroundWeekScheduleAction']),
-            ...mapMutations(['setCalendarDate']),
+            ...mapMutations(['setExtraCalendarDate']),
             handleSelect(event) {
                 VuedalsBus.$emit('new', {
                     name: 'create-extra-schedule-popup',
@@ -107,7 +107,6 @@
             },
             handleEventMove(arg) {
                 let extraSchedule = this.extraScheduleById(arg.event.id);
-                console.log("extraSched by Id", extraSchedule)
                 this.updateExtraScheduleAction(moveExtraSchedule(extraSchedule, arg.event))
             },
             eventRender: function (arg) {
@@ -126,7 +125,7 @@
                 this.removeExtraScheduleAction(arg.event.id)
             },
             datesRender: function (arg) {
-                this.setCalendarDate(moment(arg.view.currentStart));
+                this.setExtraCalendarDate(moment(arg.view.currentStart));
                 this.loadExtraScheduleAction({
                     doctor: this.doctor,
                     from: moment(arg.view.currentStart).format("YYYY-MM-DD"),

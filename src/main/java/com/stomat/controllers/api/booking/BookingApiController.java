@@ -26,14 +26,14 @@ import java.util.Optional;
 
 @RequestMapping(value = "/api/booking")
 @RestController
-public class BookingController {
+public class BookingApiController {
 
     private BookingService bookingService;
     private PermissionService permissionService;
     private BookingRepository bookingRepository;
     private DoctorRepository doctorRepository;
 
-    public BookingController(BookingService bookingService, PermissionService permissionService, BookingRepository bookingRepository, DoctorRepository doctorRepository) {
+    public BookingApiController(BookingService bookingService, PermissionService permissionService, BookingRepository bookingRepository, DoctorRepository doctorRepository) {
         this.bookingService = bookingService;
         this.permissionService = permissionService;
         this.bookingRepository = bookingRepository;

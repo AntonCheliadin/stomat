@@ -34,6 +34,7 @@ public class ExtraSchedule implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id", nullable = false)
+    @JsonView(Views.ScheduleView.class)
     private Doctor doctor;
 
     @NotNull
