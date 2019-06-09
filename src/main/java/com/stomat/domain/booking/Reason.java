@@ -1,6 +1,8 @@
 package com.stomat.domain.booking;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.stomat.config.locale.Translator;
+import com.stomat.transfer.views.Views;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +20,7 @@ public class Reason {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonView(Views.BookingsView.class)
     private Long id;
 
     @NotBlank

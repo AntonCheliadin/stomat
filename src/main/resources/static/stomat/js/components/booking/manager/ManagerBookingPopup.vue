@@ -4,6 +4,8 @@
         <br>
         <input v-model="endDate">
         <br>
+        <v-select v-model="selectedReason" :options="reasons"></v-select>
+        <br>
         <input id="firstName" v-model="firstName"/>
         <label for="firstName">Имя</label>
         <br>
@@ -28,10 +30,11 @@
     import HttpStatus from "../../../constants/HttpStatus";
     import moment from 'moment'
     import {mapGetters, mapMutations, mapActions} from 'vuex';
+    import 'vue-select/dist/vue-select.css';
 
     export default {
         name: "ManagerBookingPopup",
-        props: ['booking'],
+        props: ['booking', 'reasons'],
         data() {
             return {
                 id: this.booking.id,
@@ -42,9 +45,11 @@
                 phoneNumber: this.booking.patient.phone,
                 description: this.booking.description,
                 doctor: this.booking.doctor,
+                selectedReason: this.findOrGetDefaultReason(this.booking.reason.id)
             }
         },
         methods: {
+            ...mapGetters(['findOrGetDefaultReason']),
             ...mapMutations(['addBooking', 'updateBooking']),
             save() {
                 let bookingParams = {
@@ -55,7 +60,8 @@
                     lastName: this.lastName,
                     phoneNumber: this.phoneNumber ? this.phoneNumber.replace(/\s/g, '') : '',
                     description: this.description,
-                    doctor: this.doctor
+                    doctor: this.doctor,
+                    reason: this.selectedReason.id
                 };
 
                 if (this.id) {

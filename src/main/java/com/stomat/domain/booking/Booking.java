@@ -54,6 +54,7 @@ public class Booking {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reason_id", nullable = false)
+    @JsonView(Views.BookingsView.class)
     private Reason reason;
 
     public Long getId() {

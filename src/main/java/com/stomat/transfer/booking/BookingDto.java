@@ -36,6 +36,7 @@ public class BookingDto {
     @Size(max = 255)
     private String description;
 
+    @NotNull
     private Long reason;
 
     public Long getDoctor() {

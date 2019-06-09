@@ -41,6 +41,7 @@
         computed: mapGetters(['bookingsToCalendarEvents', 'bookingById']),
         props: ['doctor'],
         created() {
+            this.loadReasons();
         },
         data() {
             return {
@@ -77,7 +78,8 @@
             }
         },
         methods: {
-            ...mapActions(['loadBookingsAction', 'moveBookingAction', 'removeBookingAction']),
+            ...mapGetters(['getReasonOptions']),
+            ...mapActions(['loadBookingsAction', 'moveBookingAction', 'removeBookingAction', 'loadReasons']),
             ...mapMutations(['setBookingCalendarDate']),
             handleSelect(event) {
                 VuedalsBus.$emit('new', {
@@ -88,8 +90,10 @@
                             startDate: event.start,
                             endDate: event.end,
                             patient: {},
-                            doctor: this.doctor
-                        }
+                            doctor: this.doctor,
+                            reason: {}
+                        },
+                        reasons: this.getReasonOptions()
                     },
                 });
             },
@@ -99,7 +103,8 @@
                         name: 'update-booking-by-manager-popup',
                         component: ManagerBookingPopup,
                         props: {
-                            booking: this.bookingById(arg.event.id)
+                            booking: this.bookingById(arg.event.id),
+                            reasons: this.getReasonOptions()
                         },
                     });
                 }
