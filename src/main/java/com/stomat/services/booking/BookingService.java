@@ -5,6 +5,7 @@ import com.stomat.domain.booking.Patient;
 import com.stomat.domain.booking.Reason;
 import com.stomat.domain.profile.Doctor;
 import com.stomat.repository.booking.BookingRepository;
+import com.stomat.repository.booking.PatientRepository;
 import com.stomat.repository.profile.DoctorRepository;
 import com.stomat.transfer.booking.BookingDto;
 import com.stomat.transfer.booking.FreeTimeDto;
@@ -24,13 +25,15 @@ public class BookingService {
     private DoctorRepository doctorRepository;
     private BookingRepository bookingRepository;
     private ReasonService reasonService;
+    private PatientRepository patientRepository;
 
     public BookingService(FreeTimeCalculationService freeTimeCalculationService, DoctorRepository doctorRepository,
-                          BookingRepository bookingRepository, ReasonService reasonService) {
+                          BookingRepository bookingRepository, ReasonService reasonService, PatientRepository patientRepository) {
         this.freeTimeCalculationService = freeTimeCalculationService;
         this.doctorRepository = doctorRepository;
         this.bookingRepository = bookingRepository;
         this.reasonService = reasonService;
+        this.patientRepository = patientRepository;
     }
 
     public boolean validate(BookingDto bookingDto) {
@@ -45,8 +48,11 @@ public class BookingService {
     }
 
     public Booking create(BookingDto bookingDto, Doctor doctor, Reason reason) {
-        //todo: find patient by phone at first
-        var patient = new Patient(bookingDto.getFirstName(), bookingDto.getLastName(), bookingDto.getPhoneNumber());
+        var patient = patientRepository.findByFirstNameAndLastNameAndPhone(
+                bookingDto.getFirstName(), bookingDto.getLastName(), bookingDto.getPhoneNumber())
+                .orElse(
+                        new Patient(bookingDto.getFirstName(), bookingDto.getLastName(), bookingDto.getPhoneNumber())
+                );
 
         var booking = new Booking(patient, doctor, reason, bookingDto.getStartDate(), bookingDto.getEndDate(),
                 bookingDto.getDescription());
