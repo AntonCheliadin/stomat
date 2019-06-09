@@ -75,14 +75,22 @@ public class FreeTimeCalculationService {
 
     private ImmutableRangeSet<LocalDateTime> minBookingTime(Doctor doctor) {
         LocalDateTime minTime = LocalDateTime.now();
-        minTime.withSecond(0);
-        minTime.withNano(0);
+        minTime = minTime.withSecond(0);
+        minTime = minTime.withNano(0);
 
         if (doctor.getMinBookingTime() != null) {
             minTime = minTime.plusMinutes(doctor.getMinBookingTime());
         }
 
-        var roundedMinTime = minTime.withMinute(minTime.getMinute() + (roundToMinute - (minTime.getMinute() % roundToMinute)));
+        LocalDateTime roundedMinTime;
+
+        int roundedMinutes = minTime.getMinute() + (roundToMinute - (minTime.getMinute() % roundToMinute));
+        if (roundedMinutes != 60) {
+            roundedMinTime = minTime.withMinute(roundedMinutes);
+        } else {
+            roundedMinTime = minTime.withMinute(0);
+            roundedMinTime = roundedMinTime.plusHours(1);
+        }
 
         return ImmutableRangeSet.of(Range.atLeast(roundedMinTime));
     }

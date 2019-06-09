@@ -1,6 +1,11 @@
 <template>
     <div>
-        <div class="content-title">Make an appointment</div>
+        <h2 class="content-title">Make an appointment</h2>
+        <v-select
+                v-model="selectedReason"
+                :clearable="clearable"
+                :options="getReasonOptions"
+                @input="onChangeReason"/>
         <FullCalendar
                 defaultView="timeGridWeek"
                 :plugins="calendarPlugins"
@@ -34,13 +39,17 @@
     export default {
         name: "Booking",
         components: {FullCalendar},
-        computed: mapGetters(['freeTimesToCalendarEvents']),
+        computed: mapGetters(['freeTimesToCalendarEvents', 'getReasonOptions']),
         props: ['doctor'],
         created() {
             this.loadBackgroundWeekScheduleAction(this.doctor);
+            this.loadReasons();
         },
         data() {
             return {
+                selectedReason: this.findOrGetDefaultReason()(),
+                clearable: false,
+
                 calendarPlugins: [timeGridPlugin, interactionPlugin],
                 editable: false,
                 selectable: false,
@@ -74,22 +83,28 @@
             }
         },
         methods: {
-            ...mapActions(['loadFreeTimesAction', 'loadBackgroundWeekScheduleAction']),
+            ...mapGetters(['findOrGetDefaultReason']),
+            ...mapActions(['loadFreeTimesAction', 'loadBackgroundWeekScheduleAction', 'loadReasons']),
             ...mapMutations(['setBookingCalendarDate']),
             handleEventClick(arg) {
                 VuedalsBus.$emit('new', {
                     name: 'booking-popup',
+                    title: this.selectedReason.label,
                     component: BookingPopup,
                     props: {
                         event: arg.event,
-                        doctor: this.doctor
+                        doctor: this.doctor,
+                        reason: this.selectedReason
                     },
                 });
             },
             datesRender: function (arg) {
                 this.setBookingCalendarDate(moment(arg.view.currentStart));
-                this.loadFreeTimesAction({doctor: this.doctor});
+                this.loadFreeTimesAction({doctor: this.doctor, reason: this.selectedReason.id});
             },
+            onChangeReason(reason) {
+                this.loadFreeTimesAction({doctor: this.doctor, reason: reason.id});
+            }
         }
     }
 </script>

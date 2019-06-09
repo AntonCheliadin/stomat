@@ -44,9 +44,7 @@ public class BookingService {
         return freeTimeDtos.stream().anyMatch(it -> bookingDto.getStartDate().equals(it.getFrom()));
     }
 
-    public Booking create(BookingDto bookingDto) {
-        var doctor = doctorRepository.findById(bookingDto.getDoctor()).orElseThrow();
-        var reason = reasonService.findByIdOrGetDefaults(bookingDto.getReason());
+    public Booking create(BookingDto bookingDto, Doctor doctor, Reason reason) {
         //todo: find patient by phone at first
         var patient = new Patient(bookingDto.getFirstName(), bookingDto.getLastName(), bookingDto.getPhoneNumber());
 

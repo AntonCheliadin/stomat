@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="content-title">Manage bookings</div>
+        <h2 class="content-title">Manage bookings</h2>
         <FullCalendar
                 defaultView="timeGridWeek"
                 :plugins="calendarPlugins"

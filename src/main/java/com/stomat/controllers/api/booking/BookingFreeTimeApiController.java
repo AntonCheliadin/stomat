@@ -34,7 +34,7 @@ public class BookingFreeTimeApiController {
     @RequestMapping(value = "/booking/free/time", method = RequestMethod.GET)
     public ResponseEntity freeTimes(@AuthenticationPrincipal UserAccount currentUser,
                                     @RequestParam Doctor doctor,
-                                    @Nullable @RequestParam Reason reason,//todo: impl reason on front
+                                    @RequestParam Reason reason,
                                     @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
                                     @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
         if (doctor == null || from == null || to == null) {
@@ -43,10 +43,6 @@ public class BookingFreeTimeApiController {
 
         if (!permissionService.isAccessAllowed(currentUser, doctor)) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
-        }
-
-        if (reason == null) {
-            reason = reasonRepository.findByDefaults(true);
         }
 
         var freeTimes = freeTimeCalculationService.collectFreeTimes(doctor, reason, from, to);

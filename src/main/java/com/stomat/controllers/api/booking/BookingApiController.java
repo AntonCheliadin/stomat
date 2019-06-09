@@ -5,6 +5,7 @@ import com.stomat.domain.booking.Booking;
 import com.stomat.domain.profile.Doctor;
 import com.stomat.domain.user.UserAccount;
 import com.stomat.repository.booking.BookingRepository;
+import com.stomat.repository.booking.ReasonRepository;
 import com.stomat.repository.profile.DoctorRepository;
 import com.stomat.services.booking.BookingService;
 import com.stomat.services.security.PermissionService;
@@ -32,12 +33,14 @@ public class BookingApiController {
     private PermissionService permissionService;
     private BookingRepository bookingRepository;
     private DoctorRepository doctorRepository;
+    private ReasonRepository reasonRepository;
 
-    public BookingApiController(BookingService bookingService, PermissionService permissionService, BookingRepository bookingRepository, DoctorRepository doctorRepository) {
+    public BookingApiController(BookingService bookingService, PermissionService permissionService, BookingRepository bookingRepository, DoctorRepository doctorRepository, ReasonRepository reasonRepository) {
         this.bookingService = bookingService;
         this.permissionService = permissionService;
         this.bookingRepository = bookingRepository;
         this.doctorRepository = doctorRepository;
+        this.reasonRepository = reasonRepository;
     }
 
     @GetMapping("/list")
@@ -69,11 +72,17 @@ public class BookingApiController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
+        var optDoc = doctorRepository.findById(bookingDto.getDoctor());
+        var optReason = reasonRepository.findById(bookingDto.getReason());
+        if (optDoc.isEmpty() || optReason.isEmpty()) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
         if (!bookingService.validate(bookingDto)) {
             return new ResponseEntity(HttpStatus.CONFLICT);
         }
 
-        Booking booking = bookingService.create(bookingDto);
+        Booking booking = bookingService.create(bookingDto, optDoc.get(), optReason.get());
 
         return ResponseEntity.ok(booking);
     }
@@ -83,17 +92,21 @@ public class BookingApiController {
     public ResponseEntity createBookingByManager(@AuthenticationPrincipal UserAccount currentUser,
                                                  @Valid @RequestBody BookingDto bookingDto, BindingResult bindingResult, Model model) {
 
-
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
-        Optional<Doctor> optionalDoctor = doctorRepository.findById(bookingDto.getDoctor());
-        if (optionalDoctor.isEmpty() || !permissionService.isAccessAllowed(currentUser, optionalDoctor.get())) {
+        var optDoc = doctorRepository.findById(bookingDto.getDoctor());
+        var optReason = reasonRepository.findById(bookingDto.getReason());
+        if (optDoc.isEmpty() || optReason.isEmpty()) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+        if (!permissionService.isAccessAllowed(currentUser, optDoc.get())) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
-        Booking booking = bookingService.create(bookingDto);
+        Booking booking = bookingService.create(bookingDto, optDoc.get(), optReason.get());
 
         return ResponseEntity.ok(booking);
     }
@@ -114,7 +127,7 @@ public class BookingApiController {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
-        var booking = bookingService.move(bookingOpt.get(), moveBookingDto. getStartDate(), moveBookingDto.getEndDate());
+        var booking = bookingService.move(bookingOpt.get(), moveBookingDto.getStartDate(), moveBookingDto.getEndDate());
 
         return ResponseEntity.ok(booking);
     }

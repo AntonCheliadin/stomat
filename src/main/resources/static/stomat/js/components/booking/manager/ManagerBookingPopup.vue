@@ -4,7 +4,7 @@
         <br>
         <input v-model="endDate">
         <br>
-        <v-select v-model="selectedReason" :options="reasons"></v-select>
+        <v-select v-model="selectedReason" :options="reasons" :clearable="clearable"/>
         <br>
         <input id="firstName" v-model="firstName"/>
         <label for="firstName">Имя</label>
@@ -45,7 +45,9 @@
                 phoneNumber: this.booking.patient.phone,
                 description: this.booking.description,
                 doctor: this.booking.doctor,
-                selectedReason: this.findOrGetDefaultReason(this.booking.reason.id)
+
+                selectedReason: this.findOrGetDefaultReason()(this.booking.reason.id),
+                clearable: false,
             }
         },
         methods: {
