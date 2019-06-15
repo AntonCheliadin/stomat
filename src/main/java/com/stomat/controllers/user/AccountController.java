@@ -13,7 +13,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+@RequestMapping("/account")
 @Controller
 public class AccountController {
 
@@ -26,20 +28,19 @@ public class AccountController {
     private final UserRepository userRepository;
     private final UserService userService;
 
-    @GetMapping("/account")
-    public String account(@AuthenticationPrincipal UserAccount userAccount, Model model) {
-        model.addAttribute("user", userAccount);
+    @GetMapping()
+    public String account(@AuthenticationPrincipal UserAccount user, Model model) {
+        model.addAttribute("userAccountDto", user);
 
         return "account/account";
     }
 
-    @PostMapping("/account/update")
+    @PostMapping()
     public String updateAccount(@AuthenticationPrincipal UserAccount userAccount,
                                 @Validated(Update.class) UserAccountDto userAccountDto, BindingResult bindingResult,
                                 Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("user", userAccountDto);
-            return "account/account";//todo: fix highlighting errors
+            return "account/account";
         }
 
         userService.updateUser(userAccount, userAccountDto);

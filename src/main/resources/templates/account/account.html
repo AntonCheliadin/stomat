@@ -5,17 +5,20 @@
     <title>Account</title>
 </head>
 <body>
-<form th:action="@{/account/update}"
-      th:object="${user}" method="POST">
+<form th:action="@{/account}"
+      th:object="${userAccountDto}" method="POST">
     <input type="text" hidden th:field="*{id}"/>
     First Name:
     <input type="text" th:field="*{firstName}"/>
+    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Name Error</span>
     <br/>
     Last Name:
     <input type="text" th:field="*{lastName}"/>
+    <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Name Error</span>
     <br/>
     Email:
     <input type="text" th:field="*{email}"/>
+    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</span>
     <br/>
     <input type="submit" value="Update"/>
 </form>
