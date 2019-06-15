@@ -1,5 +1,6 @@
 package com.stomat.controllers.api.errors;
 
+import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,16 +10,18 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 
 @ControllerAdvice
-@RestController
 public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({Exception.class})
@@ -28,6 +31,20 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
                 HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage());
         return new ResponseEntity<Object>(
                 apiResponseError, new HttpHeaders(), apiResponseError.getStatus());
+    }
+
+    // @Validate For Validating Path Variables and Request Parameters
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity constraintViolationException(Exception ex, WebRequest request, HttpServletResponse response) throws IOException {
+        List<ApiError> errors = new ArrayList<ApiError>();
+        for (ConstraintViolation cv : ((ConstraintViolationException) ex).getConstraintViolations()) {
+            PathImpl propertyPath = (PathImpl) cv.getPropertyPath();
+            errors.add(new ApiError(propertyPath.getLeafNode().getName(), cv.getMessage()));
+        }
+
+        ApiResponseError apiResponseError =
+                new ApiResponseError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
+        return new ResponseEntity(apiResponseError, apiResponseError.getStatus());
     }
 
     @Override

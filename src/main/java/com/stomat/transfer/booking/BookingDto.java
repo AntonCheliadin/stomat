@@ -20,15 +20,12 @@ public class BookingDto {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime endDate;
 
-    @NotNull
     @NotBlank
     private String firstName;
 
-    @NotNull
     @NotBlank
     private String lastName;
 
-    @NotNull
     @NotBlank
     @Pattern(regexp = "^(\\+)?[0-9]{7,12}")
     private String phoneNumber;

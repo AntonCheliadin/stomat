@@ -1,22 +1,29 @@
 <template>
     <div>
-        <input v-model="startDate">
+        <input @input="onChange" v-model="startDate">
+        <span class="err" v-text="startDateError"></span>
         <br>
-        <input v-model="endDate">
+        <input @input="onChange" v-model="endDate">
+        <span class="err" v-text="endDateError"></span>
         <br>
         <v-select v-model="selectedReason" :options="reasons" :clearable="clearable"/>
+        <span class="err" v-text="reasonError"></span>
         <br>
-        <input id="firstName" v-model="firstName"/>
+        <input @input="onChange" id="firstName" v-model="firstName"/>
         <label for="firstName">Имя</label>
+        <span class="err" v-text="firstNameError"></span>
         <br>
-        <input id="lastname" v-model="lastName"/>
+        <input @input="onChange" id="lastname" v-model="lastName"/>
         <label for="lastname">Фамилия</label>
+        <span class="err" v-text="lastNameError"></span>
         <br>
-        <input id="phone" v-model="phoneNumber"/>
+        <input @input="onChange" id="phone" v-model="phoneNumber"/>
         <label for="phone">телефон</label>
+        <span class="err" v-text="phoneNumberError"></span>
         <br>
-        <input id="description" v-model="description"/>
+        <input @input="onChange" id="description" v-model="description"/>
         <label for="description">description</label>
+        <span class="err" v-text="descriptionError"></span>
         <br>
         <br>
 
@@ -48,6 +55,14 @@
 
                 selectedReason: this.findOrGetDefaultReason()(this.booking.reason.id),
                 clearable: false,
+
+                startDateError: "",
+                endDateError: "",
+                reasonError: "",
+                firstNameError: "",
+                lastNameError: "",
+                phoneNumberError: "",
+                descriptionError: "",
             }
         },
         methods: {
@@ -88,18 +103,30 @@
             },
             handleBookingFail(response) {
                 if (response.status === HttpStatus.BAD_REQUEST) {
-                    console.log("Validation error!")
+                    console.log("Validation error!");
+                    this.showErrors(response.body.errors)
                 } else {
                     console.log("show error")
                 }
             },
             closePopup() {
                 this.$emit('vuedals:close');
+            },
+            showErrors(errors) {
+                for (const error of errors) {
+                    this[error.field + 'Error'] = error.message;
+                }
+            },
+            onChange({type, target}) {
+                target.nextElementSibling.nextElementSibling.innerText = ""
             }
         }
     }
 </script>
 
 <style scoped>
+    .err {
+        color: #ff360e;
+    }
 
 </style>
