@@ -27,7 +27,6 @@ public class UserAccountApiController {
     @PostMapping("/update")
     public ResponseEntity<Object> updateUser(@AuthenticationPrincipal UserAccount userAccount,
                                              @Valid @RequestBody UserAccountDto userAccountDto) {
-//todo: handle userDto invalid, but validation doesn't executing
         userService.updateUser(userAccount, userAccountDto);
 
         return ResponseEntity.ok().build();

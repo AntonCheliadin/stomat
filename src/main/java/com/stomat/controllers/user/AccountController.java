@@ -20,12 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AccountController {
 
     @Autowired
-    public AccountController(UserRepository userRepository, UserService userService) {
-        this.userRepository = userRepository;
+    public AccountController(UserService userService) {
         this.userService = userService;
     }
 
-    private final UserRepository userRepository;
     private final UserService userService;
 
     @GetMapping()

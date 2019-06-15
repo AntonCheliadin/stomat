@@ -70,7 +70,7 @@ public class BookingApiController {
     public ResponseEntity submitBookingByPatient(
             @Valid @RequestBody BookingDto bookingDto, BindingResult bindingResult, Model model) {
 
-        if (bindingResult.hasErrors()) {//todo: return errors of bindingResult
+        if (bindingResult.hasErrors()) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
