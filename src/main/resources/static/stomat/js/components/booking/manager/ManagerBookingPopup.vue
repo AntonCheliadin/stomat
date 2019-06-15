@@ -113,8 +113,10 @@
                 this.$emit('vuedals:close');
             },
             showErrors(errors) {
-                for (const error of errors) {
-                    this[error.field + 'Error'] = error.message;
+                if (errors) {
+                    for (const error of errors) {
+                        this[error.field + 'Error'] = error.message;
+                    }
                 }
             },
             onChange({type, target}) {

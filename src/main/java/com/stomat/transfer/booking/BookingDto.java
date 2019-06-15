@@ -14,9 +14,11 @@ public class BookingDto {
     @Nullable
     private Long doctor;
 
+    @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startDate;
 
+    @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime endDate;
 
