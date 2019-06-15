@@ -19,6 +19,7 @@
     "@fullcalendar/vue": "^4.1.0",
     "moment": "^2.24.0",
     "vue": "^2.6.10",
+    "vue-i18n": "^8.11.2",
     "vue-resource": "^1.5.1",
     "vue-select": "^3.1.0",
     "vuedals": "^1.7.0",

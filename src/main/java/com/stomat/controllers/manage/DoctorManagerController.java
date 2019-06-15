@@ -2,6 +2,7 @@ package com.stomat.controllers.manage;
 
 import com.stomat.domain.profile.Doctor;
 import com.stomat.repository.profile.DoctorRepository;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +33,7 @@ public class DoctorManagerController {
         }
 
         model.addAttribute("doctor", optionalDoctor.get());
+        model.addAttribute("lang", LocaleContextHolder.getLocale().getLanguage());
         return "manage/doctor/booking";
     }
 

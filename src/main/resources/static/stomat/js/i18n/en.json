@@ -1,0 +1,12 @@
+{
+  "manage": {
+    "doctor": {
+      "tabs": {
+        "manage-booking": "manage bookings (as doctor)",
+        "make-booking": "make booking (as patient)",
+        "extra-schedule": "extra schedule",
+        "week-schedule": "week schedule"
+      }
+    }
+  }
+}

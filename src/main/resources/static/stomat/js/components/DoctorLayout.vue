@@ -1,10 +1,14 @@
 <template xmlns:v="http://www.w3.org/1999/xhtml">
     <div>
         <div class="selector">
-            <div class="selector-item manage-bookings-selector" @click="onSelectManageBookings">manage-bookings</div>
-            <div class="selector-item make-booking-selector" @click="onSelectMakeBooking">make-booking</div>
-            <div class="selector-item extra-schedule-selector" @click="onSelectExtraSchedule">extra-schedule</div>
-            <div class="selector-item week-schedule-selector" @click="onSelectWeekSchedule">week-schedule</div>
+            <div class="selector-item manage-bookings-selector"
+                 @click="onSelectManageBookings">{{ $t('manage.doctor.tabs.manage-booking') }}</div>
+            <div class="selector-item make-booking-selector"
+                 @click="onSelectMakeBooking">{{ $t('manage.doctor.tabs.make-booking') }}</div>
+            <div class="selector-item extra-schedule-selector"
+                 @click="onSelectExtraSchedule">{{ $t('manage.doctor.tabs.extra-schedule') }}</div>
+            <div class="selector-item week-schedule-selector"
+                 @click="onSelectWeekSchedule">{{ $t('manage.doctor.tabs.week-schedule') }}</div>
         </div>
         <div class="content">
             <div class="manage-bookings-wrap" v-if="selector === 'manage-bookings'">
