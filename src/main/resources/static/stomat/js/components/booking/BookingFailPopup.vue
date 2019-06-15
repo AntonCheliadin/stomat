@@ -1,6 +1,6 @@
 <template>
     <div>
-        booking failed
+        <h3>{{$t('manage.doctor.tabs.make-booking.fail.title')}}</h3>
         <p v-text="errorMessage"></p>
     </div>
 </template>
@@ -14,8 +14,8 @@
         data() {
             return {
                 errorMessage: this.responseCode === HttpStatus.CONFLICT
-                    ? "Время уже занято"
-                    : "Что-то пошло не так, попробуйте еще раз или позвоните нам"
+                    ? this.$t('manage.doctor.tabs.make-booking.fail.error.busy')
+                    : this.$t('manage.doctor.tabs.make-booking.fail.error.unknown')
             }
         }
     }

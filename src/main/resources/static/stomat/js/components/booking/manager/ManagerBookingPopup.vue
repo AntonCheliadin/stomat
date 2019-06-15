@@ -10,25 +10,25 @@
         <span class="err" v-text="reasonError"></span>
         <br>
         <input @input="onChange" id="firstName" v-model="firstName"/>
-        <label for="firstName">Имя</label>
+        <label for="firstName">{{$t('general.person.firstName')}}</label>
         <span class="err" v-text="firstNameError"></span>
         <br>
         <input @input="onChange" id="lastname" v-model="lastName"/>
-        <label for="lastname">Фамилия</label>
+        <label for="lastname">{{$t('general.person.lastName')}}</label>
         <span class="err" v-text="lastNameError"></span>
         <br>
         <input @input="onChange" id="phone" v-model="phoneNumber"/>
-        <label for="phone">телефон</label>
+        <label for="phone">{{$t('general.person.phone')}}</label>
         <span class="err" v-text="phoneNumberError"></span>
         <br>
         <input @input="onChange" id="description" v-model="description"/>
-        <label for="description">description</label>
+        <label for="description">{{$t('general.description')}}</label>
         <span class="err" v-text="descriptionError"></span>
         <br>
         <br>
 
-        <button @click="save">Записаться</button>
-        <button @click="closePopup">Отменить</button>
+        <button @click="save">{{$t('manage.doctor.tabs.manage-booking.submit')}}</button>
+        <button @click="closePopup">{{$t('general.actions.cancel')}}</button>
     </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2 class="content-title">Make an appointment</h2>
+        <h2 class="content-title">{{$t('manage.doctor.tabs.make-booking.title')}}</h2>
         <v-select
                 v-model="selectedReason"
                 :clearable="clearable"
@@ -22,6 +22,7 @@
                 :maxTime="maxTime"
                 :eventTimeFormat="eventTimeFormat"
                 :events="freeTimesToCalendarEvents"
+                :locale="locale"
                 @eventClick="handleEventClick"
                 @datesRender="datesRender"/>
     </div>
@@ -35,6 +36,7 @@
     import {mapGetters, mapActions, mapMutations} from 'vuex'
     import {default as Vuedals, Component as Vuedal, Bus as VuedalsBus} from 'vuedals';
     import BookingPopup from "./BookingPopup.vue";
+    import {getFullCalendarLocale} from "../../i18n/fullCalendarI18n";
 
     export default {
         name: "Booking",
@@ -79,7 +81,8 @@
                     hour: '2-digit',
                     minute: '2-digit',
                     hour12: false
-                }
+                },
+                locale: getFullCalendarLocale()
             }
         },
         methods: {

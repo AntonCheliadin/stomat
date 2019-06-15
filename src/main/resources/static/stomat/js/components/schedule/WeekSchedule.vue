@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2 class="content-title">Week schedule</h2>
+        <h2 class="content-title">{{$t('manage.doctor.tabs.week-schedule.title')}}</h2>
         <FullCalendar
                 defaultView="timeGridWeek"
                 :plugins="calendarPlugins"
@@ -17,6 +17,7 @@
                 :maxTime="maxTime"
                 :eventTimeFormat="eventTimeFormat"
                 :events="weekScheduleToCalendarEvents"
+                :locale="locale"
                 @eventDrop="handleEventMove"
                 @eventResize="handleEventMove"
                 @eventRender="eventRender"
@@ -30,6 +31,7 @@
     import timeGridPlugin from '@fullcalendar/timegrid'
     import interactionPlugin from '@fullcalendar/interaction'
     import moment from 'moment'
+    import {getFullCalendarLocale} from "../../i18n/fullCalendarI18n";
 
     export default {
         name: "WeekSchedule",
@@ -67,7 +69,8 @@
                     hour: '2-digit',
                     minute: '2-digit',
                     hour12: false
-                }
+                },
+                locale: getFullCalendarLocale()
             }
         },
         methods: {

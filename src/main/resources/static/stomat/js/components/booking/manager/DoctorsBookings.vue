@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2 class="content-title">Manage bookings</h2>
+        <h2 class="content-title">{{$t('manage.doctor.tabs.manage-booking.title')}}</h2>
         <FullCalendar
                 defaultView="timeGridWeek"
                 :plugins="calendarPlugins"
@@ -17,6 +17,7 @@
                 :maxTime="maxTime"
                 :eventTimeFormat="eventTimeFormat"
                 :events="bookingsToCalendarEvents"
+                :locale="locale"
                 @eventClick="handleEventClick"
                 @eventDrop="handleEventMove"
                 @eventResize="handleEventMove"
@@ -34,6 +35,7 @@
     import {mapActions, mapGetters, mapMutations} from 'vuex'
     import ManagerBookingPopup from "./ManagerBookingPopup.vue"
     import {default as Vuedals, Component as Vuedal, Bus as VuedalsBus} from 'vuedals'
+    import {getFullCalendarLocale} from "../../../i18n/fullCalendarI18n";
 
     export default {
         name: "DoctorsBookings",
@@ -74,7 +76,8 @@
                     hour: '2-digit',
                     minute: '2-digit',
                     hour12: false
-                }
+                },
+                locale: getFullCalendarLocale()
             }
         },
         methods: {

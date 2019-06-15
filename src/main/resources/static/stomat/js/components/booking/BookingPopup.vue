@@ -5,21 +5,21 @@
 
         <br>
         <input id="firstName" v-model="firstName"/>
-        <label for="firstName">Имя</label>
+        <label for="firstName">{{$t('general.person.firstName')}}</label>
         <br>
         <input id="lastname" v-model="lastName"/>
-        <label for="lastname">Фамилия</label>
+        <label for="lastname">{{$t('general.person.lastName')}}</label>
         <br>
         <input id="phone" v-model="phoneNumber"/>
-        <label for="phone">телефон</label>
+        <label for="phone">{{$t('general.person.phone')}}</label>
         <br>
         <input id="description" v-model="description"/>
-        <label for="description">description</label>
+        <label for="description">{{$t('general.description')}}</label>
         <br>
         <br>
 
-        <button @click="save">Записаться</button>
-        <button @click="closePopup">Отменить</button>
+        <button @click="save">{{$t('manage.doctor.tabs.make-booking.submit')}}</button>
+        <button @click="closePopup">{{$t('general.actions.cancel')}}</button>
     </div>
 
 </template>

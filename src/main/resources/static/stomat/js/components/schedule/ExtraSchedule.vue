@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2 class="content-title">Extra schedule</h2>
+        <h2 class="content-title">{{$t('manage.doctor.tabs.extra-schedule.title')}}</h2>
         <FullCalendar
                 defaultView="timeGridWeek"
                 :plugins="calendarPlugins"
@@ -17,6 +17,7 @@
                 :maxTime="maxTime"
                 :eventTimeFormat="eventTimeFormat"
                 :events="eventsForExtraScheduleCalendar"
+                :locale="locale"
                 @eventClick="handleEventClick"
                 @eventDrop="handleEventMove"
                 @eventResize="handleEventMove"
@@ -38,6 +39,7 @@
         fullCalendarEventToExtraSchedule,
         moveExtraSchedule
     } from "./converters/extraScheduleConverter";
+    import {getFullCalendarLocale} from "../../i18n/fullCalendarI18n";
 
     export default {
         name: "ExtraSchedule",
@@ -78,7 +80,8 @@
                     hour: '2-digit',
                     minute: '2-digit',
                     hour12: false
-                }
+                },
+                locale: getFullCalendarLocale()
             }
         },
         methods: {

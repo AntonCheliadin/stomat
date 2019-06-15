@@ -1,24 +1,26 @@
 <template>
     <div>
-        <div>Тип события {{event.id}}:</div>
+        <h3>{{$t('manage.doctor.tabs.extra-schedule.popup.title')}}</h3>
+
+        <p>{{$t('manage.doctor.tabs.extra-schedule.popup.type.label')}} {{event.id}}:</p>
 
         <input type="radio" id="typeInclude" value="INCLUDE" v-model="type">
-        <label for="typeInclude">добавить доступное время</label>
+        <label for="typeInclude">{{$t('manage.doctor.tabs.extra-schedule.popup.type.include')}}</label>
         <br>
         <input type="radio" id="typeExclude" value="EXCLUDE" v-model="type">
-        <label for="typeExclude">исключить из доступного времени</label>
+        <label for="typeExclude">{{$t('manage.doctor.tabs.extra-schedule.popup.type.exclude')}}</label>
         <br>
         <input id="allDay" type="checkbox" v-model="allDay" true-value="true" false-value="false">
-        <label for="allDay">на весь день</label>
+        <label for="allDay">{{$t('manage.doctor.tabs.extra-schedule.popup.allDay')}}</label>
         <br>
         <input id="fromDate" v-text="fromDate" v-model="fromDate"/>
-        <label for="fromDate">От</label>
+        <label for="fromDate">{{$t('general.range.from')}}</label>
         <br>
         <input id="toDate" v-text="toDate" v-model="toDate"/>
-        <label for="toDate">До</label>
+        <label for="toDate">{{$t('general.range.to')}}</label>
         <br>
-        <button @click="save">Save</button>
-        <button v-if="id" @click="deleteClick">Delete</button>
+        <button @click="save">{{$t('general.actions.save')}}</button>
+        <button v-if="id" @click="deleteClick">{{$t('general.actions.delete')}}</button>
     </div>
 </template>
 

@@ -2,13 +2,13 @@
     <div>
         <div class="selector">
             <div class="selector-item manage-bookings-selector"
-                 @click="onSelectManageBookings">{{ $t('manage.doctor.tabs.manage-booking') }}</div>
+                 @click="onSelectManageBookings">{{ $t('manage.doctor.tabs.manage-booking.title') }}</div>
             <div class="selector-item make-booking-selector"
-                 @click="onSelectMakeBooking">{{ $t('manage.doctor.tabs.make-booking') }}</div>
+                 @click="onSelectMakeBooking">{{ $t('manage.doctor.tabs.make-booking.title') }}</div>
             <div class="selector-item extra-schedule-selector"
-                 @click="onSelectExtraSchedule">{{ $t('manage.doctor.tabs.extra-schedule') }}</div>
+                 @click="onSelectExtraSchedule">{{ $t('manage.doctor.tabs.extra-schedule.title') }}</div>
             <div class="selector-item week-schedule-selector"
-                 @click="onSelectWeekSchedule">{{ $t('manage.doctor.tabs.week-schedule') }}</div>
+                 @click="onSelectWeekSchedule">{{ $t('manage.doctor.tabs.week-schedule.title') }}</div>
         </div>
         <div class="content">
             <div class="manage-bookings-wrap" v-if="selector === 'manage-bookings'">

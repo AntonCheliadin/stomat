@@ -1,6 +1,6 @@
 <template>
     <div>
-        booking success
+        {{$t('manage.doctor.tabs.make-booking.success.title')}}
     </div>
 </template>
 
