@@ -29,6 +29,10 @@ repositories {
 sourceCompatibility = 11
 targetCompatibility = 11
 
+bootRun {
+    systemProperties = System.properties
+}
+
 dependencies {
     implementation('org.springframework.boot:spring-boot-starter-data-jpa')
     implementation('org.springframework.boot:spring-boot-starter-security')

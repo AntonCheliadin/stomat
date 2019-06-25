@@ -1,0 +1,53 @@
+version: '3.7'
+services:
+  nginx:
+   container_name: alpine-nginx
+   image: nginx:alpine
+   ports:
+    - 80:80
+   volumes:
+    - ./external-config/docker/nginx/conf.d:/etc/nginx/conf.d
+   depends_on:
+    - app
+   networks:
+     - stomat-network
+
+  app:
+    container_name: stomat
+    image: gradle:5.3.1-jdk11
+    working_dir: /app
+    volumes:
+      - .:/app
+    expose:
+      - 8080
+    command: gradle bootRun -Dspring.profiles.active=docker
+    depends_on:
+      - postgres
+    networks:
+      - stomat-network
+
+  postgres:
+    container_name: stomat-postgres
+    image: postgres:9.6
+    user: postgres
+    environment:
+      POSTGRES_USER: stomatuserdb
+      POSTGRES_DB: stomatdb
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    volumes:
+      - ./data/docker/volumes/postgres:/var/lib/postgresql/data
+    expose:
+      - 5432
+    networks:
+      - stomat-network
+    secrets:
+      - postgres_password
+
+networks:
+  stomat-network:
+    driver: bridge
+
+secrets:
+  postgres_password:
+    file: ./external-config/docker/postgres/secrets/postgres_password
+
