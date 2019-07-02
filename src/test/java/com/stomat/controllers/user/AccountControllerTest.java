@@ -1,6 +1,6 @@
 package com.stomat.controllers.user;
 
-import com.stomat.api.user.auth.MockMvcTestPrototype;
+import com.stomat.api.MockMvcTestPrototype;
 import org.junit.Test;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 

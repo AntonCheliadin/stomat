@@ -1,8 +1,8 @@
 package com.stomat.api.user;
 
 import com.stomat.UtilsTest;
-import com.stomat.api.user.auth.MockMvcTestPrototype;
-import com.stomat.api.user.auth.WithMockCustomUser;
+import com.stomat.api.MockMvcTestPrototype;
+import com.stomat.api.user.auth.unit.WithMockCustomUser;
 import com.stomat.repository.user.UserRepository;
 import com.stomat.services.user.UserService;
 import com.stomat.transfer.user.UserAccountDto;

@@ -1,4 +1,4 @@
-package com.stomat.api.user.auth;
+package com.stomat.api.user.auth.unit;
 
 import com.stomat.domain.user.Role;
 import com.stomat.domain.user.UserAccount;

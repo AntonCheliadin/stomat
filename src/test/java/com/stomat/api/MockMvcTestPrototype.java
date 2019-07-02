@@ -1,4 +1,4 @@
-package com.stomat.api.user.auth;
+package com.stomat.api;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;

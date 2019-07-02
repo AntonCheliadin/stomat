@@ -2,6 +2,7 @@ package com.stomat.services.booking;
 
 import com.google.common.collect.ImmutableRangeSet;
 import com.google.common.collect.Range;
+import com.stomat.domain.booking.Reason;
 import com.stomat.domain.profile.Doctor;
 import com.stomat.domain.schedule.ExtraSchedule;
 import com.stomat.domain.schedule.WeekSchedule;
@@ -39,6 +40,7 @@ public class FreeTimeCalculationServiceTest {
     @Before
     public void setUp() {
         freeTimeCalculationService = new FreeTimeCalculationService(extraScheduleRepository, bookingRepository);
+        freeTimeCalculationService.roundToMinute = 5;
     }
 
     private FreeTimeCalculationService freeTimeCalculationService;
@@ -218,9 +220,11 @@ public class FreeTimeCalculationServiceTest {
                 Range.closedOpen(nextMonday.atTime(8, 0), nextMonday.atTime(11, 0)),
                 Range.closedOpen(nextMonday.atTime(14, 0), nextMonday.atTime(16, 0))
         ));
+        Reason reason = new Reason();
+        reason.setDuration(90);
 
         //when
-        var ar = freeTimeCalculationService.buildFreeTimeDto(freeTimes);
+        var ar = freeTimeCalculationService.buildFreeTimeDto(freeTimes, reason);
 
         //build er
         var freeTimeDtos = List.of(
