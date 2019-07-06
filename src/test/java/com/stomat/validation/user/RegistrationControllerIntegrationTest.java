@@ -1,5 +1,7 @@
 package com.stomat.validation.user;
 
+import com.stomat.api.user.auth.integration.MockDbUser;
+import com.stomat.repository.user.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +60,6 @@ public class RegistrationControllerIntegrationTest {
                 .param("password", "password")
                 .param("verifyPassword", "passwordINVALID"))
                 .andDo(print())
-                .andExpect(model().attributeHasFieldErrorCode("userAccountDto", "password", "MatchConstraint"))
                 .andExpect(model().attributeHasFieldErrorCode("userAccountDto", "verifyPassword", "MatchConstraint"))
                 .andExpect(view().name("user/registration"))
                 .andExpect(status().isOk());
@@ -82,9 +83,7 @@ public class RegistrationControllerIntegrationTest {
                 .andExpect(status().isOk());
     }
 
-    @Transactional
     @Test
-    @Sql(scripts = {"/create-user-account-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void testFieldsValueMatchConstraintConstraint() throws Exception {
         this.mockMvc.perform(MockMvcRequestBuilders
                 .post("/registration")
@@ -96,7 +95,7 @@ public class RegistrationControllerIntegrationTest {
                 .param("password", "password")
                 .param("verifyPassword", "passwordINVALID"))
                 .andDo(print())
-                .andExpect(model().attributeHasFieldErrorCode("userAccountDto", "password", "MatchConstraint"))
+                .andExpect(model().attributeHasFieldErrorCode("userAccountDto", "verifyPassword", "MatchConstraint"))
                 .andExpect(view().name("user/registration"))
                 .andExpect(status().isOk());
     }

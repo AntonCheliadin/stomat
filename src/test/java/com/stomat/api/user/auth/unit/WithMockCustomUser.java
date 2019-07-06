@@ -22,5 +22,5 @@ public @interface WithMockCustomUser {
 
     String active() default "true";
 
-    String roles() default "USER";
+    String[] roles() default "USER";
 }

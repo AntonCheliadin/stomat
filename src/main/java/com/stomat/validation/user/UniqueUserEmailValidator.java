@@ -28,11 +28,9 @@ public class UniqueUserEmailValidator implements ConstraintValidator<UniqueUserE
     public boolean isValid(UserAccountDto userAccountDto, ConstraintValidatorContext context) {
         boolean isValid;
         if (userAccountDto.getId() == null) {
-            UserAccount existedUser = userRepository.findByEmail(userAccountDto.getEmail());
-            isValid = existedUser == null;
+            isValid = userRepository.findByEmail(userAccountDto.getEmail()).isEmpty();
         } else {
-            UserAccount existedUser = userRepository.findByEmailAndIdIsNot(userAccountDto.getEmail(), userAccountDto.getId());
-            isValid = existedUser == null;
+            isValid = userRepository.findByEmailAndIdIsNot(userAccountDto.getEmail(), userAccountDto.getId()).isEmpty();
         }
 
         if (!isValid) {

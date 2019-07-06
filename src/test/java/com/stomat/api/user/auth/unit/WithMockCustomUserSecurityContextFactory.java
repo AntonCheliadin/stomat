@@ -18,7 +18,7 @@ public class WithMockCustomUserSecurityContextFactory
     public SecurityContext createSecurityContext(WithMockCustomUser customUser) {
         SecurityContext context = SecurityContextHolder.createEmptyContext();
 
-        Set<Role> roles = Arrays.stream(customUser.roles().split(","))
+        Set<Role> roles = Arrays.stream(customUser.roles())
                 .map(Role::valueOf)
                 .collect(Collectors.toSet());
 

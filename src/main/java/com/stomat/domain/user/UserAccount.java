@@ -21,6 +21,13 @@ import java.util.stream.Collectors;
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
 public class UserAccount implements UserDetails {
 
+    public UserAccount() {
+    }
+
+    public UserAccount(@NotBlank String email) {
+        this.email = email;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

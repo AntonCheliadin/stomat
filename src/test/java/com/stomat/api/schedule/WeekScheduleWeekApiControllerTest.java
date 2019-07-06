@@ -66,7 +66,7 @@ public class WeekScheduleWeekApiControllerTest extends MockMvcTestPrototype {
     @MockDbUser(email = "getEmptyWeekScheduleTestUser@email.com", roles = "MANAGER")
     public void getEmptyWeekScheduleTest() throws Exception {
         //given: logged in user is manager of doctor
-        UserAccount userAccount = userRepository.findByEmail("getEmptyWeekScheduleTestUser@email.com");
+        UserAccount userAccount = userRepository.findByEmail("getEmptyWeekScheduleTestUser@email.com").orElseThrow();
         doctor.setManagers(Set.of(userAccount));
         doctorRepository.save(doctor);
 
@@ -86,7 +86,7 @@ public class WeekScheduleWeekApiControllerTest extends MockMvcTestPrototype {
         //given:
         // - logged in user is manager of doctor
         // - doctor has week schedule
-        UserAccount userAccount = userRepository.findByEmail("getWeekScheduleTestUser@email.com");
+        UserAccount userAccount = userRepository.findByEmail("getWeekScheduleTestUser@email.com").orElseThrow();
         WeekSchedule weekSchedule = scheduleRepository.save(new WeekSchedule(
                 doctor,
                 DayOfWeek.MONDAY,

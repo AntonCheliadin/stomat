@@ -30,10 +30,10 @@ public class MockDbUserSecurityContextFactory
                 .map(Role::valueOf)
                 .collect(Collectors.toSet());
 
-        UserAccount user = new UserAccount();
+        UserAccount user = userRepository.findByEmail(customUser.email())
+                .orElse(new UserAccount(customUser.email()));
         user.setFirstName(customUser.firstName());
         user.setLastName(customUser.lastName());
-        user.setEmail(customUser.email());
         user.setPassword(customUser.password());
         user.setActive(Boolean.parseBoolean(customUser.active()));
         user.setRoles(roles);

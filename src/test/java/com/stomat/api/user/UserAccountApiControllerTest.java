@@ -2,7 +2,9 @@ package com.stomat.api.user;
 
 import com.stomat.UtilsTest;
 import com.stomat.api.MockMvcTestPrototype;
+import com.stomat.api.user.auth.integration.MockDbUser;
 import com.stomat.api.user.auth.unit.WithMockCustomUser;
+import com.stomat.domain.user.UserAccount;
 import com.stomat.repository.user.UserRepository;
 import com.stomat.services.user.UserService;
 import com.stomat.transfer.user.UserAccountDto;
@@ -10,9 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -24,13 +24,12 @@ public class UserAccountApiControllerTest extends MockMvcTestPrototype {
     UserService userService;
     @Autowired
     PasswordEncoder passwordEncoder;
-
-    @MockBean
-    UserRepository mockUserRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @Before
     public void setUpMockRepo() {
-        userService = new UserService(mockUserRepository, passwordEncoder, null);
+        userService = new UserService(userRepository, passwordEncoder, null);
     }
 
     @Test
@@ -41,7 +40,7 @@ public class UserAccountApiControllerTest extends MockMvcTestPrototype {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        String expected = "{\"id\":1,\"firstName\":\"firstName\",\"lastName\":\"lastName\",\"email\":\"email@email.com\",\"doctor\":null}";
+        String expected = "{\"id\":1,\"firstName\":\"firstName\",\"lastName\":\"lastName\",\"email\":\"email@email.com\",\"doctors\":null}";
 
         JSONAssert.assertEquals(expected, mvcResult.getResponse()
                 .getContentAsString(), false);
@@ -54,14 +53,20 @@ public class UserAccountApiControllerTest extends MockMvcTestPrototype {
     }
 
     @Test
-    @WithMockCustomUser()
+    @MockDbUser(email = "updateUserDataTest@mail.com")
     public void updateUserDataTest() throws Exception {
+        //given
+        UserAccount userAccount = userRepository.findByEmail("updateUserDataTest@mail.com").orElseThrow();
+
+        //when
         UserAccountDto userDto = new UserAccountDto() {{
+            setId(userAccount.getId());
             setFirstName("firstUpdated");
             setLastName("lastUpdated");
             setEmail("emailUpdated@email.com");
         }};
 
+        //then
         mockMvc.perform(
                 MockMvcRequestBuilders
                         .post("/api/account/update")
@@ -75,22 +80,23 @@ public class UserAccountApiControllerTest extends MockMvcTestPrototype {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        String expected = "{\"id\":1,\"firstName\":\"firstUpdated\",\"lastName\":\"lastUpdated\",\"email\":\"emailUpdated@email.com\",\"doctor\":null}";
+        String expected = "{\"id\":" + userAccount.getId() + ",\"firstName\":\"firstUpdated\",\"lastName\":\"lastUpdated\",\"email\":\"emailUpdated@email.com\",\"doctors\":null}";
 
         JSONAssert.assertEquals(expected, mvcResult.getResponse()
                 .getContentAsString(), false);
     }
 
     @Test
-    @WithMockCustomUser()
-    @Sql(value = "/create-user-account-before.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @MockDbUser(email = "getWeekScheduleTestUser@email.com")
     public void updateEmailToExistedOneTest() throws Exception {
+        //when UserAccountDto is invalid, for example first name is empty
         UserAccountDto userAccountDto = new UserAccountDto() {{
             setFirstName("");
-            setLastName("");
-            setEmail("testEmail2@test.com");
+            setLastName("lastName");
+            setEmail("updateEmailToExistedOneTest@test.com");
         }};
 
+        //then response has Bad request status
         mockMvc.perform(
                 MockMvcRequestBuilders
                         .post("/api/account/update")
@@ -98,6 +104,5 @@ public class UserAccountApiControllerTest extends MockMvcTestPrototype {
                         .content(UtilsTest.convertObjectToJsonBytes(userAccountDto))
                         .contentType(UtilsTest.APPLICATION_JSON_UTF8))
                 .andExpect(status().isBadRequest());
-
     }
 }
