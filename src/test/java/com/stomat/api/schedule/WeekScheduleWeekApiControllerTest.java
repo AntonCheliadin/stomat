@@ -21,6 +21,7 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.Set;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class WeekScheduleWeekApiControllerTest extends MockMvcTestPrototype {
@@ -41,12 +42,12 @@ public class WeekScheduleWeekApiControllerTest extends MockMvcTestPrototype {
     }
 
     @Test
-    @Ignore
     public void unauthorizedTest() throws Exception {
-        MvcResult mvcResult = mockMvc.
+        mockMvc.
                 perform(MockMvcRequestBuilders.get("/schedule/week")
                         .param("doctor", doctor.getId().toString()))
-                .andExpect(status().isUnauthorized())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/login"))
                 .andReturn();
     }
 
@@ -61,7 +62,7 @@ public class WeekScheduleWeekApiControllerTest extends MockMvcTestPrototype {
     }
 
     @Test
-    @MockDbUser(email = "getEmptyWeekScheduleTestUser@email.com")
+    @MockDbUser(email = "getEmptyWeekScheduleTestUser@email.com", roles = "MANAGER")
     public void getEmptyWeekScheduleTest() throws Exception {
         //given: logged in user is manager of doctor
         UserAccount userAccount = userRepository.findByEmail("getEmptyWeekScheduleTestUser@email.com");
@@ -79,7 +80,7 @@ public class WeekScheduleWeekApiControllerTest extends MockMvcTestPrototype {
     }
 
     @Test
-    @MockDbUser(email = "getWeekScheduleTestUser@email.com")
+    @MockDbUser(email = "getWeekScheduleTestUser@email.com", roles = "DOCTOR")
     public void getNotEmptyWeekScheduleTest() throws Exception {
         //given:
         // - logged in user is manager of doctor

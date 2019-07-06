@@ -20,5 +20,5 @@ public @interface MockDbUser {
 
     String active() default "true";
 
-    String roles() default "USER";
+    String[] roles() default "USER";
 }
