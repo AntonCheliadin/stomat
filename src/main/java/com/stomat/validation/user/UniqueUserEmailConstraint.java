@@ -15,7 +15,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueUserEmailConstraint {
 
-    String message() default "Sorry, but user exists with specified name!";//todo: i18n {com.stomat.validation.user.email.message}
+    String message() default "{user.email.unique.error}";
 
     Class<?>[] groups() default {};
 

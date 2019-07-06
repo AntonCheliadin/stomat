@@ -94,30 +94,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void setRestAuthenticationEntryPoint(RestAuthenticationEntryPoint restAuthenticationEntryPoint) {
         this.restAuthenticationEntryPoint = restAuthenticationEntryPoint;
     }
-
-/* todo: impl PrincipalExtractor
-
-    @Bean
-    public PrincipalExtractor principalExtractor(UserDetailsRepo userDetailsRepo) {
-        return map -> {
-            String id = (String) map.get("sub");
-
-            User user = userDetailsRepo.findById(id).orElseGet(() -> {
-                User newUser = new User();
-
-                newUser.setId(id);
-                newUser.setName((String) map.get("name"));
-                newUser.setEmail((String) map.get("email"));
-                newUser.setGender((String) map.get("gender"));
-                newUser.setLocale((String) map.get("locale"));
-                newUser.setUserpic((String) map.get("picture"));
-
-                return newUser;
-            });
-
-            user.setLastVisit(LocalDateTime.now());
-
-            return userDetailsRepo.save(user);
-        };
-    }*/
 }

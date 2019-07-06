@@ -17,13 +17,16 @@ public class UniqueUserEmailValidator implements ConstraintValidator<UniqueUserE
     @Autowired
     private UserRepository userRepository;
 
+    private String message;
+
     @Override
-    public void initialize(UniqueUserEmailConstraint email) {
+    public void initialize(UniqueUserEmailConstraint emailConstraint) {
+        message = emailConstraint.message();
     }
 
     @Override
-    public boolean isValid(UserAccountDto userAccountDto, ConstraintValidatorContext cxt) {
-        Boolean isValid;
+    public boolean isValid(UserAccountDto userAccountDto, ConstraintValidatorContext context) {
+        boolean isValid;
         if (userAccountDto.getId() == null) {
             UserAccount existedUser = userRepository.findByEmail(userAccountDto.getEmail());
             isValid = existedUser == null;
@@ -33,9 +36,9 @@ public class UniqueUserEmailValidator implements ConstraintValidator<UniqueUserE
         }
 
         if (!isValid) {
-            cxt
-                    .buildConstraintViolationWithTemplate("Sorry, but user exists with specified email!")
-                    .addNode("email").addConstraintViolation();
+            context
+                    .buildConstraintViolationWithTemplate(message)
+                    .addPropertyNode("email").addConstraintViolation();
         }
         return isValid;
     }

@@ -11,24 +11,24 @@ import java.lang.annotation.Target;
  * @author Anton Chelyadin.
  * @since 24.12.18.
  */
-@Constraint(validatedBy = FieldsValueMatchValidator.class)
+@Constraint(validatedBy = MatchValidator.class)
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface FieldsValueMatchConstraint {
+public @interface MatchConstraint {
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 
-    String message() default "Fields values don't match!";
+    String message() default "{match.fields.constraint}";
 
-    String field();
+    String mainField();
 
-    String fieldMatch();
+    String matchField();
 
     @Target({ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)
     @interface List {
-        FieldsValueMatchConstraint[] value();
+        MatchConstraint[] value();
     }
 }

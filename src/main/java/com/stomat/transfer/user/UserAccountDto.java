@@ -2,7 +2,7 @@ package com.stomat.transfer.user;
 
 import com.stomat.transfer.Create;
 import com.stomat.transfer.Update;
-import com.stomat.validation.common.FieldsValueMatchConstraint;
+import com.stomat.validation.common.MatchConstraint;
 import com.stomat.validation.user.UniqueUserEmailConstraint;
 
 import javax.validation.constraints.*;
@@ -11,11 +11,11 @@ import javax.validation.constraints.*;
  * @author Anton Chelyadin.
  * @since 09.09.18.
  */
-@FieldsValueMatchConstraint.List({
-        @FieldsValueMatchConstraint(
-                field = "password",
-                fieldMatch = "verifyPassword",
-                message = "Passwords do not match!",//todo: i18n
+@MatchConstraint.List({
+        @MatchConstraint(
+                mainField = "password",
+                matchField = "verifyPassword",
+                message = "{user.password.match.error}",
                 groups = {Create.class}
         )
 })
@@ -36,11 +36,9 @@ public class UserAccountDto {
     @Email(groups = {Create.class, Update.class})
     private String email;
 
-    @NotBlank(groups = {Create.class})
     @Size(groups = {Create.class}, min = 6, max = 128)
     private String password;
 
-    @NotBlank(groups = {Create.class})
     private String verifyPassword;
 
     public Long getId() {
