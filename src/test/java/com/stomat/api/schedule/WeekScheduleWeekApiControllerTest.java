@@ -14,6 +14,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -52,7 +53,7 @@ public class WeekScheduleWeekApiControllerTest extends MockMvcTestPrototype {
     }
 
     @Test
-    @WithMockCustomUser()
+    @WithMockUser
     public void accessDeniedTest() throws Exception {
         mockMvc.
                 perform(MockMvcRequestBuilders.get("/schedule/week")
