@@ -36,10 +36,7 @@ public class BookingService {
         this.patientRepository = patientRepository;
     }
 
-    public boolean validate(BookingDto bookingDto) {
-        Doctor doctor = doctorRepository.findById(bookingDto.getDoctor()).orElseThrow();
-        Reason reason = reasonService.findByIdOrGetDefaults(bookingDto.getReason());
-
+    public boolean hasConflictsBooking(BookingDto bookingDto, Doctor doctor, Reason reason) {
         List<FreeTimeDto> freeTimeDtos = freeTimeCalculationService.collectFreeTimes(doctor, reason,
                 bookingDto.getStartDate().toLocalDate(),
                 bookingDto.getEndDate().toLocalDate().plusDays(1));

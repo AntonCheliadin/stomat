@@ -29,7 +29,7 @@ import java.util.Optional;
 @RequestMapping(value = "/api/booking/manager")
 @RestController
 @Validated
-public class BookingApiController {
+public class ManagerBookingApiController {
 
     private BookingService bookingService;
     private PermissionService permissionService;
@@ -37,7 +37,7 @@ public class BookingApiController {
     private DoctorRepository doctorRepository;
     private ReasonRepository reasonRepository;
 
-    public BookingApiController(BookingService bookingService, PermissionService permissionService, BookingRepository bookingRepository, DoctorRepository doctorRepository, ReasonRepository reasonRepository) {
+    public ManagerBookingApiController(BookingService bookingService, PermissionService permissionService, BookingRepository bookingRepository, DoctorRepository doctorRepository, ReasonRepository reasonRepository) {
         this.bookingService = bookingService;
         this.permissionService = permissionService;
         this.bookingRepository = bookingRepository;
@@ -59,31 +59,6 @@ public class BookingApiController {
                 from.atStartOfDay(), to.atStartOfDay());
 
         return ResponseEntity.ok(bookings);
-    }
-
-    //todo : move to another controller
-    @PostMapping(value = "/create")
-    @JsonView(Views.BookingsView.class)
-    public ResponseEntity submitBookingByPatient(
-            @Valid @RequestBody BookingDto bookingDto, BindingResult bindingResult, Model model) {
-
-        if (bindingResult.hasErrors()) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-
-        var optDoc = doctorRepository.findById(bookingDto.getDoctor());
-        var optReason = reasonRepository.findById(bookingDto.getReason());
-        if (optDoc.isEmpty() || optReason.isEmpty()) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-
-        if (!bookingService.validate(bookingDto)) {
-            return new ResponseEntity(HttpStatus.CONFLICT);
-        }
-
-        Booking booking = bookingService.create(bookingDto, optDoc.get(), optReason.get());
-
-        return ResponseEntity.ok(booking);
     }
 
     @PostMapping()

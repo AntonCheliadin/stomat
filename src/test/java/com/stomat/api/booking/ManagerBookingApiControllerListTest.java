@@ -25,7 +25,7 @@ import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class BookingApiControllerListTest extends MockMvcTestPrototype {
+public class ManagerBookingApiControllerListTest extends MockMvcTestPrototype {
 
     @Autowired
     private DoctorRepository doctorRepository;
