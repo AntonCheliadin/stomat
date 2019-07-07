@@ -5,8 +5,8 @@ import com.stomat.domain.profile.Doctor;
 import com.stomat.domain.schedule.WeekSchedule;
 import com.stomat.domain.user.UserAccount;
 import com.stomat.repository.profile.DoctorRepository;
-import com.stomat.repository.schedule.ScheduleRepository;
-import com.stomat.services.schedule.ScheduleService;
+import com.stomat.repository.schedule.WeekScheduleRepository;
+import com.stomat.services.schedule.WeekScheduleService;
 import com.stomat.services.security.PermissionService;
 import com.stomat.transfer.schedule.ScheduleDto;
 import com.stomat.transfer.views.Views;
@@ -30,16 +30,16 @@ import java.util.Optional;
 public class ScheduleWeekApiController {
 
     @Autowired
-    public ScheduleWeekApiController(ScheduleRepository scheduleRepository,
-                                     ScheduleService scheduleService, PermissionService permissionService, DoctorRepository doctorRepository) {
-        this.scheduleRepository = scheduleRepository;
-        this.scheduleService = scheduleService;
+    public ScheduleWeekApiController(WeekScheduleRepository weekScheduleRepository,
+                                     WeekScheduleService weekScheduleService, PermissionService permissionService, DoctorRepository doctorRepository) {
+        this.weekScheduleRepository = weekScheduleRepository;
+        this.weekScheduleService = weekScheduleService;
         this.permissionService = permissionService;
         this.doctorRepository = doctorRepository;
     }
 
-    private final ScheduleRepository scheduleRepository;
-    private final ScheduleService scheduleService;
+    private final WeekScheduleRepository weekScheduleRepository;
+    private final WeekScheduleService weekScheduleService;
     private final PermissionService permissionService;
     private final DoctorRepository doctorRepository;
 
@@ -72,7 +72,7 @@ public class ScheduleWeekApiController {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
-        return ResponseEntity.ok(scheduleService.addSchedule(optionalDoctor.get(), scheduleDto));
+        return ResponseEntity.ok(weekScheduleService.addSchedule(optionalDoctor.get(), scheduleDto));
     }
 
     @PutMapping("{id}")
@@ -81,7 +81,7 @@ public class ScheduleWeekApiController {
             @AuthenticationPrincipal UserAccount currentUser, @PathVariable("id") long id,
             @Valid @RequestBody ScheduleDto scheduleDto, BindingResult bindingResult, Model model) {
 
-        Optional<WeekSchedule> scheduleOptional = scheduleRepository.findById(id);
+        Optional<WeekSchedule> scheduleOptional = weekScheduleRepository.findById(id);
         Optional<Doctor> optionalDoctor = doctorRepository.findById(scheduleDto.getDoctor());
 
         if (scheduleOptional.isEmpty() || optionalDoctor.isEmpty() || bindingResult.hasErrors()) {
@@ -91,7 +91,7 @@ public class ScheduleWeekApiController {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
-        return ResponseEntity.ok(scheduleService.updateSchedule(scheduleOptional.get(), scheduleDto));
+        return ResponseEntity.ok(weekScheduleService.updateSchedule(scheduleOptional.get(), scheduleDto));
     }
 
     @DeleteMapping("{id}")
@@ -99,7 +99,7 @@ public class ScheduleWeekApiController {
             @AuthenticationPrincipal UserAccount currentUser, @PathVariable("id") long id,
             @Valid @RequestBody ScheduleDto scheduleDto, BindingResult bindingResult, Model model) {
 
-        Optional<WeekSchedule> scheduleOptional = scheduleRepository.findById(id);
+        Optional<WeekSchedule> scheduleOptional = weekScheduleRepository.findById(id);
         Optional<Doctor> optionalDoctor = doctorRepository.findById(scheduleDto.getDoctor());
 
         if (scheduleOptional.isEmpty() || optionalDoctor.isEmpty() || bindingResult.hasErrors()) {
@@ -109,7 +109,7 @@ public class ScheduleWeekApiController {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
-        scheduleRepository.delete(scheduleOptional.get());
+        weekScheduleRepository.delete(scheduleOptional.get());
         return new ResponseEntity(HttpStatus.OK);
     }
 }

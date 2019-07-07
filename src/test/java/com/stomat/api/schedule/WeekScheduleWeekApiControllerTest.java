@@ -6,7 +6,7 @@ import com.stomat.domain.profile.Doctor;
 import com.stomat.domain.schedule.WeekSchedule;
 import com.stomat.domain.user.UserAccount;
 import com.stomat.repository.profile.DoctorRepository;
-import com.stomat.repository.schedule.ScheduleRepository;
+import com.stomat.repository.schedule.WeekScheduleRepository;
 import com.stomat.repository.user.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +30,7 @@ public class WeekScheduleWeekApiControllerTest extends MockMvcTestPrototype {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private ScheduleRepository scheduleRepository;
+    private WeekScheduleRepository weekScheduleRepository;
 
     private Doctor doctor;
 
@@ -85,7 +85,7 @@ public class WeekScheduleWeekApiControllerTest extends MockMvcTestPrototype {
         // - logged in user is manager of doctor
         // - doctor has week schedule
         UserAccount userAccount = userRepository.findByEmail("getWeekScheduleTestUser@email.com").orElseThrow();
-        WeekSchedule weekSchedule = scheduleRepository.save(new WeekSchedule(
+        WeekSchedule weekSchedule = weekScheduleRepository.save(new WeekSchedule(
                 doctor,
                 DayOfWeek.MONDAY,
                 LocalTime.of(10, 0),

@@ -2,7 +2,7 @@ package com.stomat.services.schedule;
 
 import com.stomat.domain.profile.Doctor;
 import com.stomat.domain.schedule.WeekSchedule;
-import com.stomat.repository.schedule.ScheduleRepository;
+import com.stomat.repository.schedule.WeekScheduleRepository;
 import com.stomat.transfer.schedule.ScheduleDto;
 import org.springframework.stereotype.Service;
 
@@ -11,24 +11,24 @@ import org.springframework.stereotype.Service;
  * @since 02.01.19.
  */
 @Service
-public class ScheduleService {
+public class WeekScheduleService {
 
-    public ScheduleService(ScheduleRepository scheduleRepository) {
-        this.scheduleRepository = scheduleRepository;
+    public WeekScheduleService(WeekScheduleRepository weekScheduleRepository) {
+        this.weekScheduleRepository = weekScheduleRepository;
     }
 
-    private final ScheduleRepository scheduleRepository;
+    private final WeekScheduleRepository weekScheduleRepository;
 
     public WeekSchedule addSchedule(Doctor doctor, ScheduleDto scheduleDto) {
         var weekSchedule = new WeekSchedule(doctor, scheduleDto.getDayOfWeek(),
                 scheduleDto.getTimeFrom(), scheduleDto.getTimeTo());
-        return scheduleRepository.save(weekSchedule);
+        return weekScheduleRepository.save(weekSchedule);
     }
 
     public WeekSchedule updateSchedule(WeekSchedule weekSchedule, ScheduleDto scheduleDto) {
         weekSchedule.setDayOfWeek(scheduleDto.getDayOfWeek());
         weekSchedule.setTimeFrom(scheduleDto.getTimeFrom());
         weekSchedule.setTimeTo(scheduleDto.getTimeTo());
-        return scheduleRepository.save(weekSchedule);
+        return weekScheduleRepository.save(weekSchedule);
     }
 }
