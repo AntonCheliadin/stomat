@@ -14,7 +14,7 @@ import java.io.IOException;
  * - otherwise redirect to login page
  */
 @Component
-public final class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public final class DynamicAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(

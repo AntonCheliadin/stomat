@@ -52,7 +52,7 @@ public class Booking {
     @JsonView(Views.BookingsView.class)
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "reason_id", nullable = false)
     @JsonView(Views.BookingsView.class)
     private Reason reason;

@@ -18,6 +18,11 @@ public class Reason {
 
     }
 
+    public Reason(@NotBlank String nameCode, @Min(1) Integer duration) {
+        this.nameCode = nameCode;
+        this.duration = duration;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonView(Views.BookingsView.class)

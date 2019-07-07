@@ -1,12 +1,12 @@
 import Vue from 'vue'
 
 var bookingsActions = {
-    list: {method: 'GET', url: '/api/booking/list'},
-    create: {method: 'POST', url: '/api/booking/create'},
-    move: {method: 'PUT', url: '/api/booking/move{/id}'}
+    list: {method: 'GET', url: '/api/booking/manager/list'},
+    create: {method: 'POST', url: '/api/booking/patient/create'},//todo: move to separate page
+    move: {method: 'PUT', url: '/api/booking/manager/move{/id}'}
 };
 
-const bookingApi = Vue.resource('/api/booking{/id}', {}, bookingsActions);
+const bookingApi = Vue.resource('/api/booking/manager{/id}', {}, bookingsActions);
 
 export default {
     create: booking => bookingApi.create({}, booking),//by patient (with free time only)

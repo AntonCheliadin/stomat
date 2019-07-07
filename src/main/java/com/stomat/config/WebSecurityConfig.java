@@ -5,7 +5,7 @@ package com.stomat.config;
  * @since 09.09.18.
  */
 
-import com.stomat.config.security.RestAuthenticationEntryPoint;
+import com.stomat.config.security.DynamicAuthenticationEntryPoint;
 import com.stomat.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,24 +24,24 @@ import javax.sql.DataSource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private UserService userService;
-    private DataSource dataSource;
     private PasswordEncoder passwordEncoder;
-    private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    private DynamicAuthenticationEntryPoint dynamicAuthenticationEntryPoint;
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/api/booking/manager/**").hasAnyRole("MANAGER", "DOCTOR")
                 .antMatchers("/account/**").hasRole("USER")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/manage/**").hasRole("MANAGER")
                 .antMatchers("/schedule/**").hasAnyRole("MANAGER", "DOCTOR")
-                .antMatchers("/", "/api/**", "/home", "/registration", "/activate/*", "/static/**").permitAll()
+                .antMatchers("/", "/home", "/registration", "/activate/*", "/static/**").permitAll()
                 .and().formLogin().loginPage("/login").permitAll()
                 .and().logout().permitAll()
                 .and().exceptionHandling()
-                .authenticationEntryPoint(restAuthenticationEntryPoint)
+                .authenticationEntryPoint(dynamicAuthenticationEntryPoint)
                 .accessDeniedPage("/403")
         ;
     }
@@ -58,27 +58,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder);
     }
 
-
-    public DataSource getDataSource() {
-        return dataSource;
-    }
-
-    @Autowired
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
-    public PasswordEncoder getPasswordEncoder() {
-        return passwordEncoder;
-    }
-
     @Autowired
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
-    }
-
-    public UserService getUserService() {
-        return userService;
     }
 
     @Autowired
@@ -86,12 +68,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.userService = userService;
     }
 
-    public RestAuthenticationEntryPoint getRestAuthenticationEntryPoint() {
-        return restAuthenticationEntryPoint;
-    }
-
     @Autowired
-    public void setRestAuthenticationEntryPoint(RestAuthenticationEntryPoint restAuthenticationEntryPoint) {
-        this.restAuthenticationEntryPoint = restAuthenticationEntryPoint;
+    public void setDynamicAuthenticationEntryPoint(DynamicAuthenticationEntryPoint dynamicAuthenticationEntryPoint) {
+        this.dynamicAuthenticationEntryPoint = dynamicAuthenticationEntryPoint;
     }
 }

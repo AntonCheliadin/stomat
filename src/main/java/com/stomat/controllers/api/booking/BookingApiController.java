@@ -26,7 +26,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping(value = "/api/booking")
+@RequestMapping(value = "/api/booking/manager")
 @RestController
 @Validated
 public class BookingApiController {
@@ -51,10 +51,6 @@ public class BookingApiController {
                                @RequestParam Doctor doctor,
                                @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
                                @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
-        if (doctor == null || from == null || to == null) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-
         if (!permissionService.isAccessAllowed(currentUser, doctor)) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
@@ -65,6 +61,7 @@ public class BookingApiController {
         return ResponseEntity.ok(bookings);
     }
 
+    //todo : move to another controller
     @PostMapping(value = "/create")
     @JsonView(Views.BookingsView.class)
     public ResponseEntity submitBookingByPatient(
