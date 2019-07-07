@@ -1,18 +1,15 @@
 package com.stomat.api.user;
 
+import com.stomat.api.user.auth.unit.WithMockCustomUser;
 import com.stomat.common.UtilsTest;
 import com.stomat.common.integration.MockMvcTestPrototype;
 import com.stomat.common.integration.user.MockDbUser;
-import com.stomat.api.user.auth.unit.WithMockCustomUser;
 import com.stomat.domain.user.UserAccount;
 import com.stomat.repository.user.UserRepository;
-import com.stomat.services.user.UserService;
 import com.stomat.transfer.user.UserAccountDto;
-import org.junit.Before;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -20,18 +17,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class UserAccountApiControllerTest extends MockMvcTestPrototype {
 
-    //todo: try delete userService
-    @Autowired
-    UserService userService;
-    @Autowired
-    PasswordEncoder passwordEncoder;
     @Autowired
     UserRepository userRepository;
-
-    @Before
-    public void setUpMockRepo() {
-        userService = new UserService(userRepository, passwordEncoder, null);
-    }
 
     @Test
     @WithMockCustomUser()
