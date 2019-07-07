@@ -1,4 +1,4 @@
-package com.stomat.api;
+package com.stomat.common.integration;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;

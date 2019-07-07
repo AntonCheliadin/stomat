@@ -1,8 +1,7 @@
 package com.stomat.api.schedule;
 
-import com.stomat.api.MockMvcTestPrototype;
-import com.stomat.api.user.auth.integration.MockDbUser;
-import com.stomat.api.user.auth.unit.WithMockCustomUser;
+import com.stomat.common.integration.MockMvcTestPrototype;
+import com.stomat.common.integration.user.MockDbUser;
 import com.stomat.domain.profile.Doctor;
 import com.stomat.domain.schedule.WeekSchedule;
 import com.stomat.domain.user.UserAccount;
@@ -10,7 +9,6 @@ import com.stomat.repository.profile.DoctorRepository;
 import com.stomat.repository.schedule.ScheduleRepository;
 import com.stomat.repository.user.UserRepository;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;

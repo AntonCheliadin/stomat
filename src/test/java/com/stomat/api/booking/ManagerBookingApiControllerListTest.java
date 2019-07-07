@@ -1,10 +1,7 @@
 package com.stomat.api.booking;
 
-import com.stomat.api.MockMvcTestPrototype;
-import com.stomat.api.user.auth.integration.MockDbUser;
-import com.stomat.domain.booking.Booking;
-import com.stomat.domain.booking.Patient;
-import com.stomat.domain.booking.Reason;
+import com.stomat.common.integration.MockMvcTestPrototype;
+import com.stomat.common.integration.user.MockDbUser;
 import com.stomat.domain.profile.Doctor;
 import com.stomat.domain.user.UserAccount;
 import com.stomat.repository.booking.BookingRepository;
@@ -16,10 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
+import static com.stomat.common.builders.BookingTestBuilder.makeBookingTomorrowAt;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -96,7 +93,8 @@ public class ManagerBookingApiControllerListTest extends MockMvcTestPrototype {
     public void whenBookingExists_thenBookingInResponse() throws Exception {
         //when
         addUserToManager("apiBookingListTest@email.com");
-        var booking = makeBooking();
+        var booking = makeBookingTomorrowAt(9, 10, doctor, 60);
+        bookingRepository.save(booking);
 
         //then
         mockMvc
@@ -114,18 +112,4 @@ public class ManagerBookingApiControllerListTest extends MockMvcTestPrototype {
         doctor.setManagers(Set.of(userAccount));
         doctorRepository.save(doctor);
     }
-
-    private Booking makeBooking() {
-        var testPatient = new Patient("testFirst", "testLast", "+123456789098");
-        var testReason = new Reason("testReason", 60);
-
-        var now = LocalDateTime.now();
-        var bookingStart = now.plusDays(1).withHour(9).withMinute(0);
-        var bookingEnd = now.plusDays(1).withHour(10).withMinute(0);
-
-        var booking = new Booking(testPatient, doctor, testReason, bookingStart, bookingEnd, "testBooking");
-
-        return bookingRepository.save(booking);
-    }
-
 }

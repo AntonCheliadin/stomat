@@ -15,6 +15,9 @@ public class BookingDto {
     private Long doctor;
 
     @NotNull
+    private Long reason;
+
+    @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startDate;
 
@@ -34,9 +37,6 @@ public class BookingDto {
 
     @Size(max = 255)
     private String description;
-
-    @NotNull
-    private Long reason;
 
     public Long getDoctor() {
         return doctor;

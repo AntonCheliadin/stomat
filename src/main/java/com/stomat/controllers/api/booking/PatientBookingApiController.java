@@ -46,7 +46,7 @@ public class PatientBookingApiController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
-        if (!bookingService.hasConflictsBooking(bookingDto, optDoc.get(), optReason.get())) {
+        if (!bookingService.hasFreeTime(bookingDto, optDoc.get(), optReason.get())) {
             return new ResponseEntity(HttpStatus.CONFLICT);
         }
 

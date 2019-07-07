@@ -1,8 +1,8 @@
 package com.stomat.api.user;
 
-import com.stomat.UtilsTest;
-import com.stomat.api.MockMvcTestPrototype;
-import com.stomat.api.user.auth.integration.MockDbUser;
+import com.stomat.common.UtilsTest;
+import com.stomat.common.integration.MockMvcTestPrototype;
+import com.stomat.common.integration.user.MockDbUser;
 import com.stomat.api.user.auth.unit.WithMockCustomUser;
 import com.stomat.domain.user.UserAccount;
 import com.stomat.repository.user.UserRepository;
@@ -20,6 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class UserAccountApiControllerTest extends MockMvcTestPrototype {
 
+    //todo: try delete userService
     @Autowired
     UserService userService;
     @Autowired

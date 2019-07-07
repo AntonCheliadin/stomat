@@ -1,4 +1,4 @@
-package com.stomat.api.user.auth.integration;
+package com.stomat.common.integration.user;
 
 import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithSecurityContext;

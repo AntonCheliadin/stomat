@@ -98,7 +98,7 @@ public class FreeTimeCalculationService {
     ImmutableRangeSet<LocalDateTime> weekScheduleRanges(Doctor doctor, LocalDate start, LocalDate end) {
         Set<WeekSchedule> weekSchedules = doctor.getWeekSchedules();
 
-        if (weekSchedules.isEmpty()) {
+        if (weekSchedules == null || weekSchedules.isEmpty()) {
             return ImmutableRangeSet.of();
         }
 

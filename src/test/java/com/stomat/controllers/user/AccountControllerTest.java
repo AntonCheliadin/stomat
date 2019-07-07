@@ -1,11 +1,8 @@
 package com.stomat.controllers.user;
 
-import com.stomat.api.MockMvcTestPrototype;
-import com.stomat.api.user.auth.integration.MockDbUser;
-import com.stomat.api.user.auth.unit.WithMockCustomUser;
+import com.stomat.common.integration.MockMvcTestPrototype;
+import com.stomat.common.integration.user.MockDbUser;
 import org.junit.Test;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;

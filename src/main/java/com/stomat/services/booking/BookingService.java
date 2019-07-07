@@ -6,7 +6,6 @@ import com.stomat.domain.booking.Reason;
 import com.stomat.domain.profile.Doctor;
 import com.stomat.repository.booking.BookingRepository;
 import com.stomat.repository.booking.PatientRepository;
-import com.stomat.repository.profile.DoctorRepository;
 import com.stomat.transfer.booking.BookingDto;
 import com.stomat.transfer.booking.FreeTimeDto;
 import org.springframework.stereotype.Service;
@@ -22,21 +21,17 @@ import java.util.List;
 public class BookingService {
 
     private FreeTimeCalculationService freeTimeCalculationService;
-    private DoctorRepository doctorRepository;
     private BookingRepository bookingRepository;
-    private ReasonService reasonService;
     private PatientRepository patientRepository;
 
-    public BookingService(FreeTimeCalculationService freeTimeCalculationService, DoctorRepository doctorRepository,
-                          BookingRepository bookingRepository, ReasonService reasonService, PatientRepository patientRepository) {
+    public BookingService(FreeTimeCalculationService freeTimeCalculationService,
+                          BookingRepository bookingRepository, PatientRepository patientRepository) {
         this.freeTimeCalculationService = freeTimeCalculationService;
-        this.doctorRepository = doctorRepository;
         this.bookingRepository = bookingRepository;
-        this.reasonService = reasonService;
         this.patientRepository = patientRepository;
     }
 
-    public boolean hasConflictsBooking(BookingDto bookingDto, Doctor doctor, Reason reason) {
+    public boolean hasFreeTime(BookingDto bookingDto, Doctor doctor, Reason reason) {
         List<FreeTimeDto> freeTimeDtos = freeTimeCalculationService.collectFreeTimes(doctor, reason,
                 bookingDto.getStartDate().toLocalDate(),
                 bookingDto.getEndDate().toLocalDate().plusDays(1));
