@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class PermissionService {
 
-    public boolean isAccessAllowed(UserAccount activeUser, Doctor doctor) {
+    public boolean isAccessDenied(UserAccount activeUser, Doctor doctor) {
         return doctor.getManagers().stream()
-                .anyMatch(user -> user.getId().equals(activeUser.getId()));
+                .noneMatch(user -> user.getId().equals(activeUser.getId()));
     }
 }

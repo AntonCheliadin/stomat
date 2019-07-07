@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Set;
 
 @Service
+@Transactional
 public class DoctorService {
 
     private DoctorRepository doctorRepository;
@@ -22,7 +23,6 @@ public class DoctorService {
         this.userRepository = userRepository;
     }
 
-    @Transactional
     public Doctor create(DoctorDto doctorDto, Long userId) {
         UserAccount user = userRepository.findById(userId).orElseThrow();
         Doctor doctor = new Doctor(doctorDto.getFirstName(), doctorDto.getFathersName(), doctorDto.getLastName(), doctorDto.getEmail());
@@ -31,7 +31,6 @@ public class DoctorService {
         return doctorRepository.save(doctor);
     }
 
-    @Transactional
     public Doctor update(DoctorDto doctorDto) {
         Doctor doctor = doctorRepository.findById(doctorDto.getId()).orElseThrow();
 

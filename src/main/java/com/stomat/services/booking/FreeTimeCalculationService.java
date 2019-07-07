@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 
 import static com.google.common.collect.ImmutableRangeSet.unionOf;
 
+@SuppressWarnings("UnstableApiUsage")
 @Service
 public class FreeTimeCalculationService {
 
@@ -43,14 +44,11 @@ public class FreeTimeCalculationService {
     }
 
     ImmutableRangeSet<LocalDateTime> calculateFreeTimes(Doctor doctor, LocalDate start, LocalDate end) {
-
-        var freeTimes = weekScheduleRanges(doctor, start, end)
+        return weekScheduleRanges(doctor, start, end)
                 .union(extraScheduleIncludeRanges(doctor, start, end))
                 .difference(extraScheduleExcludeRanges(doctor, start, end))
                 .difference(bookingsRangeSet(doctor, start, end))
                 .intersection(minBookingTime(doctor));
-
-        return freeTimes;
     }
 
     List<FreeTimeDto> buildFreeTimeDto(ImmutableRangeSet<LocalDateTime> freeTimes, Reason reason) {
@@ -151,7 +149,7 @@ public class FreeTimeCalculationService {
         return unionOf(ranges);
     }
 
-    ImmutableRangeSet<LocalDateTime> bookingsRangeSet(Doctor doctor, LocalDate start, LocalDate end) {
+    private ImmutableRangeSet<LocalDateTime> bookingsRangeSet(Doctor doctor, LocalDate start, LocalDate end) {
 
         List<Booking> bookings = bookingRepository.findAllByDoctorEqualsAndStartDateBetween(
                 doctor, start.atStartOfDay(), end.atStartOfDay());

@@ -51,7 +51,7 @@ public class ScheduleExtraApiController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
-        if (!permissionService.isAccessAllowed(currentUser, doctor)) {
+        if (permissionService.isAccessDenied(currentUser, doctor)) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
@@ -72,7 +72,7 @@ public class ScheduleExtraApiController {
         }
         Optional<Doctor> optionalDoctor = doctorRepository.findById(extraScheduleDto.getDoctor());
 
-        if (optionalDoctor.isEmpty() || !permissionService.isAccessAllowed(currentUser, optionalDoctor.get())) {
+        if (optionalDoctor.isEmpty() || permissionService.isAccessDenied(currentUser, optionalDoctor.get())) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
@@ -93,7 +93,7 @@ public class ScheduleExtraApiController {
         }
         Optional<Doctor> optionalDoctor = doctorRepository.findById(extraScheduleDto.getDoctor());
 
-        if (optionalDoctor.isEmpty() || !permissionService.isAccessAllowed(currentUser, optionalDoctor.get())) {
+        if (optionalDoctor.isEmpty() || permissionService.isAccessDenied(currentUser, optionalDoctor.get())) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
@@ -113,7 +113,7 @@ public class ScheduleExtraApiController {
 
         Doctor doctor = optExtraSchedule.get().getDoctor();
 
-        if (!permissionService.isAccessAllowed(currentUser, doctor)) {
+        if (permissionService.isAccessDenied(currentUser, doctor)) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 

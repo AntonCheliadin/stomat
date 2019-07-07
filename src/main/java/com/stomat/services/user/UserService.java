@@ -56,7 +56,7 @@ public class UserService implements UserDetailsService {
         return userRepository.save(userAccount);
     }
 
-    public boolean activate(String activationCode) {
+    public void activate(String activationCode) {
         var userAccount = userRepository.findByActivationCode(activationCode);
 
         if (userAccount != null) {
@@ -65,10 +65,6 @@ public class UserService implements UserDetailsService {
             userAccount.setActivationCode(null);
 
             userRepository.save(userAccount);
-
-            return true;
-        } else {
-            return false;
         }
     }
 

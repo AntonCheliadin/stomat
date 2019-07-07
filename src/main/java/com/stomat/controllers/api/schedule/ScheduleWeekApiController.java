@@ -50,7 +50,7 @@ public class ScheduleWeekApiController {
         if (doctor == null) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        if (!permissionService.isAccessAllowed(currentUser, doctor)) {
+        if (permissionService.isAccessDenied(currentUser, doctor)) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
@@ -68,7 +68,7 @@ public class ScheduleWeekApiController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
         Optional<Doctor> optionalDoctor = doctorRepository.findById(scheduleDto.getDoctor());
-        if (optionalDoctor.isEmpty() || !permissionService.isAccessAllowed(currentUser, optionalDoctor.get())) {
+        if (optionalDoctor.isEmpty() || permissionService.isAccessDenied(currentUser, optionalDoctor.get())) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
@@ -87,7 +87,7 @@ public class ScheduleWeekApiController {
         if (scheduleOptional.isEmpty() || optionalDoctor.isEmpty() || bindingResult.hasErrors()) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        if (!permissionService.isAccessAllowed(currentUser, optionalDoctor.get())) {
+        if (permissionService.isAccessDenied(currentUser, optionalDoctor.get())) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
@@ -105,7 +105,7 @@ public class ScheduleWeekApiController {
         if (scheduleOptional.isEmpty() || optionalDoctor.isEmpty() || bindingResult.hasErrors()) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        if (!permissionService.isAccessAllowed(currentUser, optionalDoctor.get())) {
+        if (permissionService.isAccessDenied(currentUser, optionalDoctor.get())) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 

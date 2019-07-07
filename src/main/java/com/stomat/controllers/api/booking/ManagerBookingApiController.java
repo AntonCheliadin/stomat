@@ -51,7 +51,7 @@ public class ManagerBookingApiController {
                                @RequestParam Doctor doctor,
                                @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
                                @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
-        if (!permissionService.isAccessAllowed(currentUser, doctor)) {
+        if (permissionService.isAccessDenied(currentUser, doctor)) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
@@ -76,7 +76,7 @@ public class ManagerBookingApiController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
-        if (!permissionService.isAccessAllowed(currentUser, optDoc.get())) {
+        if (permissionService.isAccessDenied(currentUser, optDoc.get())) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
@@ -97,7 +97,7 @@ public class ManagerBookingApiController {
 
         Doctor doctor = bookingOpt.get().getDoctor();
 
-        if (!permissionService.isAccessAllowed(currentUser, doctor)) {
+        if (permissionService.isAccessDenied(currentUser, doctor)) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
@@ -123,7 +123,7 @@ public class ManagerBookingApiController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
-        if (!permissionService.isAccessAllowed(currentUser, doctor)) {
+        if (permissionService.isAccessDenied(currentUser, doctor)) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
@@ -141,7 +141,7 @@ public class ManagerBookingApiController {
         }
 
         Doctor doctor = bookingOpt.get().getDoctor();
-        if (!permissionService.isAccessAllowed(currentUser, doctor)) {
+        if (permissionService.isAccessDenied(currentUser, doctor)) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 

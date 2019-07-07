@@ -46,6 +46,6 @@ public class RegistrationController {
     public String activateUser(@PathVariable String code) {
         userService.activate(code);
 
-        return "redirect:/login";
+        return "redirect:/account";
     }
 }
