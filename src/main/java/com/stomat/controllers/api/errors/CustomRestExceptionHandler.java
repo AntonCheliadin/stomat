@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@ControllerAdvice
+@ControllerAdvice(basePackages = "com.stomat.controllers.api")
 public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({Exception.class})
@@ -79,6 +79,6 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handlesNotFoundException(
             Exception ex, WebRequest request) {
         return new ResponseEntity<Object>(
-                "Not found entity", new HttpHeaders(), HttpStatus.NOT_FOUND);
+                "Not found", new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 }

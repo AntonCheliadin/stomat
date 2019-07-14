@@ -55,6 +55,9 @@ public class DoctorAdminController {
 
     @GetMapping("/update/{id}")
     public String getUpdateDoctor(@PathVariable("id") Doctor doctor, Model model) {
+        if (doctor == null) {
+            throw new NotFoundException("Doctor not found");
+        }
         model.addAttribute("doctor", doctor);
         return "admin/doctor/update";
     }
