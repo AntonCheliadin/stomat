@@ -73,7 +73,7 @@ public class BookingServiceTest extends IntegrationTestWithParameters {
             setPhoneNumber("+123456789098");
         }};
 
-        boolean hasFreeTime = bookingService.hasFreeTime(bookingDto, doctor, reason);
+        boolean hasFreeTime = bookingService.hasFreeTime(bookingDto);
 
         //then
         TestCase.assertEquals(expectedResult, hasFreeTime);

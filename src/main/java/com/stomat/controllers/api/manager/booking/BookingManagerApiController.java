@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.stomat.domain.booking.Booking;
 import com.stomat.domain.profile.Doctor;
 import com.stomat.domain.user.UserAccount;
+import com.stomat.exceptions.NotFoundException;
 import com.stomat.repository.booking.BookingRepository;
 import com.stomat.repository.booking.ReasonRepository;
 import com.stomat.repository.profile.DoctorRepository;
@@ -35,14 +36,13 @@ public class BookingManagerApiController {
     private PermissionService permissionService;
     private BookingRepository bookingRepository;
     private DoctorRepository doctorRepository;
-    private ReasonRepository reasonRepository;
 
-    public BookingManagerApiController(BookingService bookingService, PermissionService permissionService, BookingRepository bookingRepository, DoctorRepository doctorRepository, ReasonRepository reasonRepository) {
+    public BookingManagerApiController(BookingService bookingService, PermissionService permissionService,
+                                       BookingRepository bookingRepository, DoctorRepository doctorRepository) {
         this.bookingService = bookingService;
         this.permissionService = permissionService;
         this.bookingRepository = bookingRepository;
         this.doctorRepository = doctorRepository;
-        this.reasonRepository = reasonRepository;
     }
 
     @GetMapping("/list")
@@ -70,17 +70,12 @@ public class BookingManagerApiController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
-        var optDoc = doctorRepository.findById(bookingDto.getDoctor());
-        var optReason = reasonRepository.findById(bookingDto.getReason());
-        if (optDoc.isEmpty() || optReason.isEmpty()) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-
-        if (permissionService.isAccessDenied(currentUser, optDoc.get())) {
+        var doctor = doctorRepository.findById(bookingDto.getDoctor()).orElseThrow(NotFoundException::new);
+        if (permissionService.isAccessDenied(currentUser, doctor)) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
-        Booking booking = bookingService.create(bookingDto, optDoc.get(), optReason.get());
+        Booking booking = bookingService.create(bookingDto);
 
         return ResponseEntity.ok(booking);
     }
@@ -89,19 +84,17 @@ public class BookingManagerApiController {
     @JsonView(Views.BookingsView.class)
     public ResponseEntity moveBooking(@AuthenticationPrincipal UserAccount currentUser, @PathVariable("id") long id,
                                       @RequestBody MoveBookingDto moveBookingDto, BindingResult bindingResult, Model model) {
-        Optional<Booking> bookingOpt = bookingRepository.findById(id);
-
-        if (bookingOpt.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
-        Doctor doctor = bookingOpt.get().getDoctor();
+        Booking booking = bookingRepository.findById(id).orElseThrow(NotFoundException::new);
 
-        if (permissionService.isAccessDenied(currentUser, doctor)) {
+        if (permissionService.isAccessDenied(currentUser, booking.getDoctor())) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
-        var booking = bookingService.move(bookingOpt.get(), moveBookingDto.getStartDate(), moveBookingDto.getEndDate());
+        bookingService.move(booking, moveBookingDto.getStartDate(), moveBookingDto.getEndDate());
 
         return ResponseEntity.ok(booking);
     }
@@ -110,42 +103,30 @@ public class BookingManagerApiController {
     @JsonView(Views.BookingsView.class)
     public ResponseEntity updateBooking(@AuthenticationPrincipal UserAccount currentUser, @PathVariable("id") long id,
                                         @Valid @RequestBody BookingDto bookingDto, BindingResult bindingResult, Model model) {
-
-        Optional<Booking> bookingOpt = bookingRepository.findById(id);
-
-        if (bookingOpt.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-
-        Doctor doctor = bookingOpt.get().getDoctor();
-
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
-        if (permissionService.isAccessDenied(currentUser, doctor)) {
+        Booking booking = bookingRepository.findById(id).orElseThrow(NotFoundException::new);
+
+        if (permissionService.isAccessDenied(currentUser, booking.getDoctor())) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
-        bookingService.update(bookingOpt.get(), bookingDto);
+        bookingService.update(booking, bookingDto);
 
-        return ResponseEntity.ok(bookingOpt.get());
+        return ResponseEntity.ok(booking);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity deleteBooking(@AuthenticationPrincipal UserAccount currentUser, @PathVariable("id") long id) {
-        Optional<Booking> bookingOpt = bookingRepository.findById(id);
+        Booking booking = bookingRepository.findById(id).orElseThrow(NotFoundException::new);
 
-        if (bookingOpt.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-
-        Doctor doctor = bookingOpt.get().getDoctor();
-        if (permissionService.isAccessDenied(currentUser, doctor)) {
+        if (permissionService.isAccessDenied(currentUser, booking.getDoctor())) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
-        bookingService.delete(bookingOpt.get());
+        bookingService.delete(booking);
 
         return new ResponseEntity(HttpStatus.OK);
     }

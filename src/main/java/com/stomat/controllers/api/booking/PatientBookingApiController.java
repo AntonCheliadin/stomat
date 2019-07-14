@@ -23,13 +23,9 @@ import javax.validation.Valid;
 public class PatientBookingApiController {
 
     private BookingService bookingService;
-    private DoctorRepository doctorRepository;
-    private ReasonRepository reasonRepository;
 
-    public PatientBookingApiController(BookingService bookingService, DoctorRepository doctorRepository, ReasonRepository reasonRepository) {
+    public PatientBookingApiController(BookingService bookingService) {
         this.bookingService = bookingService;
-        this.doctorRepository = doctorRepository;
-        this.reasonRepository = reasonRepository;
     }
 
     @PostMapping()
@@ -40,17 +36,11 @@ public class PatientBookingApiController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
-        var optDoc = doctorRepository.findById(bookingDto.getDoctor());
-        var optReason = reasonRepository.findById(bookingDto.getReason());
-        if (optDoc.isEmpty() || optReason.isEmpty()) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-
-        if (!bookingService.hasFreeTime(bookingDto, optDoc.get(), optReason.get())) {
+        if (!bookingService.hasFreeTime(bookingDto)) {
             return new ResponseEntity(HttpStatus.CONFLICT);
         }
 
-        Booking booking = bookingService.create(bookingDto, optDoc.get(), optReason.get());
+        Booking booking = bookingService.create(bookingDto);
 
         return ResponseEntity.ok(booking);
     }

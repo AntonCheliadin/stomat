@@ -45,9 +45,7 @@ public class WeekWeekScheduleManagerApiControllerTest extends MockMvcTestPrototy
         mockMvc.
                 perform(MockMvcRequestBuilders.get("/api/manage/schedule/week")
                         .param("doctor", doctor.getId().toString()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/login"))
-                .andReturn();
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -56,8 +54,7 @@ public class WeekWeekScheduleManagerApiControllerTest extends MockMvcTestPrototy
         mockMvc.
                 perform(MockMvcRequestBuilders.get("/api/manage/schedule/week")
                         .param("doctor", doctor.getId().toString()))
-                .andExpect(status().isForbidden())
-                .andReturn();
+                .andExpect(status().isForbidden());
     }
 
     @Test
