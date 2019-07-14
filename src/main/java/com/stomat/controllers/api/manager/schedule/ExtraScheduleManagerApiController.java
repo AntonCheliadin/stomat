@@ -3,8 +3,8 @@ package com.stomat.controllers.api.manager.schedule;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.stomat.domain.profile.Doctor;
-import com.stomat.domain.schedule.ExtraSchedule;
 import com.stomat.domain.user.UserAccount;
+import com.stomat.exceptions.NotFoundException;
 import com.stomat.repository.profile.DoctorRepository;
 import com.stomat.repository.schedule.ExtraScheduleRepository;
 import com.stomat.services.schedule.ExtraScheduleService;
@@ -20,7 +20,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/manage/schedule/extra")
@@ -48,7 +47,7 @@ public class ExtraScheduleManagerApiController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
         if (doctor == null) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            throw new NotFoundException("Doctor not found");
         }
 
         if (permissionService.isAccessDenied(currentUser, doctor)) {
@@ -70,13 +69,14 @@ public class ExtraScheduleManagerApiController {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        Optional<Doctor> optionalDoctor = doctorRepository.findById(extraScheduleDto.getDoctor());
 
-        if (optionalDoctor.isEmpty() || permissionService.isAccessDenied(currentUser, optionalDoctor.get())) {
+        var doctor = doctorRepository.findById(extraScheduleDto.getDoctor()).orElseThrow(NotFoundException::new);
+
+        if (permissionService.isAccessDenied(currentUser, doctor)) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
-        var extraSchedule = extraScheduleService.addExtraSchedule(optionalDoctor.get(), extraScheduleDto);
+        var extraSchedule = extraScheduleService.addExtraSchedule(doctor, extraScheduleDto);
 
         return ResponseEntity.ok(extraSchedule);
     }
@@ -87,17 +87,16 @@ public class ExtraScheduleManagerApiController {
             @AuthenticationPrincipal UserAccount currentUser, @PathVariable("id") long id,
             @RequestBody ExtraScheduleDto extraScheduleDto, BindingResult bindingResult, Model model) {
 
-        Optional<ExtraSchedule> optExtraSchedule = additionalTimeRepository.findById(id);
-        if (optExtraSchedule.isEmpty() || bindingResult.hasErrors()) {
+        var extraSchedule = additionalTimeRepository.findById(id).orElseThrow(NotFoundException::new);
+        if (bindingResult.hasErrors()) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        Optional<Doctor> optionalDoctor = doctorRepository.findById(extraScheduleDto.getDoctor());
 
-        if (optionalDoctor.isEmpty() || permissionService.isAccessDenied(currentUser, optionalDoctor.get())) {
+        if (permissionService.isAccessDenied(currentUser, extraSchedule.getDoctor())) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
-        var extraSchedule = extraScheduleService.saveByDto(optExtraSchedule.get(), extraScheduleDto);
+        extraScheduleService.saveByDto(extraSchedule, extraScheduleDto);
 
         return ResponseEntity.ok(extraSchedule);
     }
@@ -106,18 +105,13 @@ public class ExtraScheduleManagerApiController {
     public ResponseEntity deleteExtraSchedule(
             @AuthenticationPrincipal UserAccount currentUser, @PathVariable("id") long id) {
 
-        Optional<ExtraSchedule> optExtraSchedule = additionalTimeRepository.findById(id);
-        if (optExtraSchedule.isEmpty()) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
+        var extraSchedule = additionalTimeRepository.findById(id).orElseThrow(NotFoundException::new);
 
-        Doctor doctor = optExtraSchedule.get().getDoctor();
-
-        if (permissionService.isAccessDenied(currentUser, doctor)) {
+        if (permissionService.isAccessDenied(currentUser, extraSchedule.getDoctor())) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
-        additionalTimeRepository.delete(optExtraSchedule.get());
+        additionalTimeRepository.delete(extraSchedule);
 
         return new ResponseEntity(HttpStatus.OK);
     }

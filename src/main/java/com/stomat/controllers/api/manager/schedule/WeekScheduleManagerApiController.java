@@ -2,8 +2,8 @@ package com.stomat.controllers.api.manager.schedule;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.stomat.domain.profile.Doctor;
-import com.stomat.domain.schedule.WeekSchedule;
 import com.stomat.domain.user.UserAccount;
+import com.stomat.exceptions.NotFoundException;
 import com.stomat.repository.profile.DoctorRepository;
 import com.stomat.repository.schedule.WeekScheduleRepository;
 import com.stomat.services.schedule.WeekScheduleService;
@@ -19,7 +19,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 /**
  * @author Anton Chelyadin.
@@ -67,12 +66,13 @@ public class WeekScheduleManagerApiController {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        Optional<Doctor> optionalDoctor = doctorRepository.findById(scheduleDto.getDoctor());
-        if (optionalDoctor.isEmpty() || permissionService.isAccessDenied(currentUser, optionalDoctor.get())) {
+        var doctor = doctorRepository.findById(scheduleDto.getDoctor()).orElseThrow(NotFoundException::new);
+
+        if (permissionService.isAccessDenied(currentUser, doctor)) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
-        return ResponseEntity.ok(weekScheduleService.addSchedule(optionalDoctor.get(), scheduleDto));
+        return ResponseEntity.ok(weekScheduleService.addSchedule(doctor, scheduleDto));
     }
 
     @PutMapping("{id}")
@@ -80,36 +80,35 @@ public class WeekScheduleManagerApiController {
     public ResponseEntity updateWeekSchedule(
             @AuthenticationPrincipal UserAccount currentUser, @PathVariable("id") long id,
             @Valid @RequestBody ScheduleDto scheduleDto, BindingResult bindingResult, Model model) {
-
-        Optional<WeekSchedule> scheduleOptional = weekScheduleRepository.findById(id);
-        Optional<Doctor> optionalDoctor = doctorRepository.findById(scheduleDto.getDoctor());
-
-        if (scheduleOptional.isEmpty() || optionalDoctor.isEmpty() || bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        if (permissionService.isAccessDenied(currentUser, optionalDoctor.get())) {
+        var doctor = doctorRepository.findById(scheduleDto.getDoctor()).orElseThrow(NotFoundException::new);
+
+        if (permissionService.isAccessDenied(currentUser, doctor)) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
-        return ResponseEntity.ok(weekScheduleService.updateSchedule(scheduleOptional.get(), scheduleDto));
+        var scheduleWeek = weekScheduleRepository.findById(id).orElseThrow(NotFoundException::new);
+        return ResponseEntity.ok(weekScheduleService.updateSchedule(scheduleWeek, scheduleDto));
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity deleteUser(
             @AuthenticationPrincipal UserAccount currentUser, @PathVariable("id") long id,
             @Valid @RequestBody ScheduleDto scheduleDto, BindingResult bindingResult, Model model) {
-
-        Optional<WeekSchedule> scheduleOptional = weekScheduleRepository.findById(id);
-        Optional<Doctor> optionalDoctor = doctorRepository.findById(scheduleDto.getDoctor());
-
-        if (scheduleOptional.isEmpty() || optionalDoctor.isEmpty() || bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        if (permissionService.isAccessDenied(currentUser, optionalDoctor.get())) {
+
+        var doctor = doctorRepository.findById(scheduleDto.getDoctor()).orElseThrow(NotFoundException::new);
+
+        if (permissionService.isAccessDenied(currentUser, doctor)) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
-        weekScheduleRepository.delete(scheduleOptional.get());
+        var scheduleWeek = weekScheduleRepository.findById(id).orElseThrow(NotFoundException::new);
+        weekScheduleRepository.delete(scheduleWeek);
         return new ResponseEntity(HttpStatus.OK);
     }
 }
