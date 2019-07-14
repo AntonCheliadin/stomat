@@ -4,7 +4,7 @@ const requireModule = require.context(".", false, /\.js$/); //extract js files i
 const modules = {};
 
 requireModule.keys().forEach(fileName => {
-    if (fileName === "./index.js") return; //reject the index.js file
+    if (fileName === "./index.js") return; //reject itself (the index.js file)
 
     const moduleName = camelCase(fileName.replace(/(\.\/|\.js)/g, ""));
 

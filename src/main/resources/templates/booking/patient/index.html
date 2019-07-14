@@ -2,7 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Schedule</title>
+    <title>Make an appointment</title>
+    <!--todo: i18n-->
 </head>
 <body>
 
@@ -13,11 +14,10 @@
 </div>
 
 <script th:inline="javascript">
-    var doctorId = /*[[${id}]]*/ 0;
     var LANG = /*[[${lang}]]*/ 'en';
 </script>
 
 <!--todo: /js/main.js if not dev mode-->
-<script th:src="${true} ? 'http://localhost:8000/managerBooking.js' : '/js/main.js'"></script>
+<script th:src="${true} ? 'http://localhost:8000/patientBooking.js' : '/js/patientBooking.js'"></script>
 </body>
 </html>

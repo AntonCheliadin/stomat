@@ -42,9 +42,6 @@
         components: {FullCalendar},
         computed: mapGetters(['bookingsToCalendarEvents', 'bookingById']),
         props: ['doctor'],
-        created() {
-            this.loadReasons();
-        },
         data() {
             return {
                 calendarPlugins: [timeGridPlugin, interactionPlugin],
@@ -81,8 +78,8 @@
             }
         },
         methods: {
-            ...mapGetters(['getReasonOptions']),
-            ...mapActions(['loadBookingsAction', 'moveBookingAction', 'removeBookingAction', 'loadReasons']),
+            ...mapGetters(['getReasons']),
+            ...mapActions(['loadBookingsAction', 'moveBookingAction', 'removeBookingAction']),
             ...mapMutations(['setBookingCalendarDate']),
             handleSelect(event) {
                 VuedalsBus.$emit('new', {
@@ -96,7 +93,7 @@
                             doctor: this.doctor,
                             reason: {}
                         },
-                        reasons: this.getReasonOptions()
+                        reasons: this.getReasons()
                     },
                 });
             },
@@ -107,7 +104,7 @@
                         component: ManagerBookingPopup,
                         props: {
                             booking: this.bookingById(arg.event.id),
-                            reasons: this.getReasonOptions()
+                            reasons: this.getReasons()
                         },
                     });
                 }

@@ -28,7 +28,7 @@
     import {Bus as VuedalsBus} from 'vuedals';
     import {mapGetters, mapMutations, mapActions} from 'vuex';
     import moment from 'moment'
-    import bookingApi from '../../api/bookingApi'
+    import patientBookingApi from '../../api/booking/patientBookingApi'
     import BookingSuccessPopup from "./BookingSuccessPopup.vue";
     import BookingFailPopup from "./BookingFailPopup.vue";
     import HttpStatus from "../../constants/HttpStatus";
@@ -70,12 +70,12 @@
                     lastName: this.lastName,
                     phoneNumber: this.phoneNumber.replace(/\s/g, ''),
                     description: this.description,
-                    doctor: this.doctor,
+                    doctor: this.doctor.id,
                     reason: this.reason.id,
                 };
                 this.setBookingParams(bookingParams);
 
-                bookingApi.create(bookingParams)
+                patientBookingApi.add(bookingParams)
                     .then((response) => {
                         this.closePopup();
                         this.showSuccessPopup(bookingParams);
@@ -89,7 +89,7 @@
                     });
             },
             closePopup() {
-                this.loadFreeTimesAction({doctor: this.doctor, reason: this.reason.id});
+                this.loadFreeTimesAction({doctor: this.doctor.id, reason: this.reason.id});
                 this.$emit('vuedals:close');
             },
             showSuccessPopup(booking) {

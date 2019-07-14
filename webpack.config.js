@@ -4,7 +4,10 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 module.exports = {
     mode: 'development',
     devtool: 'source-map',
-    entry: path.join(__dirname, 'src', 'main', 'resources', 'static', 'stomat', 'js', 'main.js'),
+    entry: {
+        managerBooking: path.join(__dirname, 'src', 'main', 'resources', 'static', 'stomat', 'js', 'pages', 'booking', 'manager', 'index.js'),
+        patientBooking: path.join(__dirname, 'src', 'main', 'resources', 'static', 'stomat', 'js', 'pages', 'booking', 'patient', 'index.js'),
+    },
     devServer: {
         contentBase: './dist',
         compress: true,

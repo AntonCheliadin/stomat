@@ -1,8 +1,8 @@
 package com.stomat.domain.profile;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.stomat.domain.schedule.WeekSchedule;
 import com.stomat.domain.schedule.ExtraSchedule;
+import com.stomat.domain.schedule.WeekSchedule;
 import com.stomat.domain.user.UserAccount;
 import com.stomat.transfer.views.Views;
 
@@ -29,19 +29,23 @@ public class Doctor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonView(Views.ScheduleView.class)
+    @JsonView({Views.ScheduleView.class, Views.DoctorView.class})
     private Long id;
 
     @NotBlank
+    @JsonView(Views.DoctorView.class)
     private String firstName;
 
     @NotBlank
+    @JsonView(Views.DoctorView.class)
     private String fathersName;
 
     @NotBlank
+    @JsonView(Views.DoctorView.class)
     private String lastName;
 
     @NotBlank
+    @JsonView(Views.DoctorView.class)
     private String email;
 
     @ManyToMany(cascade = {CascadeType.ALL})
@@ -64,6 +68,11 @@ public class Doctor {
 
     /* booking allowed after now plus minBookingTime (in minutes) */
     private Integer minBookingTime;
+
+    @JsonView(Views.DoctorView.class)
+    public String getFullName() {
+        return String.join(" ", lastName, firstName, fathersName);
+    }
 
     public Long getId() {
         return id;

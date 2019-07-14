@@ -63,8 +63,8 @@ public class ManagerBookingApiController {
 
     @PostMapping()
     @JsonView(Views.BookingsView.class)
-    public ResponseEntity createBookingByManager(@AuthenticationPrincipal UserAccount currentUser,
-                                                 @Valid @RequestBody BookingDto bookingDto, BindingResult bindingResult, Model model) {
+    public ResponseEntity createBooking(@AuthenticationPrincipal UserAccount currentUser,
+                                        @Valid @RequestBody BookingDto bookingDto, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);

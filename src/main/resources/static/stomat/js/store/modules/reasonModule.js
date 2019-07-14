@@ -10,18 +10,7 @@ export default {
             if (!reason) {
                 reason = state.reasons.find((it) => it.defaults);
             }
-            return {
-                label: reason.name,
-                id: reason.id
-            }
-        },
-        getReasonOptions: (state) => {
-            return state.reasons.map((it) => {
-                return {
-                    label: it.name,
-                    id: it.id
-                }
-            });
+            return reason
         },
         getReasons: (state) => {
             return state.reasons;

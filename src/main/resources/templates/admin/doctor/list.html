@@ -27,7 +27,7 @@
         <td th:text="${doctor.fathersName}"/>
         <td th:text="${doctor.lastName}"/>
         <td><a th:href="${'/admin/doctor/update/'+doctor.id}" th:text="#{admin.doctor.list.update.link}">update</a></td>
-        <td><a th:href="${'/manage/doctor/booking/'+doctor.id}" th:text="#{admin.doctor.list.booking.link}">booking</a></td>
+        <td><a th:href="${'/manage/doctors/'+doctor.id}" th:text="#{admin.doctor.list.booking.link}">booking</a></td>
     </tr>
 </table>
 

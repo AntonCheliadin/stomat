@@ -6,7 +6,11 @@
         <input @input="onChange" v-model="endDate">
         <span class="err" v-text="endDateError"></span>
         <br>
-        <v-select v-model="selectedReason" :options="reasons" :clearable="clearable"/>
+        <v-select
+                v-model="selectedReason"
+                label="name"
+                :options="reasons"
+                :clearable="clearable"/>
         <span class="err" v-text="reasonError"></span>
         <br>
         <input @input="onChange" id="firstName" v-model="firstName"/>

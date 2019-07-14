@@ -30,7 +30,7 @@
             "title": "Appointment has been created successfully"
           },
           "fail": {
-            "title": "Appointment has been created successfully",
+            "title": "Error",
             "error": {
               "busy": "Time is busy",
               "unknown": "Something unexpected happened. Contact with administration, please."

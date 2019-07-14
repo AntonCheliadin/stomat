@@ -14,25 +14,17 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/manage/doctor")
+@RequestMapping("/manage/doctors")
 public class DoctorManagerController {
 
-    private DoctorRepository doctorRepository;
-
-    public DoctorManagerController(DoctorRepository doctorRepository) {
-        this.doctorRepository = doctorRepository;
+    @GetMapping()
+    String getDoctorsManagement(Model model) {
+        model.addAttribute("lang", LocaleContextHolder.getLocale().getLanguage());
+        return "manage/doctor/booking";
     }
 
-    @GetMapping("/booking/{id}")
-    String getBooking(@PathVariable("id") long id, Model model) {
-
-        Optional<Doctor> optionalDoctor = doctorRepository.findById(id);
-
-        if (optionalDoctor.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Actor Not Found");
-        }
-
-        model.addAttribute("doctor", optionalDoctor.get());
+    @GetMapping({"/{id}"})
+    String getDoctorManagement(@PathVariable("id") long id, Model model) {
         model.addAttribute("lang", LocaleContextHolder.getLocale().getLanguage());
         return "manage/doctor/booking";
     }

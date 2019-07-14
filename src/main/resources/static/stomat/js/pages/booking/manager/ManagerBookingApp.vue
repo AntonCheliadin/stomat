@@ -7,7 +7,7 @@
 
 <script>
     import {Component as Vuedal} from 'vuedals';
-    import DoctorLayout from "../components/DoctorLayout.vue";
+    import DoctorLayout from "../../../components/DoctorLayout.vue";
 
     export default {
         components: {DoctorLayout, Vuedal},

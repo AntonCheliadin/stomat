@@ -32,7 +32,7 @@ public class PatientBookingApiController {
         this.reasonRepository = reasonRepository;
     }
 
-    @PostMapping(value = "/create")
+    @PostMapping()
     @JsonView(Views.BookingsView.class)
     public ResponseEntity submitBookingByPatient(
             @Valid @RequestBody BookingDto bookingDto, BindingResult bindingResult, Model model) {
