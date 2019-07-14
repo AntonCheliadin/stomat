@@ -1,4 +1,4 @@
-package com.stomat.controllers.api.schedule;
+package com.stomat.controllers.api.manager.schedule;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.stomat.domain.profile.Doctor;
@@ -26,12 +26,12 @@ import java.util.Optional;
  * @since 03.01.19.
  */
 @RestController
-@RequestMapping("/schedule/week")
-public class ScheduleWeekApiController {
+@RequestMapping("/api/manage/schedule/week")
+public class WeekScheduleManagerApiController {
 
     @Autowired
-    public ScheduleWeekApiController(WeekScheduleRepository weekScheduleRepository,
-                                     WeekScheduleService weekScheduleService, PermissionService permissionService, DoctorRepository doctorRepository) {
+    public WeekScheduleManagerApiController(WeekScheduleRepository weekScheduleRepository,
+                                            WeekScheduleService weekScheduleService, PermissionService permissionService, DoctorRepository doctorRepository) {
         this.weekScheduleRepository = weekScheduleRepository;
         this.weekScheduleService = weekScheduleService;
         this.permissionService = permissionService;

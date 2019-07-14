@@ -23,7 +23,7 @@ import java.util.Set;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class WeekScheduleWeekApiControllerTest extends MockMvcTestPrototype {
+public class WeekWeekScheduleManagerApiControllerTest extends MockMvcTestPrototype {
 
     @Autowired
     private DoctorRepository doctorRepository;
@@ -43,7 +43,7 @@ public class WeekScheduleWeekApiControllerTest extends MockMvcTestPrototype {
     @Test
     public void unauthorizedTest() throws Exception {
         mockMvc.
-                perform(MockMvcRequestBuilders.get("/schedule/week")
+                perform(MockMvcRequestBuilders.get("/api/manage/schedule/week")
                         .param("doctor", doctor.getId().toString()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login"))
@@ -54,7 +54,7 @@ public class WeekScheduleWeekApiControllerTest extends MockMvcTestPrototype {
     @WithMockUser
     public void accessDeniedTest() throws Exception {
         mockMvc.
-                perform(MockMvcRequestBuilders.get("/schedule/week")
+                perform(MockMvcRequestBuilders.get("/api/manage/schedule/week")
                         .param("doctor", doctor.getId().toString()))
                 .andExpect(status().isForbidden())
                 .andReturn();
@@ -69,7 +69,7 @@ public class WeekScheduleWeekApiControllerTest extends MockMvcTestPrototype {
         doctorRepository.save(doctor);
 
         MvcResult mvcResult = mockMvc.
-                perform(MockMvcRequestBuilders.get("/schedule/week")
+                perform(MockMvcRequestBuilders.get("/api/manage/schedule/week")
                         .param("doctor", doctor.getId().toString()))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -97,7 +97,7 @@ public class WeekScheduleWeekApiControllerTest extends MockMvcTestPrototype {
 
         //when: get week schedule by doctor
         MvcResult mvcResult = mockMvc.
-                perform(MockMvcRequestBuilders.get("/schedule/week")
+                perform(MockMvcRequestBuilders.get("/api/manage/schedule/week")
                         .param("doctor", doctor.getId().toString()))
                 .andExpect(status().isOk())
                 .andReturn();

@@ -1,4 +1,4 @@
-package com.stomat.controllers.api.booking;
+package com.stomat.controllers.api.manager.booking;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.stomat.domain.booking.Booking;
@@ -26,10 +26,10 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-@RequestMapping(value = "/api/booking/manager")
+@RequestMapping(value = "/api/manage/bookings")
 @RestController
 @Validated
-public class ManagerBookingApiController {
+public class BookingManagerApiController {
 
     private BookingService bookingService;
     private PermissionService permissionService;
@@ -37,7 +37,7 @@ public class ManagerBookingApiController {
     private DoctorRepository doctorRepository;
     private ReasonRepository reasonRepository;
 
-    public ManagerBookingApiController(BookingService bookingService, PermissionService permissionService, BookingRepository bookingRepository, DoctorRepository doctorRepository, ReasonRepository reasonRepository) {
+    public BookingManagerApiController(BookingService bookingService, PermissionService permissionService, BookingRepository bookingRepository, DoctorRepository doctorRepository, ReasonRepository reasonRepository) {
         this.bookingService = bookingService;
         this.permissionService = permissionService;
         this.bookingRepository = bookingRepository;

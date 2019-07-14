@@ -1,4 +1,4 @@
-package com.stomat.controllers.api.booking;
+package com.stomat.controllers.api.reason;
 
 import com.stomat.domain.booking.Reason;
 import com.stomat.repository.booking.ReasonRepository;

@@ -8,6 +8,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
+import static javax.persistence.CascadeType.*;
+
 /**
  * @author Anton Chelyadin.
  * @since 29.12.18.
@@ -32,7 +34,7 @@ public class Booking {
     @JsonView(Views.BookingsView.class)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = {PERSIST, MERGE, REFRESH})
     @JoinColumn(name = "patient_id", nullable = false)
     @JsonView(Views.BookingsView.class)
     private Patient patient;
@@ -52,7 +54,7 @@ public class Booking {
     @JsonView(Views.BookingsView.class)
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = PERSIST)
     @JoinColumn(name = "reason_id", nullable = false)
     @JsonView(Views.BookingsView.class)
     private Reason reason;

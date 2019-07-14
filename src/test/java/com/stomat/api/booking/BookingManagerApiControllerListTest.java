@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ManagerBookingApiControllerListTest extends MockMvcTestPrototype {
+public class BookingManagerApiControllerListTest extends MockMvcTestPrototype {
 
     @Autowired
     private DoctorRepository doctorRepository;
@@ -42,7 +42,7 @@ public class ManagerBookingApiControllerListTest extends MockMvcTestPrototype {
     @Test
     public void whenNoUser_thenUnauthorized() throws Exception {
         mockMvc.
-                perform(MockMvcRequestBuilders.get("/api/booking/manager/list"))
+                perform(MockMvcRequestBuilders.get("/api/manage/bookings/list"))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -50,7 +50,7 @@ public class ManagerBookingApiControllerListTest extends MockMvcTestPrototype {
     @MockDbUser()
     public void whenUserEitherManagerNorDoctor_thenForbidden() throws Exception {
         mockMvc.
-                perform(MockMvcRequestBuilders.get("/api/booking/manager/list"))
+                perform(MockMvcRequestBuilders.get("/api/manage/bookings/list"))
                 .andExpect(status().isForbidden());
     }
 
@@ -58,7 +58,7 @@ public class ManagerBookingApiControllerListTest extends MockMvcTestPrototype {
     @MockDbUser(roles = "MANAGER")
     public void whenNoParams_thenBadRequest() throws Exception {
         mockMvc.
-                perform(MockMvcRequestBuilders.get("/api/booking/manager/list"))
+                perform(MockMvcRequestBuilders.get("/api/manage/bookings/list"))
                 .andExpect(status().isBadRequest());
     }
 
@@ -66,7 +66,7 @@ public class ManagerBookingApiControllerListTest extends MockMvcTestPrototype {
     @MockDbUser(roles = "MANAGER")
     public void whenUserNotIsManagerOrDoctor_thenForbidden() throws Exception {
         mockMvc
-                .perform(MockMvcRequestBuilders.get("/api/booking/manager/list")
+                .perform(MockMvcRequestBuilders.get("/api/manage/bookings/list")
                         .param("doctor", doctor.getId().toString())
                         .param("from", LocalDate.now().format(DateTimeFormatter.ISO_DATE))
                         .param("to", LocalDate.now().format(DateTimeFormatter.ISO_DATE)))
@@ -81,7 +81,7 @@ public class ManagerBookingApiControllerListTest extends MockMvcTestPrototype {
 
         //then
         mockMvc
-                .perform(MockMvcRequestBuilders.get("/api/booking/manager/list")
+                .perform(MockMvcRequestBuilders.get("/api/manage/bookings/list")
                         .param("doctor", doctor.getId().toString())
                         .param("from", LocalDate.now().format(DateTimeFormatter.ISO_DATE))
                         .param("to", LocalDate.now().format(DateTimeFormatter.ISO_DATE)))
@@ -98,7 +98,7 @@ public class ManagerBookingApiControllerListTest extends MockMvcTestPrototype {
 
         //then
         mockMvc
-                .perform(MockMvcRequestBuilders.get("/api/booking/manager/list")
+                .perform(MockMvcRequestBuilders.get("/api/manage/bookings/list")
                         .param("doctor", doctor.getId().toString())
                         .param("from", booking.getStartDate().format(DateTimeFormatter.ISO_DATE))
                         .param("to", booking.getStartDate().plusDays(1).format(DateTimeFormatter.ISO_DATE)))

@@ -32,11 +32,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/booking/manager/**").hasAnyRole("MANAGER", "DOCTOR")
+                .antMatchers("/api/manage/bookings/**").hasAnyRole("MANAGER", "DOCTOR")
+                .antMatchers("/api/manage/schedule/**").hasAnyRole("MANAGER", "DOCTOR")
                 .antMatchers("/account/**").hasRole("USER")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/manage/**").hasRole("MANAGER")
-                .antMatchers("/schedule/**").hasAnyRole("MANAGER", "DOCTOR")
                 .antMatchers("/", "/home", "/registration", "/activate/*", "/static/**").permitAll()
                 .and().formLogin().loginPage("/login").permitAll()
                 .and().logout().permitAll()

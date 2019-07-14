@@ -21,7 +21,7 @@ public class BookingFreeTimeApiController {
         this.freeTimeCalculationService = freeTimeCalculationService;
     }
 
-    @RequestMapping(value = "/booking/free/time", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/booking/free/time", method = RequestMethod.GET)
     public ResponseEntity freeTimes(@RequestParam Doctor doctor,
                                     @RequestParam Reason reason,
                                     @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,

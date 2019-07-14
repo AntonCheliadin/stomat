@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-const weekScheduleApi = Vue.resource('/schedule/week{/id}');
+const weekScheduleApi = Vue.resource('/api/manage/schedule/week{/id}');
 
 export default {
     get: doctor => weekScheduleApi.get({doctor: doctor}),

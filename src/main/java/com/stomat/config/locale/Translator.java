@@ -10,10 +10,10 @@ public class Translator {
     private static MessageSource messageSource;
 
     public Translator(MessageSource messageSource) {
-        this.messageSource = messageSource;
+        Translator.messageSource = messageSource;
     }
 
-    public static String localize(String code){
+    public static String localize(String code) {
         return messageSource.getMessage(code, null, LocaleContextHolder.getLocale());
     }
 }

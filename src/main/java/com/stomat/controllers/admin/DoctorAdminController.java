@@ -76,6 +76,8 @@ public class DoctorAdminController {
         return "admin/doctor/update";
     }
 
+    //todo: delete doctor
+
 
     @GetMapping("/list")
     public String getDoctorList(@AuthenticationPrincipal UserAccount currentUser, Model model) {

@@ -1,4 +1,4 @@
-package com.stomat.controllers.api.schedule;
+package com.stomat.controllers.api.manager.schedule;
 
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -23,10 +23,10 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/schedule/extra")
-public class ScheduleExtraApiController {
+@RequestMapping("/api/manage/schedule/extra")
+public class ExtraScheduleManagerApiController {
 
-    public ScheduleExtraApiController(
+    public ExtraScheduleManagerApiController(
             ExtraScheduleRepository additionalTimeRepository,
             PermissionService permissionService, DoctorRepository doctorRepository,
             ExtraScheduleService extraScheduleService) {

@@ -1,11 +1,11 @@
 import Vue from 'vue'
 
 var bookingsActions = {
-    list: {method: 'GET', url: '/api/booking/manager/list'},
-    move: {method: 'PUT', url: '/api/booking/manager/move{/id}'}
+    list: {method: 'GET', url: '/api/manage/bookings/list'},
+    move: {method: 'PUT', url: '/api/manage/bookings/move{/id}'}
 };
 
-const bookingApi = Vue.resource('/api/booking/manager{/id}', {}, bookingsActions);
+const bookingApi = Vue.resource('/api/manage/bookings{/id}', {}, bookingsActions);
 
 export default {
     list: data => bookingApi.list(data),
