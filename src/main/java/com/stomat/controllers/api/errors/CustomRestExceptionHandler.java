@@ -1,5 +1,6 @@
 package com.stomat.controllers.api.errors;
 
+import com.stomat.exceptions.NotFoundException;
 import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -72,5 +73,12 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
             Exception ex, WebRequest request) {
         return new ResponseEntity<Object>(
                 "Access denied message here", new HttpHeaders(), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler({NotFoundException.class})
+    public ResponseEntity<Object> handlesNotFoundException(
+            Exception ex, WebRequest request) {
+        return new ResponseEntity<Object>(
+                "Not found entity", new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 }

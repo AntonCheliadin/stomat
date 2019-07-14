@@ -2,7 +2,7 @@ package com.stomat.controllers.admin;
 
 import com.stomat.domain.profile.Doctor;
 import com.stomat.domain.user.UserAccount;
-import com.stomat.repository.profile.DoctorRepository;
+import com.stomat.exceptions.NotFoundException;
 import com.stomat.repository.user.UserRepository;
 import com.stomat.services.profile.DoctorService;
 import com.stomat.transfer.profile.DoctorDto;
@@ -25,12 +25,10 @@ public class DoctorAdminController {
 
     private DoctorService doctorService;
     private UserRepository userRepository;
-    private DoctorRepository doctorRepository;
 
-    public DoctorAdminController(DoctorService doctorService, UserRepository userRepository, DoctorRepository doctorRepository) {
+    public DoctorAdminController(DoctorService doctorService, UserRepository userRepository) {
         this.doctorService = doctorService;
         this.userRepository = userRepository;
-        this.doctorRepository = doctorRepository;
     }
 
 
@@ -56,9 +54,7 @@ public class DoctorAdminController {
     }
 
     @GetMapping("/update/{id}")
-    public String getUpdateDoctor(@PathVariable("id") long id, Model model) {
-        Doctor doctor = doctorRepository.findById(id).orElseThrow();
-
+    public String getUpdateDoctor(@PathVariable("id") Doctor doctor, Model model) {
         model.addAttribute("doctor", doctor);
         return "admin/doctor/update";
     }
@@ -80,7 +76,7 @@ public class DoctorAdminController {
 
     @GetMapping("/list")
     public String getDoctorList(@AuthenticationPrincipal UserAccount currentUser, Model model) {
-        var userAccount = userRepository.findById(currentUser.getId()).orElseThrow();
+        var userAccount = userRepository.findById(currentUser.getId()).orElseThrow(NotFoundException::new);
         Collection<Doctor> doctors = userAccount.getDoctors().stream()
                 .sorted((a, b) -> Math.toIntExact(a.getId() - b.getId()))
                 .collect(Collectors.toList());

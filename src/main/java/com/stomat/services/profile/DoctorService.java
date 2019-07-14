@@ -2,6 +2,7 @@ package com.stomat.services.profile;
 
 import com.stomat.domain.profile.Doctor;
 import com.stomat.domain.user.UserAccount;
+import com.stomat.exceptions.NotFoundException;
 import com.stomat.repository.profile.DoctorRepository;
 import com.stomat.repository.user.UserRepository;
 import com.stomat.transfer.profile.DoctorDto;
@@ -24,7 +25,7 @@ public class DoctorService {
     }
 
     public Doctor create(DoctorDto doctorDto, Long userId) {
-        UserAccount user = userRepository.findById(userId).orElseThrow();
+        UserAccount user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
         Doctor doctor = new Doctor(doctorDto.getFirstName(), doctorDto.getFathersName(), doctorDto.getLastName(), doctorDto.getEmail());
         doctor.setManagers(Set.of(user));
 
@@ -32,7 +33,7 @@ public class DoctorService {
     }
 
     public Doctor update(DoctorDto doctorDto) {
-        Doctor doctor = doctorRepository.findById(doctorDto.getId()).orElseThrow();
+        Doctor doctor = doctorRepository.findById(doctorDto.getId()).orElseThrow(NotFoundException::new);
 
         BeanUtils.copyProperties(doctorDto, doctor, "id");
 
