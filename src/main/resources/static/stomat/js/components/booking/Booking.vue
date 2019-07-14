@@ -39,9 +39,6 @@
         components: {FullCalendar},
         computed: mapGetters(['freeTimesToCalendarEvents', 'getReasonOptions']),
         props: ['doctor', 'reason'],
-        created() {
-            this.loadBackgroundWeekScheduleAction(this.doctor.id);
-        },
         data() {
             return {
                 calendarPlugins: [timeGridPlugin, interactionPlugin],
@@ -79,7 +76,7 @@
         },
         methods: {
             ...mapGetters(['findOrGetDefaultReason']),
-            ...mapActions(['loadFreeTimesAction', 'loadBackgroundWeekScheduleAction', 'loadReasons']),
+            ...mapActions(['loadFreeTimesAction', 'loadReasons']),
             ...mapMutations(['setBookingCalendarDate']),
             handleEventClick(arg) {
                 VuedalsBus.$emit('new', {

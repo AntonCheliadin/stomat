@@ -14,8 +14,8 @@
                         :options="getReasons"
                         @input="onChangeReason"/>
 
-                <div class="make-booking-wrap" v-if="bookingDoctor && bookingReason">
-                    <booking v-bind:doctor="bookingDoctor" v-bind:reason="bookingReason"></booking>
+                <div class="make-booking-wrap" v-if="selectedDoctor && selectedReason">
+                    <booking v-bind:doctor="selectedDoctor" v-bind:reason="selectedReason"></booking>
                 </div>
             </div>
         </div>
@@ -32,31 +32,38 @@
         computed: mapGetters(['getDoctors', 'getReasons']),
         components: {Booking},
         created() {
-            this.loadDoctors();
-            this.loadReasons();
+            let that = this;
+            this.loadDoctors()
+                .then(() => {
+                    that.selectedDoctor = that.getDoctors[0];
+                });
+            this.loadReasons()
+                .then(() => {
+                    that.selectedReason = that.findOrGetDefaultReason()()
+                });
         },
         data() {
             return {
-                selectedReason: this.findOrGetDefaultReason()(),
-                selectedDoctor: "",
-                bookingDoctor: null,
-                bookingReason: null
+                selectedReason: null,
+                selectedDoctor: null,
+                // bookingDoctor: null,
+                // bookingReason: null
             }
         },
         methods: {
             ...mapGetters(['findOrGetDefaultReason']),
             ...mapActions(['loadDoctors', 'loadReasons', 'loadFreeTimesAction']),
             onChangeDoctor(doctor) {
-                this.bookingDoctor = doctor;
+                // this.bookingDoctor = doctor;
                 this.loadSlots();
             },
             onChangeReason(reason) {
-                this.bookingReason = reason;
+                // this.bookingReason = reason;
                 this.loadSlots();
             },
             loadSlots() {
-                if (this.bookingDoctor && this.bookingReason) {
-                    this.loadFreeTimesAction({doctor: this.bookingDoctor.id, reason: this.bookingReason.id});
+                if (this.selectedDoctor && this.selectedReason) {
+                    this.loadFreeTimesAction({doctor: this.selectedDoctor.id, reason: this.selectedReason.id});
                 }
             }
         }
