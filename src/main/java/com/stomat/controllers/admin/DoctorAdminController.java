@@ -10,10 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -76,7 +73,20 @@ public class DoctorAdminController {
         return "admin/doctor/update";
     }
 
-    //todo: delete doctor
+    @PostMapping("/delete/{id}")
+    public String deleteDoctor(@PathVariable("id") Doctor doctor, Model model) {
+        if (doctor == null) {
+            throw new NotFoundException("Doctor not found");
+        }
+
+        if (doctorService.canDoctorBeDeleted(doctor)) {
+            doctorService.delete(doctor);
+            return "redirect:/admin/doctor/list";
+        } else {
+            model.addAttribute("doctor", doctor);
+            return "admin/doctor/update";
+        }
+    }
 
 
     @GetMapping("/list")

@@ -3,6 +3,7 @@ package com.stomat.services.profile;
 import com.stomat.domain.profile.Doctor;
 import com.stomat.domain.user.UserAccount;
 import com.stomat.exceptions.NotFoundException;
+import com.stomat.repository.booking.BookingRepository;
 import com.stomat.repository.profile.DoctorRepository;
 import com.stomat.repository.user.UserRepository;
 import com.stomat.transfer.profile.DoctorDto;
@@ -18,10 +19,12 @@ public class DoctorService {
 
     private DoctorRepository doctorRepository;
     private UserRepository userRepository;
+    private BookingRepository bookingRepository;
 
-    public DoctorService(DoctorRepository doctorRepository, UserRepository userRepository) {
+    public DoctorService(DoctorRepository doctorRepository, UserRepository userRepository, BookingRepository bookingRepository) {
         this.doctorRepository = doctorRepository;
         this.userRepository = userRepository;
+        this.bookingRepository = bookingRepository;
     }
 
     public Doctor create(DoctorDto doctorDto, Long userId) {
@@ -38,5 +41,13 @@ public class DoctorService {
         BeanUtils.copyProperties(doctorDto, doctor, "id");
 
         return doctorRepository.save(doctor);
+    }
+
+    public boolean canDoctorBeDeleted(Doctor doctor) {
+        return bookingRepository.countByDoctorEquals(doctor) == 0;
+    }
+
+    public void delete(Doctor doctor) {
+        doctorRepository.delete(doctor);
     }
 }

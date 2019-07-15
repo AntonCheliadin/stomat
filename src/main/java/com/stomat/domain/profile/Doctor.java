@@ -48,7 +48,7 @@ public class Doctor {
     @JsonView(Views.DoctorView.class)
     private String email;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(
             name = "doctor_manager",
             joinColumns = {@JoinColumn(name = "doctor_id")},

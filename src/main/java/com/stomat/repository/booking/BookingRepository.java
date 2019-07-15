@@ -10,5 +10,7 @@ import java.util.List;
 public interface BookingRepository extends CrudRepository<Booking, Long> {
 
     List<Booking> findAllByDoctorEqualsAndStartDateBetween(Doctor doctor, LocalDateTime from, LocalDateTime to);
+
+    int countByDoctorEquals(Doctor doctor);
 }
 
