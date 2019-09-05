@@ -4,40 +4,88 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="#{page.title}"></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../../static/auth/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../static/auth/css/util.css">
+    <link rel="stylesheet" type="text/css" href="../../static/auth/css/main.css">
 </head>
 <body>
 
-<form th:action="@{/registration}" th:object="${userAccountDto}" method="post">
-    <div>
-        <label th:text="#{global.first.name.label}"></label>
-        <input type="text" th:field="*{firstName}" />
-        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"/>
+
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100 p-t-30 p-b-30">
+            <form th:action="@{/registration}" th:object="${userAccountDto}" method="post"
+                  class="login100-form validate-form">
+					<span class="login100-form-title p-b-40" th:text="#{auth.registration.label}">
+						Sign up
+					</span>
+
+                <div class="wrap-input100 validate-input m-b-16" th:data-validate="#{auth.login.email.empty}">
+                    <input class="input100" type="text" th:field="*{firstName}"
+                           th:placeholder="#{global.first.name.label}">
+                    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="alert-validate-backend"/>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-16" th:data-validate="#{auth.login.email.empty}">
+                    <input class="input100" type="text" th:field="*{lastName}"
+                           th:placeholder="#{global.last.name.label}">
+                    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{lastName}" class="alert-validate-backend"/>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-16" th:data-validate="#{auth.login.email.empty}"
+                     th:attr="data-validate=*{email}">
+                    <input class="input100" type="text" th:field="*{email}" th:placeholder="#{global.email.label}">
+                    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert-validate-backend"/>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-20" th:data-validate="#{auth.login.password.empty}">
+						<span class="btn-show-pass">
+							<i class="fa fa fa-eye"></i>
+						</span>
+                    <input class="input100" type="password" th:field="*{password}"
+                           th:placeholder="#{user.password.label}">
+                    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="alert-validate-backend"/>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-20" th:data-validate="#{auth.login.password.empty}">
+						<span class="btn-show-pass">
+							<i class="fa fa fa-eye"></i>
+						</span>
+                    <input class="input100" type="password" th:field="*{verifyPassword}"
+                           th:placeholder="#{user.password.repeat.label}">
+                    <span th:if="${#fields.hasErrors('password')}" th:errors="*{verifyPassword}" class="alert-validate-backend"/>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="container-login100-form-btn">
+                    <button class="login100-form-btn" type="submit" th:text="#{auth.registration.label}">
+                        Sign up
+                    </button>
+                </div>
+
+                <div class="flex-col-c p-t-100">
+						<span class="txt2 p-b-10" th:text="#{auth.do.you.have.account}">
+							Do you have an account?
+						</span>
+
+                    <a href="/login" class="txt3 bo1 hov1" th:text="#{auth.login.label}">
+                        Login
+                    </a>
+                </div>
+
+            </form>
+        </div>
     </div>
-    <div>
-        <label th:text="#{global.last.name.label}"></label>
-        <input type="text" th:field="*{lastName}"/>
-        <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"/>
-    </div>
-    <div>
-        <label th:text="#{global.email.label}"></label>
-        <input type="text" th:field="*{email}"/>
-        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"/>
-    </div>
-    <div>
-        <label th:text="#{user.password.label}"></label>
-        <input th:type="password" th:field="*{password}"/>
-        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"/>
-    </div>
-    <div>
-        <label th:text="#{user.password.repeat.label}"></label>
-        <input type="password" th:field="*{verifyPassword}"/>
-        <span th:if="${#fields.hasErrors('verifyPassword')}" th:errors="*{verifyPassword}"/>
-    </div>
-    <div>
-        <input type="submit" th:value="#{auth.registration.label}"/>
-        <a href="/login" th:text="#{auth.login.label}"></a>
-    </div>
-</form>
+</div>
+
+<script src="../../static/vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="../../static/auth/js/main.js"></script>
 
 </body>
 </html>
