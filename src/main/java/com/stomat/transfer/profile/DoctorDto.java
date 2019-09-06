@@ -18,6 +18,7 @@ public class DoctorDto {
     @NotBlank
     private String lastName;
 
+    //todo: add unique constraint
     @NotBlank
     private String email;
 

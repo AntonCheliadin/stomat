@@ -1,35 +1,51 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <title th:text="#{admin.doctor.list.page.title}">Doctor</title>
+
+    <link rel="stylesheet" href="/static/vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/vendor/fontawesome/css/all.css">
 </head>
 <body>
 
-<div>
-    <span th:text="#{admin.doctor.list.size.title}">doctors size</span>
-    <span th:text="${doctors.size()}">999</span>
-    <br>
-    <a th:href="${'/admin/doctor/create'}" th:text="#{admin.doctor.list.create.link}">create</a>
-</div>
-<table>
+<table class="table table-striped table-hover">
+    <thead>
     <tr>
-        <th>id</th>
-        <th th:text="#{global.first.name.label}">first name</th>
-        <th th:text="#{global.fathers.name.label}">fathers name</th>
-        <th th:text="#{global.last.name.label}">last name</th>
+        <th>#</th>
+        <th>FIRST NAME</th>
+        <th>FATHERS NAME</th>
+        <th>LAST NAME</th>
         <th></th>
         <th></th>
     </tr>
+    </thead>
+    <tbody>
     <tr th:each="doctor: ${doctors}">
-        <td th:text="${doctor.id}"/>
+        <td th:text="${doctor.id}" scope="row"/>
         <td th:text="${doctor.firstName}"/>
         <td th:text="${doctor.fathersName}"/>
         <td th:text="${doctor.lastName}"/>
-        <td><a th:href="${'/admin/doctor/update/'+doctor.id}" th:text="#{admin.doctor.list.update.link}">update</a></td>
-        <td><a th:href="${'/manage/doctors/'+doctor.id}" th:text="#{admin.doctor.list.booking.link}">booking</a></td>
+        <td><a th:href="${'/admin/doctor/update/'+doctor.id}">
+            <i class="fas fa-cog"></i>
+        </a></td>
+        <td><a th:href="${'/manage/doctors/'+doctor.id}">
+            <i class="far fa-calendar-alt"></i>
+        </a></td>
     </tr>
+    </tbody>
 </table>
 
+<div>
+    <a class="btn btn-primary" th:href="${'/admin/doctor/create'}">
+        <i class="fas fa-user-plus"></i>
+        <span th:text="#{admin.doctor.list.create.link}">create</span>
+    </a>
+</div>
+
+<script src="/static/vendor/jquery/jquery-3.4.1.min.js"></script>
+<script src="/static/vendor/bootstrap/js/bootstrap.js"></script>
 </body>
 </html>
