@@ -22,22 +22,21 @@
 						Sign up
 					</span>
 
-                <div class="wrap-input100 validate-input m-b-16" th:data-validate="#{auth.login.email.empty}">
+                <div class="wrap-input100 validate-input m-b-16" th:data-validate="#{account.first.name.empty}">
                     <input class="input100" type="text" th:field="*{firstName}"
                            th:placeholder="#{global.first.name.label}">
                     <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="alert-validate-backend"/>
                     <span class="focus-input100"></span>
                 </div>
 
-                <div class="wrap-input100 validate-input m-b-16" th:data-validate="#{auth.login.email.empty}">
+                <div class="wrap-input100 validate-input m-b-16" th:data-validate="#{account.last.name.empty}">
                     <input class="input100" type="text" th:field="*{lastName}"
                            th:placeholder="#{global.last.name.label}">
                     <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{lastName}" class="alert-validate-backend"/>
                     <span class="focus-input100"></span>
                 </div>
 
-                <div class="wrap-input100 validate-input m-b-16" th:data-validate="#{auth.login.email.empty}"
-                     th:attr="data-validate=*{email}">
+                <div class="wrap-input100 validate-input m-b-16" th:data-validate="#{auth.login.email.empty}">
                     <input class="input100" type="text" th:field="*{email}" th:placeholder="#{global.email.label}">
                     <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert-validate-backend"/>
                     <span class="focus-input100"></span>

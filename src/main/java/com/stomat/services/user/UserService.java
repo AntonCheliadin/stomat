@@ -94,7 +94,8 @@ public class UserService implements UserDetailsService {
     public UserAccount updateUser(UserAccount currentUser, UserAccountDto userAccountDto) {
         currentUser.setFirstName(userAccountDto.getFirstName());
         currentUser.setLastName(userAccountDto.getLastName());
-        currentUser.setEmail(userAccountDto.getEmail());
+//        currentUser.setEmail(userAccountDto.getEmail());
+//        todo: send email with activation link to confirm email address
         return userRepository.save(currentUser);
     }
 }

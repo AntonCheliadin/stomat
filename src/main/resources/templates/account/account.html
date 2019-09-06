@@ -3,24 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <title>Account</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../../static/auth/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../static/auth/css/util.css">
+    <link rel="stylesheet" type="text/css" href="../../static/auth/css/main.css">
 </head>
 <body>
-<form th:action="@{/account}"
-      th:object="${userAccountDto}" method="POST">
-    <input type="text" hidden th:field="*{id}"/>
-    First Name:
-    <input type="text" th:field="*{firstName}"/>
-    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Name Error</span>
-    <br/>
-    Last Name:
-    <input type="text" th:field="*{lastName}"/>
-    <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Name Error</span>
-    <br/>
-    Email:
-    <input type="text" th:field="*{email}"/>
-    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</span>
-    <br/>
-    <input type="submit" value="Update"/>
-</form>
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100 p-t-30 p-b-30">
+            <form th:action="@{/account}" th:object="${userAccountDto}" method="POST"
+                  class="login100-form validate-form">
+                <input type="text" hidden th:field="*{id}"/>
+                <span class="login100-form-title p-b-40" th:text="#{account.title}">
+						Account
+					</span>
+
+                <div class="wrap-input100 validate-input m-b-16" th:data-validate="#{account.first.name.empty}">
+                    <input class="input100" type="text" th:field="*{firstName}"
+                           th:placeholder="#{global.first.name.label}">
+                    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+                          class="alert-validate-backend"/>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-16" th:data-validate="#{account.last.name.empty}">
+                    <input class="input100" type="text" th:field="*{lastName}"
+                           th:placeholder="#{global.last.name.label}">
+                    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{lastName}"
+                          class="alert-validate-backend"/>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-16" th:data-validate="#{auth.login.email.empty}">
+                    <input class="input100" type="text" th:field="*{email}" th:placeholder="#{global.email.label}">
+                    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert-validate-backend"/>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="container-login100-form-btn">
+                    <button class="login100-form-btn" type="submit" th:text="#{account.update.label}">
+                        Update
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="../../static/vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="../../static/auth/js/main.js"></script>
 </body>
 </html>
