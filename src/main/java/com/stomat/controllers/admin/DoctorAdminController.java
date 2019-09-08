@@ -30,7 +30,8 @@ public class DoctorAdminController {
 
 
     @GetMapping("/create")
-    public String getCreateDoctor(Model model) {
+    public String getCreateDoctor(@AuthenticationPrincipal UserAccount user, Model model) {
+        model.addAttribute("user", user);
         model.addAttribute("doctor", new DoctorDto());
 
         return "admin/doctor/create";
@@ -51,11 +52,12 @@ public class DoctorAdminController {
     }
 
     @GetMapping("/update/{id}")
-    public String getUpdateDoctor(@PathVariable("id") Doctor doctor, Model model) {
+    public String getUpdateDoctor(@AuthenticationPrincipal UserAccount currentUser, @PathVariable("id") Doctor doctor, Model model) {
         if (doctor == null) {
             throw new NotFoundException("Doctor not found");
         }
         model.addAttribute("doctor", doctor);
+        model.addAttribute("user", currentUser);
         return "admin/doctor/update";
     }
 
@@ -97,6 +99,7 @@ public class DoctorAdminController {
                 .collect(Collectors.toList());
 
         model.addAttribute("doctors", doctors);
+        model.addAttribute("user", currentUser);
 
         return "admin/doctor/list";
     }

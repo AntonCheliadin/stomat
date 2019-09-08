@@ -1,51 +1,59 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <title th:text="#{admin.doctor.list.page.title}">Doctor</title>
-
-    <link rel="stylesheet" href="/static/vendor/bootstrap/css/bootstrap.css">
+    <th:block th:include="fragments/admin/general :: adminHeaderfiles"/>
+    <title th:text="#{admin.doctor.create.page.title}">Doctor</title>
     <link rel="stylesheet" href="/static/vendor/fontawesome/css/all.css">
 </head>
-<body>
+<body class="theme-light-blue">
+<th:block th:insert="fragments/admin/general :: adminHeader"/>
 
-<table class="table table-striped table-hover">
-    <thead>
-    <tr>
-        <th>#</th>
-        <th>FIRST NAME</th>
-        <th>FATHERS NAME</th>
-        <th>LAST NAME</th>
-        <th></th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="doctor: ${doctors}">
-        <td th:text="${doctor.id}" scope="row"/>
-        <td th:text="${doctor.firstName}"/>
-        <td th:text="${doctor.fathersName}"/>
-        <td th:text="${doctor.lastName}"/>
-        <td><a th:href="${'/admin/doctor/update/'+doctor.id}">
-            <i class="fas fa-cog"></i>
-        </a></td>
-        <td><a th:href="${'/manage/doctors/'+doctor.id}">
-            <i class="far fa-calendar-alt"></i>
-        </a></td>
-    </tr>
-    </tbody>
-</table>
 
-<div>
-    <a class="btn btn-primary" th:href="${'/admin/doctor/create'}">
-        <i class="fas fa-user-plus"></i>
-        <span th:text="#{admin.doctor.list.create.link}">create</span>
-    </a>
-</div>
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header row">
+            <h2 class="col-lg-10"></h2>
+            <div class="col-lg-2">
+                <a class="btn btn-primary" th:href="${'/admin/doctor/create'}">
+                    <i class="fas fa-user-plus"></i>
+                    <span th:text="#{admin.doctor.list.create.link}">create</span>
+                </a>
+            </div>
+        </div>
 
-<script src="/static/vendor/jquery/jquery-3.4.1.min.js"></script>
-<script src="/static/vendor/bootstrap/js/bootstrap.js"></script>
+        <div class="row clearfix">
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>FIRST NAME</th>
+                    <th>FATHERS NAME</th>
+                    <th>LAST NAME</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="doctor: ${doctors}">
+                    <td th:text="${doctor.id}" scope="row"/>
+                    <td th:text="${doctor.firstName}"/>
+                    <td th:text="${doctor.fathersName}"/>
+                    <td th:text="${doctor.lastName}"/>
+                    <td><a th:href="${'/admin/doctor/update/'+doctor.id}">
+                        <i class="fas fa-cog"></i>
+                    </a></td>
+                    <td><a th:href="${'/manage/doctors/'+doctor.id}">
+                        <i class="far fa-calendar-alt"></i>
+                    </a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+
+<th:block th:insert="~{fragments/admin/general :: adminFooter}"/>
+
 </body>
 </html>

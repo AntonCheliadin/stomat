@@ -1,59 +1,72 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title th:text="#{admin.doctor.update.page.title}">Doctor</title>
-
-    <link rel="stylesheet" href="/static/vendor/bootstrap/css/bootstrap.css">
+    <th:block th:include="fragments/admin/general :: adminHeaderfiles"/>
+    <title th:text="#{admin.doctor.create.page.title}">Doctor</title>
     <link rel="stylesheet" href="/static/vendor/fontawesome/css/all.css">
 </head>
-<body>
+<body class="theme-light-blue">
+<th:block th:insert="fragments/admin/general :: adminHeader"/>
 
-<form class="needs-validation" novalidate th:action="@{/admin/doctor/update/{id}(id=${doctor.id})}"
-      th:object="${doctor}" method="POST">
-    <div class="form-row">
-        <div class="col-md-4 mb-3">
-            <label for="doctorFirstName" th:text="#{global.first.name.label}">First name</label>
-            <input type="text" class="form-control" id="doctorFirstName"
-                   th:placeholder="#{global.first.name.label}" required th:field="*{firstName}">
-            <div class="invalid-feedback" th:text="#{global.first.name.empty}">
-                Please enter first name
-            </div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header">
+            <h2>Create doctor</h2>
         </div>
-        <div class="col-md-4 mb-3">
-            <label for="doctorFathersName" th:text="#{global.fathers.name.label}">Father's Name</label>
-            <input type="text" class="form-control" id="doctorFathersName"
-                   th:placeholder="#{global.fathers.name.label}" required th:field="*{fathersName}">
-            <div class="invalid-feedback" th:text="#{global.fathers.name.empty}">
-                Please enter father's name
-            </div>
-        </div>
-        <div class="col-md-4 mb-3">
-            <label for="doctorLastName" th:text="#{global.last.name.label}">Last Name</label>
-            <input type="text" class="form-control" id="doctorLastName"
-                   th:placeholder="#{global.last.name.label}" required th:field="*{lastName}">
-            <div class="invalid-feedback" th:text="#{global.last.name.empty}">
-                Please enter last name
-            </div>
-        </div>
-        <div class="col-md-4 mb-3">
-            <label for="doctorEmail" th:text="#{global.email.label}">Email</label>
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroupPrepend">@</span>
+
+        <div class="row clearfix">
+            <form class="needs-validation" novalidate th:action="@{/admin/doctor/update/{id}(id=${doctor.id})}"
+                  th:object="${doctor}" method="POST">
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                        <label for="doctorFirstName" th:text="#{global.first.name.label}">First name</label>
+                        <input type="text" class="form-control" id="doctorFirstName"
+                               th:placeholder="#{global.first.name.label}" required th:field="*{firstName}">
+                        <div class="invalid-feedback" th:text="#{global.first.name.empty}">
+                            Please enter first name
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="doctorFathersName" th:text="#{global.fathers.name.label}">Father's Name</label>
+                        <input type="text" class="form-control" id="doctorFathersName"
+                               th:placeholder="#{global.fathers.name.label}" required th:field="*{fathersName}">
+                        <div class="invalid-feedback" th:text="#{global.fathers.name.empty}">
+                            Please enter father's name
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="doctorLastName" th:text="#{global.last.name.label}">Last Name</label>
+                        <input type="text" class="form-control" id="doctorLastName"
+                               th:placeholder="#{global.last.name.label}" required th:field="*{lastName}">
+                        <div class="invalid-feedback" th:text="#{global.last.name.empty}">
+                            Please enter last name
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="doctorEmail" th:text="#{global.email.label}">Email</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupPrepend">@</span>
+                            </div>
+                            <input type="text" class="form-control" id="doctorEmail"
+                                   th:placeholder="#{global.email.label}"
+                                   aria-describedby="inputGroupPrepend" required th:field="*{email}">
+                            <div class="invalid-feedback" th:text="#{auth.login.email.empty}">
+                                Please enter an email.
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <input type="text" class="form-control" id="doctorEmail" th:placeholder="#{global.email.label}"
-                       aria-describedby="inputGroupPrepend" required th:field="*{email}">
-                <div class="invalid-feedback" th:text="#{auth.login.email.empty}">
-                    Please enter an email.
-                </div>
-            </div>
+                <button class="btn btn-primary" type="submit" th:text="#{global.save.label}">Submit form</button>
+                <button class="btn btn-primary" type="submit"
+                        th:formaction="@{/admin/doctor/delete/{id}(id=${doctor.id})}"
+                        th:text="#{global.delete.label}">Delete
+                </button>
+            </form>
         </div>
     </div>
-    <button class="btn btn-primary" type="submit" th:text="#{global.save.label}">Submit form</button>
-    <button class="btn btn-primary" type="submit" th:formaction="@{/admin/doctor/delete/{id}(id=${doctor.id})}"
-            th:text="#{global.delete.label}">Delete</button>
-</form>
+</section>
 
 <script>
     // Example starter JavaScript for disabling form submissions if there are invalid fields
@@ -76,8 +89,6 @@
     })();
 </script>
 
-
-<script src="/static/vendor/jquery/jquery-3.4.1.min.js"></script>
-<script src="/static/vendor/bootstrap/js/bootstrap.js"></script>
+<th:block th:insert="~{fragments/admin/general :: adminFooter}"/>
 </body>
 </html>
