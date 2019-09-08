@@ -1,6 +1,8 @@
-package com.stomat.controllers.manage;
+package com.stomat.controllers.admin;
 
+import com.stomat.domain.user.UserAccount;
 import com.stomat.services.sms.SmsApiService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,18 +11,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/manage/sms")
-public class SmsManagerController {
+@RequestMapping("/admin/sms")
+public class SmsAdminController {
 
     private SmsApiService smsApiService;
 
-    public SmsManagerController(SmsApiService smsApiService) {
+    public SmsAdminController(SmsApiService smsApiService) {
         this.smsApiService = smsApiService;
     }
 
     @GetMapping
-    public String getSmsPage() {
-        return "manage/sms/index";
+    public String getSmsPage(@AuthenticationPrincipal UserAccount user, Model model) {
+        model.addAttribute("user", user);
+        return "admin/sms/index";
     }
 
     @PostMapping
@@ -29,15 +32,16 @@ public class SmsManagerController {
 
         model.addAttribute("response", response);
 
-        return "manage/sms/index";
+        return "admin/sms/index";
     }
 
     @GetMapping("/balance")
-    public String getBalance(Model model) {
+    public String getBalance(@AuthenticationPrincipal UserAccount user, Model model) {
         String response = smsApiService.getBalance();
 
-        model.addAttribute("response", response);
+        model.addAttribute("user", user);
+        model.addAttribute("balanceResponse", response);
 
-        return "manage/sms/index";
+        return "admin/sms/index";
     }
 }
