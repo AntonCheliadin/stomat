@@ -28,13 +28,13 @@ public class RegistrationController {
 
     @GetMapping("/registration")
     public String registration(UserAccountDto userAccountDto) {
-        return "user/registration";
+        return "auth/registration";
     }
 
     @PostMapping("/registration")
     public String addUser(@Validated(Create.class) UserAccountDto userAccountDto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "user/registration";
+            return "auth/registration";
         }
 
         userService.create(userAccountDto);

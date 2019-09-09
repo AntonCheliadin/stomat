@@ -58,7 +58,7 @@ public class RegistrationControllerIntegrationTest {
                 .param("verifyPassword", "passwordINVALID"))
                 .andDo(print())
                 .andExpect(model().attributeHasFieldErrorCode("userAccountDto", "verifyPassword", "MatchConstraint"))
-                .andExpect(view().name("user/registration"))
+                .andExpect(view().name("auth/registration"))
                 .andExpect(status().isOk());
     }
 
@@ -76,7 +76,7 @@ public class RegistrationControllerIntegrationTest {
                 .param("verifyPassword", "password"))
                 .andDo(print())
                 .andExpect(model().attributeHasFieldErrorCode("userAccountDto", "email", "UniqueUserEmailConstraint"))
-                .andExpect(view().name("user/registration"))
+                .andExpect(view().name("auth/registration"))
                 .andExpect(status().isOk());
     }
 
@@ -93,7 +93,7 @@ public class RegistrationControllerIntegrationTest {
                 .param("verifyPassword", "passwordINVALID"))
                 .andDo(print())
                 .andExpect(model().attributeHasFieldErrorCode("userAccountDto", "verifyPassword", "MatchConstraint"))
-                .andExpect(view().name("user/registration"))
+                .andExpect(view().name("auth/registration"))
                 .andExpect(status().isOk());
     }
 

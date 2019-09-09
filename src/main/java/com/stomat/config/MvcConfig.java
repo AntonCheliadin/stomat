@@ -16,7 +16,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 public class MvcConfig implements WebMvcConfigurer {
 
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("user/login");
+        registry.addViewController("/login").setViewName("auth/login");
     }
 
     @Bean
