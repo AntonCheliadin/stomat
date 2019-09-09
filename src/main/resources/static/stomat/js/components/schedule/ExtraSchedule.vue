@@ -18,6 +18,7 @@
                 :eventTimeFormat="eventTimeFormat"
                 :events="eventsForExtraScheduleCalendar"
                 :locale="locale"
+                :contentHeight="contentHeight"
                 @eventClick="handleEventClick"
                 @eventDrop="handleEventMove"
                 @eventResize="handleEventMove"
@@ -81,7 +82,8 @@
                     minute: '2-digit',
                     hour12: false
                 },
-                locale: getFullCalendarLocale()
+                locale: getFullCalendarLocale(),
+                contentHeight: "auto"
             }
         },
         methods: {

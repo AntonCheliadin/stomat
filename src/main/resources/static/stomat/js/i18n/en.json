@@ -20,7 +20,7 @@
     "doctor": {
       "tabs": {
         "manage-booking": {
-          "title": "manage bookings (as doctor)",
+          "title": "manage bookings",
           "submit": "Make an appointment"
         },
         "make-booking": {

@@ -18,6 +18,7 @@
                 :eventTimeFormat="eventTimeFormat"
                 :events="weekScheduleToCalendarEvents"
                 :locale="locale"
+                :contentHeight="contentHeight"
                 @eventDrop="handleEventMove"
                 @eventResize="handleEventMove"
                 @eventRender="eventRender"
@@ -70,7 +71,8 @@
                     minute: '2-digit',
                     hour12: false
                 },
-                locale: getFullCalendarLocale()
+                locale: getFullCalendarLocale(),
+                contentHeight: "auto"
             }
         },
         methods: {

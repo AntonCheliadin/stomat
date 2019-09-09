@@ -18,6 +18,7 @@
                 :eventTimeFormat="eventTimeFormat"
                 :events="freeTimesToCalendarEvents"
                 :locale="locale"
+                :contentHeight="contentHeight"
                 @eventClick="handleEventClick"
                 @datesRender="datesRender"/>
     </div>
@@ -71,7 +72,8 @@
                     minute: '2-digit',
                     hour12: false
                 },
-                locale: getFullCalendarLocale()
+                locale: getFullCalendarLocale(),
+                contentHeight: "auto"
             }
         },
         methods: {
