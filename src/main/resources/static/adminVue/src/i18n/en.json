@@ -1,0 +1,59 @@
+{
+  "general": {
+    "range": {
+      "from": "From",
+      "to": "To"
+    },
+    "actions": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete"
+    },
+    "person": {
+      "firstName": "First name",
+      "fathersName": "Father's name",
+      "lastName": "Last name",
+      "phone": "Phone"
+    },
+    "description": "Description"
+  },
+  "manage": {
+    "doctor": {
+      "tabs": {
+        "manage-booking": {
+          "title": "manage bookings",
+          "submit": "Make an appointment"
+        },
+        "make-booking": {
+          "title": "make booking (as patient)",
+          "submit": "Make an appointment",
+          "success": {
+            "title": "Appointment has been created successfully"
+          },
+          "fail": {
+            "title": "Error",
+            "error": {
+              "busy": "Time is busy",
+              "unknown": "Something unexpected happened. Contact with administration, please."
+            }
+          }
+        },
+        "extra-schedule": {
+          "title": "extra schedule",
+          "popup": {
+            "title": "Extra schedule event",
+            "type": {
+              "label": "Type of event",
+              "include": "Include to schedule",
+              "exclude": "Exclude from schedule"
+            },
+            "allDay": "All day"
+          }
+        },
+        "week-schedule": {
+          "title": "week schedule"
+        }
+      }
+    }
+  }
+}
