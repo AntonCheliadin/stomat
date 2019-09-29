@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
 
     @GetMapping()
-    public String getCreateDoctor(@AuthenticationPrincipal UserAccount user, Model model) {
+    public String index(@AuthenticationPrincipal UserAccount user, Model model) {
         model.addAttribute("user", user);
 
         return "admin/index";
