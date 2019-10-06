@@ -21,7 +21,7 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/admin/doctor")
+@RequestMapping("/adminOld/doctor")
 public class DoctorAdminController {
 
     private DoctorService doctorService;

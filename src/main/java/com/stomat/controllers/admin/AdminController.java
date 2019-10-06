@@ -11,8 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @GetMapping()
+    @GetMapping("**")
     public String index(@AuthenticationPrincipal UserAccount user, Model model) {
+        model.addAttribute("user", user);
+
+        return "admin/indexVue";
+    }
+
+    @GetMapping("/old")
+    public String indexVue(@AuthenticationPrincipal UserAccount user, Model model) {
         model.addAttribute("user", user);
 
         return "admin/index";

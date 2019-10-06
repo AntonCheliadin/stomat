@@ -7,6 +7,7 @@ module.exports = {
     entry: {
         managerBooking: path.join(__dirname, 'src', 'main', 'resources', 'static', 'stomat', 'js', 'pages', 'booking', 'manager', 'index.js'),
         patientBooking: path.join(__dirname, 'src', 'main', 'resources', 'static', 'stomat', 'js', 'pages', 'booking', 'patient', 'index.js'),
+        adminVue: path.join(__dirname, 'src', 'main', 'resources', 'static', 'adminVue', 'js', 'index.js'),
     },
     devServer: {
         contentBase: './dist',
@@ -33,12 +34,26 @@ module.exports = {
                 loader: 'vue-loader'
             },
             {
+                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'fonts/',
+                            publicPath: '../'
+                        }
+                    }
+                ]
+            },
+            {
                 test: /\.(css|scss)$/,
                 use: [
                     'vue-style-loader',
-                    'css-loader'
+                    'css-loader',
+                    'sass-loader'
                 ]
-            }
+            },
         ]
     },
     plugins: [
@@ -47,7 +62,13 @@ module.exports = {
     resolve: {
         modules: [
             path.join(__dirname, 'src', 'main', 'resources', 'static', 'stomat', 'js'),
+            path.join(__dirname, 'src', 'main', 'resources', 'static', 'adminVue'),
             path.join(__dirname, 'node_modules'),
         ],
+        extensions: ['.js', '.vue', '.scss'],
+        alias: {
+            '@': path.join(__dirname, 'src', 'main', 'resources', 'static', 'adminVue', 'js'),
+            '@styles': path.join(__dirname, 'src', 'main', 'resources', 'static', 'adminVue', 'styles'),
+        }
     }
-}
+};
