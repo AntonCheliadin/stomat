@@ -5,7 +5,7 @@
     @mouseleave="sidebarMouseLeave"
   >
     <header class="logo">
-      <router-link to="/admin"><span class="text-warning">Kapelko</span> stomat</router-link>
+      <router-link to="/admin/dashboard"><span class="text-warning">Kapelko</span> stomat</router-link>
     </header>
     <ul class="nav">
       <NavLink
@@ -35,8 +35,6 @@
         :fontIcon="icons.sms"
       />
     </ul>
-    <p>
-    <div class="sidebarAlerts"></div>
   </nav>
 </template>
 
@@ -55,27 +53,11 @@ export default {
         home: faHome,
         doctors: faUserMd,
         sms: faEnvelope
-      },
-      alerts: [
-        {
-          id: 0,
-          title: 'Sales Report',
-          value: 15,
-          footer: 'Calculating x-axis bias... 65%',
-          color: 'info',
-        },
-        {
-          id: 1,
-          title: 'Personal Responsibility',
-          value: 20,
-          footer: 'Provide required notes',
-          color: 'danger',
-        },
-      ],
+      }
     };
   },
   methods: {
-    ...mapActions(['changeSidebarActive', 'switchSidebar']),
+    ...mapActions('sidebarModule',['changeSidebarActive', 'switchSidebar']),
     setActiveByRoute() {
       const paths = this.$route.fullPath.split('/');
       paths.pop();
@@ -98,7 +80,7 @@ export default {
     this.setActiveByRoute();
   },
   computed: {
-    ...mapState({
+    ...mapState('sidebarModule',{
       sidebarStatic: state => state.sidebarStatic,
       sidebarOpened: state => !state.sidebarClose,
       activeItem: state => state.sidebarActiveElement,

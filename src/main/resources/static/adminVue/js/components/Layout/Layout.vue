@@ -1,5 +1,5 @@
 <template>
-    <div :class="{root: true, chatOpen, sidebarClose, sidebarStatic}">
+    <div :class="{root: true, sidebarClose, sidebarStatic}">
         <Sidebar/>
         <div class="wrap">
             <Header/>
@@ -23,26 +23,14 @@
         name: 'Layout',
         components: {Sidebar, Header},
         methods: {
-            ...mapActions(['switchSidebar', 'handleSwipe', 'changeSidebarActive'],),
+            ...mapActions(
+                'sidebarModule', ['switchSidebar', 'handleSwipe', 'changeSidebarActive'],),
         },
         computed: {
-            ...mapState({
+            ...mapState('sidebarModule', {
                 sidebarClose: state => state.sidebarClose,
-                sidebarStatic: state => state.sidebarStatic,
-                chatOpen: state => state.chatOpen,
+                sidebarStatic: state => state.sidebarStatic
             }),
-        },
-        created() {
-            const staticSidebar = JSON.parse(localStorage.getItem('sidebarStatic'));
-
-            if (staticSidebar) {
-                this.$store.state.sidebarModule.sidebarStatic = true;
-            } else if (!this.sidebarClose) {
-                setTimeout(() => {
-                    this.switchSidebar(true);
-                    this.changeSidebarActive(null);
-                }, 2500);
-            }
         },
     };
 </script>

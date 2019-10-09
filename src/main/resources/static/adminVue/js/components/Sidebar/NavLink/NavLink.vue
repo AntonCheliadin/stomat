@@ -66,11 +66,11 @@
             };
         },
         methods: {
-            ...mapActions(['changeSidebarActive']),
+            ...mapActions('sidebarModule', ['changeSidebarActive']),
             togglePanelCollapse(link) {
                 this.changeSidebarActive(link);
                 this.headerLinkWasClicked = !this.headerLinkWasClicked
-                    || !this.activeItem.includes(this.index);
+                    || !this.activeItem || !this.activeItem.includes(this.index);
             },
         },
         computed: {

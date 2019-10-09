@@ -12,6 +12,7 @@ import vSelect from 'vue-select'
 import VueI18n from "vue-i18n";
 import BootstrapVue from 'bootstrap-vue';
 import VueTouch from 'vue-touch';
+import './core/fontAwesome';
 
 
 Vue.component('v-select', vSelect);
@@ -26,28 +27,6 @@ const i18n = new VueI18n({
     // fallbackLocale: defaultLocale,
     // messages: Object.assign(languages)
 });
-
-
-import { library } from '@fortawesome/fontawesome-svg-core';
-import {
-    faCoffee, faSpinner, faWrench, faAmbulance, faEdit, faCircle, faCheck, faChessQueen,
-    faPlus, faEquals, faArrowRight, faPencilAlt, faComment, faHeadphones, faSquare,
-    faCalendar, faCertificate, faEnvelope, faTimes, faBookmark, faHeart, faPlay,
-    faSun, faMoon, faStar
-} from '@fortawesome/free-solid-svg-icons';
-import { faJs, faVuejs, faFacebookF } from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-
-library.add(
-    faCoffee, faSpinner, faWrench, faAmbulance, faSquare,
-    faEdit, faCircle, faCheck, faChessQueen, faHeadphones,
-    faPlus, faEquals, faArrowRight, faPencilAlt, faComment,
-    faCalendar, faCertificate, faEnvelope, faTimes, faBookmark,
-    faHeart, faPlay, faSun, faMoon, faStar,
-    faJs, faVuejs, faFacebookF);
-
-Vue.component('font-awesome-icon', FontAwesomeIcon);
-
 
 
 new Vue({
