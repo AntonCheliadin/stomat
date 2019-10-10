@@ -32,6 +32,14 @@
                 sidebarStatic: state => state.sidebarStatic
             }),
         },
+        created() {
+            if (!this.sidebarClose) {
+                setTimeout(() => {
+                    this.switchSidebar(true);
+                    this.changeSidebarActive(null);
+                }, 500);
+            }
+        },
     };
 </script>
 

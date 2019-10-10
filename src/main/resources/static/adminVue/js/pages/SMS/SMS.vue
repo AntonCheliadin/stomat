@@ -9,7 +9,7 @@
             <b-col lg="12">
                 <Widget
                         title="<h5>Table <span class='fw-semi-bold'>Styles</span></h5>"
-                        customHeader settings close
+                        customHeader
                 >
                     <h3>SMS</h3>
                 </Widget>

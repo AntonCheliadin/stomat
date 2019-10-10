@@ -5,9 +5,6 @@
                 <a class="d-md-down-none px-2" href="#" @click="toggleSidebarMethod" id="barsTooltip">
                     <font-awesome-icon icon="align-justify" size="lg"/>
                 </a>
-                <b-tooltip target="barsTooltip" placement="bottom">
-                    Turn on/off <br> sidebar <br> collapsing
-                </b-tooltip>
                 <a class="fs-lg d-lg-none" href="#" @click="switchSidebarMethod">
                     <font-awesome-icon icon="align-justify" size="lg"/>
                 </a>
@@ -16,12 +13,10 @@
         <b-nav class="ml-auto">
             <b-nav-item-dropdown class="settingsDropdown d-sm-down-none" no-caret right>
                 <template slot="button-content">
-                    <i class="la la-cog px-2"/>
+                    <font-awesome-icon icon="cog" size="lg"/>
                 </template>
-                <b-dropdown-item><i class="la la-user"/> My Account</b-dropdown-item>
-                <b-dropdown-divider/>
                 <b-dropdown-item-button @click="logout">
-                    <i class="la la-sign-out"/> Log Out
+                    <font-awesome-icon icon="sign-out-alt" size="lg"/> Log Out
                 </b-dropdown-item-button>
             </b-nav-item-dropdown>
         </b-nav>
