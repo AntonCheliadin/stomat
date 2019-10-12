@@ -31,7 +31,7 @@
         <br>
         <br>
 
-        <button @click="save">{{$t('manage.doctor.tabs.manage-booking.submit')}}</button>
+        <button @click="save">{{$t('manage.doctor.tabs.doctors-bookings.submit')}}</button>
         <button @click="closePopup">{{$t('general.actions.cancel')}}</button>
     </div>
 </template>

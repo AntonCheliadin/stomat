@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2 class="content-title">{{$t('manage.doctor.tabs.manage-booking.title')}}</h2>
+        <h2 class="content-title">{{$t('manage.doctor.tabs.doctors-bookings.title')}}</h2>
         <FullCalendar
                 defaultView="timeGridWeek"
                 :plugins="calendarPlugins"

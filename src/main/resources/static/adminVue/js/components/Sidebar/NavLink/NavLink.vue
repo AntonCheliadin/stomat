@@ -4,7 +4,7 @@
       <span class="icon">
         <font-awesome-icon :icon="icon" size="lg"/>
       </span>
-            {{header}} <sup v-if="label" class="headerLabel">{{label}}</sup>
+            {{$t(header)}} <sup v-if="label" class="headerLabel">{{label}}</sup>
             <b-badge v-if="badge" class="badge rounded-f" variant="warning" pill>{{badge}}</b-badge>
         </router-link>
     </li>
@@ -14,7 +14,7 @@
         <span class="icon">
           <font-awesome-icon :icon="icon" size="lg"/>
         </span>
-                {{header}} <sup v-if="label" class="headerLabel">{{label}}</sup>
+                {{$t(header)}} <sup v-if="label" class="headerLabel">{{label}}</sup>
                 <div :class="{caretWrapper: true, carretActive: isActive}">
                     <font-awesome-icon icon="angle-left" size="sm"/>
                 </div>
@@ -35,7 +35,7 @@
     </li>
     <li v-else>
         <router-link :to="index !== 'menu' && link">
-            {{header}} <sup v-if="label" class="headerLabel">{{label}}</sup>
+            {{$t(header)}} <sup v-if="label" class="headerLabel">{{label}}</sup>
         </router-link>
     </li>
 </template>
@@ -46,7 +46,7 @@
     export default {
         name: 'NavLink',
         props: {
-            badge: {type: String, dafault: ''},
+            badge: {type: String, default: ''},
             header: {type: String, default: ''},
             headerLink: {type: String, default: ''},
             link: {type: String, default: ''},

@@ -1,5 +1,10 @@
 {
+  "app": {
+    "name": "Kapelko",
+    "dentistry": "Dentistry"
+  },
   "general": {
+    "dashboard": "Dashboard",
     "range": {
       "from": "From",
       "to": "To"
@@ -13,14 +18,18 @@
       "firstName": "First name",
       "fathersName": "Father's name",
       "lastName": "Last name",
-      "phone": "Phone"
+      "phone": "Phone",
+      "email": "Email"
     },
     "description": "Description"
   },
   "manage": {
     "doctor": {
+      "layout": {
+        "chooseDoctor": "Choose doctor"
+      },
       "tabs": {
-        "manage-booking": {
+        "doctors-bookings": {
           "title": "manage bookings",
           "submit": "Make an appointment"
         },
@@ -55,5 +64,23 @@
         }
       }
     }
+  },
+  "doctors": {
+    "title": "Doctors",
+    "list": {
+      "title": "List"
+    },
+    "add": {
+      "title": "Add doctor"
+    },
+    "schedule": {
+      "title": "Schedule"
+    }
+  },
+  "sms": {
+    "title": "SMS",
+    "mobilePhone": "Mobile Phone",
+    "message": "Message",
+    "send": "Send"
   }
 }

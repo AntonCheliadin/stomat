@@ -6208,6 +6208,11 @@ uuid@^3.0.1, uuid@^3.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
   integrity sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==
 
+v-mask@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/v-mask/-/v-mask-2.0.2.tgz#c6a16e5f4c96b37b67f011333a1014fe9321eccb"
+  integrity sha512-mLJ7rgIpn3XgWpqBWWy09despTO5WvU2kg6AHzLy2Uu+cIKyp1iFx0FHZl71VSCq30Byxm7KTv+WbpZIMdRH4w==
+
 v8-compile-cache@2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.0.3.tgz#00f7494d2ae2b688cfe2899df6ed2c54bef91dbe"
@@ -6225,6 +6230,11 @@ vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
+
+vee-validate@^3.0.11:
+  version "3.0.11"
+  resolved "https://registry.yarnpkg.com/vee-validate/-/vee-validate-3.0.11.tgz#5ffe3d501893801529186642d20241cf632f1341"
+  integrity sha512-2KRLdtM/y+bU2o9KC7cZBGPRUsBxQaoFb3IlBOUkj6l24Gx5XWXxNkhaAXK97BRLOdM4CH/gJYFi9DOm0N7dTQ==
 
 verror@1.10.0:
   version "1.10.0"
@@ -6328,6 +6338,11 @@ vue-touch@^2.0.0-beta.4:
     rollup-plugin-cleanup "^0.1.4"
     rollup-plugin-commonjs "^7.0.0"
     rollup-plugin-node-resolve "^2.0.0"
+
+vue-validate@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/vue-validate/-/vue-validate-1.0.1.tgz#33b613ee598cdb2f2e35b43d7f9f47c586db20b7"
+  integrity sha1-M7YT7lmM2y8uNbQ9f59HxYbbILc=
 
 vue@^2.1.10, vue@^2.6.10:
   version "2.6.10"

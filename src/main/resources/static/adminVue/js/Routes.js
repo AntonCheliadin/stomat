@@ -12,43 +12,49 @@ import SmsPage from '@/pages/SMS/SMS';
 // Main
 import DashboardPage from '@/pages/Dashboard/Dashboard';
 import AddDoctorPage from "@/pages/Doctors/add/AddDoctor";
+import ShowDoctorPage from "@/pages/Doctors/show/ShowDoctor";
 
 Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
-  routes: [
-    {
-      path: '/admin',
-      name: 'Layout',
-      component: Layout,
-      children: [
+    mode: 'history',
+    routes: [
         {
-          path: 'dashboard',
-          name: 'DashboardPage',
-          component: DashboardPage,
+            path: '/admin',
+            name: 'Layout',
+            component: Layout,
+            children: [
+                {
+                    path: 'dashboard',
+                    name: 'DashboardPage',
+                    component: DashboardPage,
+                },
+                {
+                    path: 'doctors/list',
+                    name: 'DoctorsListPage',
+                    component: DoctorsListPage,
+                },
+                {
+                    path: 'doctors/add',
+                    name: 'AddDoctorPage',
+                    component: AddDoctorPage,
+                },
+                {
+                    path: 'doctors/show/:id?',
+                    name: 'ShowDoctorPage',
+                    component: ShowDoctorPage,
+                },
+                {
+                    path: 'doctors/schedule/:id?',
+                    name: 'DoctorsSchedulePage',
+                    component: DoctorsSchedulePage,
+                },
+                {
+                    path: 'sms',
+                    name: 'SmsPage',
+                    component: SmsPage,
+                },
+            ],
         },
-        {
-          path: 'doctors/list',
-          name: 'DoctorsListPage',
-          component: DoctorsListPage,
-        },
-        {
-          path: 'doctors/add',
-          name: 'AddDoctorPage',
-          component: AddDoctorPage,
-        },
-        {
-          path: 'doctors/schedule',
-          name: 'DoctorsSchedulePage',
-          component: DoctorsSchedulePage,
-        },
-        {
-          path: 'sms',
-          name: 'SmsPage',
-          component: SmsPage,
-        },
-      ],
-    },
-  ],
+    ],
 });

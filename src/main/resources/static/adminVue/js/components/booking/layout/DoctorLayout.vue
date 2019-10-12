@@ -1,59 +1,32 @@
-<template xmlns:v="http://www.w3.org/1999/xhtml">
-    <div>
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="card">
-                    <div class="body">
-                        <v-select
-                                v-model="selectedDoctor"
-                                label="fullName"
-                                :options="getDoctors"
-                                @input="onChangeDoctor"/>
+<template>
+    <b-row>
+        <b-col lg="6" sm="12">
+            <v-select
+                    v-model="selectedDoctor"
+                    label="fullName"
+                    :placeholder="$t('manage.doctor.layout.chooseDoctor')"
+                    :options="getDoctors"
+                    @input="onChangeDoctor"/>
+        </b-col>
+        <b-col sm="12">
+            <div v-if="selectedDoctor">
+                <button
+                        v-for="tab in tabs"
+                        v-bind:key="tab"
+                        v-bind:class="['tab-button', { active: currentTab === tab }]"
+                        v-on:click="currentTab = tab"
+                >
+                    {{ $t('manage.doctor.tabs.'+tab+'.title') }}
+                </button>
 
-                        <div class="selector row m-t-10 m-b-10">
-                            <div class="btn bg-light-blue waves-effect selector-item manage-bookings-selector col-sm-2 m-r-25 m-l-25"
-                                 @click="onSelectManageBookings">
-                                {{ $t('manage.doctor.tabs.manage-booking.title') }}
-                            </div>
-
-                            <div class="btn bg-cyan waves-effect selector-item extra-schedule-selector col-sm-2 m-r-25 m-l-25"
-                                 @click="onSelectExtraSchedule">
-                                {{ $t('manage.doctor.tabs.extra-schedule.title') }}
-                            </div>
-
-                            <div class="btn bg-teal waves-effect selector-item week-schedule-selector col-sm-2 m-r-25 m-l-25"
-                                 @click="onSelectWeekSchedule">
-                                {{ $t('manage.doctor.tabs.week-schedule.title') }}
-                            </div>
-                        </div>
-
-                        <div class="content">
-
-                            <div class=" manage-bookings-wrap active in"
-                                 v-if="selectedDoctor && selector === 'manage-bookings'">
-                                <doctors-bookings
-                                        :key="selectedDoctor.id"
-                                        v-bind:doctor="selectedDoctor.id">
-                                </doctors-bookings>
-                            </div>
-                            <div class=" extra-schedule-wrap" v-if="selectedDoctor && selector === 'extra-schedule'">
-                                <extra-schedule
-                                        :key="selectedDoctor.id"
-                                        v-bind:doctor="selectedDoctor.id">
-                                </extra-schedule>
-                            </div>
-                            <div class=" week-schedule-wrap" v-if="selectedDoctor && selector === 'week-schedule'">
-                                <week-schedule
-                                        :key="selectedDoctor.id"
-                                        v-bind:doctor="selectedDoctor.id">
-                                </week-schedule>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <component
+                        v-bind:is="currentTabComponent"
+                        v-bind:key="selectedDoctor.id"
+                        v-bind:doctor="selectedDoctor.id"
+                ></component>
             </div>
-        </div>
-    </div>
+        </b-col>
+    </b-row>
 </template>
 
 <script>
@@ -64,7 +37,6 @@
 
     export default {
         name: "DoctorLayout",
-        computed: mapGetters(['getDoctors']),
         components: {DoctorsBookings, ExtraSchedule, WeekSchedule},
         props: ['doctor'],
         created() {
@@ -76,8 +48,15 @@
         },
         data() {
             return {
-                selector: "manage-bookings",
                 selectedDoctor: null,
+                currentTab: 'doctors-bookings',
+                tabs: ['doctors-bookings', 'extra-schedule', 'week-schedule']
+            }
+        },
+        computed: {
+            ...mapGetters(['getDoctors']),
+            currentTabComponent: function () {
+                return this.currentTab
             }
         },
         methods: {
@@ -86,15 +65,6 @@
             onChangeDoctor(doctor) {
                 this.selectedDoctor = doctor;
             },
-            onSelectManageBookings() {
-                this.selector = "manage-bookings"
-            },
-            onSelectExtraSchedule() {
-                this.selector = "extra-schedule"
-            },
-            onSelectWeekSchedule() {
-                this.selector = "week-schedule"
-            }
         }
     }
 </script>
@@ -103,9 +73,21 @@
     @import '~@fullcalendar/core/main.css';
     @import '~@fullcalendar/timegrid/main.css';
 
-
-    .selector-item {
+    .tab-button {
+        padding: 6px 10px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border: 1px solid #ccc;
         cursor: pointer;
+        background: #f0f0f0;
+        margin: 10px -1px 10px 0;
     }
 
+    .tab-button:hover {
+        background: #e0e0e0;
+    }
+
+    .tab-button.active {
+        background: #b4b4b4;
+    }
 </style>
