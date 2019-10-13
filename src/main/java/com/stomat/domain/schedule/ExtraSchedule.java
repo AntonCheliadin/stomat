@@ -1,5 +1,6 @@
 package com.stomat.domain.schedule;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.stomat.domain.profile.Doctor;
 import com.stomat.transfer.views.Views;
@@ -39,9 +40,11 @@ public class ExtraSchedule implements Serializable {
 
     @NotNull
     @JsonView(Views.ScheduleView.class)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime fromDate;
 
     @JsonView(Views.ScheduleView.class)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime toDate;
 
     @NotNull

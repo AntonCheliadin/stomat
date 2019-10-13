@@ -1,6 +1,7 @@
 package com.stomat.domain.schedule;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.stomat.domain.profile.Doctor;
@@ -46,10 +47,12 @@ public class WeekSchedule implements Serializable {
 
     @NotNull
     @JsonView(Views.ScheduleView.class)
+    @JsonFormat(pattern="HH:mm:ss")
     private LocalTime timeFrom;
 
     @NotNull
     @JsonView(Views.ScheduleView.class)
+    @JsonFormat(pattern="HH:mm:ss")
     private LocalTime timeTo;
 
     public Long getId() {

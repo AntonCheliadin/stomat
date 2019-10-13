@@ -1,5 +1,6 @@
 package com.stomat.domain.booking;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.stomat.domain.profile.Doctor;
 import com.stomat.transfer.views.Views;
@@ -45,10 +46,12 @@ public class Booking {
 
     @NotNull
     @JsonView(Views.BookingsView.class)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startDate;
 
     @NotNull
     @JsonView(Views.BookingsView.class)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endDate;
 
     @JsonView(Views.BookingsView.class)
