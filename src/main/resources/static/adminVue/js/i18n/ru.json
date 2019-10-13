@@ -21,7 +21,17 @@
       "phone": "Телефона",
       "email": "Email"
     },
-    "description": "Описание"
+    "description": "Описание",
+    "notifications": {
+      "success": {
+        "create": "Создано успешно!",
+        "update": "Обновлено успешно!",
+        "delete": "Удалено успешно!"
+      },
+      "error": {
+        "common": "Что то пошло не так."
+      }
+    }
   },
   "manage": {
     "doctor": {

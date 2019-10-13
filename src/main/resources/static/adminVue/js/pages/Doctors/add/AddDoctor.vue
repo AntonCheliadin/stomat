@@ -1,6 +1,6 @@
 <template>
     <b-row>
-        <b-col lg="12">
+        <b-col lg="4" md="6" sm="12">
             <Widget custom-header :title="'<h2>'+$t('doctors.add.title')+'</h2>'">
                 <DoctorForm @submit="onSubmit"/>
             </Widget>
@@ -11,13 +11,17 @@
 <script>
     import Widget from '@/components/Widget/Widget';
     import DoctorForm from "@/components/doctor/DoctorForm";
+    import {mapActions} from "vuex";
 
     export default {
         name: "AddDoctor",
         components: {Widget, DoctorForm},
         methods: {
-            onSubmit(submitData) {
-                console.log("on submit AddDoctor submitData", submitData)
+            ...mapActions(['createDoctor']),
+            async onSubmit(submitData) {
+                const doc = await this.createDoctor(submitData);
+                Messenger().post(this.$t('general.notifications.success.create'));
+                this.$router.push({name: 'ShowDoctorPage', params: {id: doc.id}})
             }
         }
     }

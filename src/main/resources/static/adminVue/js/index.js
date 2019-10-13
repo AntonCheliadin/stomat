@@ -14,6 +14,7 @@ import './core/fontAwesome';
 import './core/validateProvider';
 import './core/vueMask';
 import './core/vueSelect';
+import './core/notifications'
 
 Vue.use(BootstrapVue);
 Vue.use(VueTouch);

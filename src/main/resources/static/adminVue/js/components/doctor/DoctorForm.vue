@@ -39,7 +39,7 @@
                 ></b-form-input>
             </b-form-group>
 
-
+            <b-button v-if="deleteEnabled" variant="outline-danger" @click="onDelete">Delete</b-button>
             <b-button type="submit" variant="primary">{{$t('general.actions.save')}}</b-button>
         </b-form>
     </div>
@@ -50,12 +50,15 @@
         name: "DoctorForm",
         props: {
             doctor: {type: Object, default: Object},
-            onSubmitProp: null
+            deleteEnabled: {type: Boolean, default: false}
         },
         methods: {
             onSubmit(evt) {
                 evt.preventDefault();
                 this.$emit('submit', this.doctor)
+            },
+            onDelete() {
+                this.$emit('delete')
             }
         }
     }

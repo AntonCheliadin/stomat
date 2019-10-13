@@ -21,7 +21,17 @@
       "phone": "Phone",
       "email": "Email"
     },
-    "description": "Description"
+    "description": "Description",
+    "notifications": {
+      "success": {
+        "create": "Created successfully!",
+        "update": "Updated successfully!",
+        "delete": "Deleted successfully!"
+      },
+      "error": {
+        "common": "Something wrong happened."
+      }
+    }
   },
   "manage": {
     "doctor": {

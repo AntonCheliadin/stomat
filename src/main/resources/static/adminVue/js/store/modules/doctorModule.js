@@ -27,6 +27,18 @@ export default {
         async loadDoctor({commit}, id) {
             const response = await doctorApi.get(id);
             return await response.json();
+        },
+        async createDoctor({commit}, doctor) {
+            const response = await doctorApi.create(doctor);
+            return await response.json();
+        },
+        async updateDoctor({commit}, doctor) {
+            const response = await doctorApi.update(doctor);
+            return await response.json();
+        },
+        async deleteDoctor({commit}, doctor) {
+            const response = await doctorApi.delete(doctor);
+            return await response.json();
         }
     }
 }
