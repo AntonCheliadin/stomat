@@ -22,7 +22,7 @@
                             <td>{{ doctor.lastName }}</td>
                             <td>{{ doctor.email }}</td>
                             <td>
-                                <a :href="'/admin/doctors/show/'+doctor.id">
+                                <a @click="onEditClick(doctor.id)">
                                     <font-awesome-icon icon="edit" size="sm"/>
                                 </a>
                             </td>
@@ -37,7 +37,7 @@
 
 <script>
     import Widget from '@/components/Widget/Widget';
-    import {mapGetters, mapActions} from 'vuex'
+    import {mapActions, mapGetters} from 'vuex'
 
     export default {
         name: 'DoctorsList',
@@ -51,6 +51,9 @@
         },
         methods: {
             ...mapActions(['loadDoctors']),
+            onEditClick(id) {
+                this.$router.push({name: 'ShowDoctorPage', params: {id}})
+            }
         },
     };
 </script>
