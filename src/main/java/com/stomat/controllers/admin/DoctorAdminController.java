@@ -33,6 +33,7 @@ public class DoctorAdminController {
     }
 
 
+    @Deprecated
     @GetMapping("/create")
     public String getCreateDoctor(@AuthenticationPrincipal UserAccount user, Model model) {
         model.addAttribute("user", user);
@@ -41,6 +42,7 @@ public class DoctorAdminController {
         return "admin/doctor/create";
     }
 
+    @Deprecated
     @PostMapping("/create")
     public String postCreateDoctor(@AuthenticationPrincipal UserAccount userAccount,
                                    @Valid DoctorDto doctorDto, BindingResult bindingResult,
@@ -55,6 +57,7 @@ public class DoctorAdminController {
         return "redirect:/admin/doctor/update/" + doctor.getId();
     }
 
+    @Deprecated
     @GetMapping("/update/{id}")
     public String getUpdateDoctor(@AuthenticationPrincipal UserAccount currentUser, @PathVariable("id") Doctor doctor, Model model) {
         if (doctor == null) {
@@ -65,6 +68,7 @@ public class DoctorAdminController {
         return "admin/doctor/update";
     }
 
+    @Deprecated
     @PostMapping("/update/{id}")
     public String postUpdateDoctor(@Valid DoctorDto doctorDto, BindingResult bindingResult,
                                    Model model) {
@@ -79,6 +83,7 @@ public class DoctorAdminController {
         return "admin/doctor/update";
     }
 
+    @Deprecated
     @PostMapping("/delete/{id}")
     public String deleteDoctor(@PathVariable("id") Doctor doctor, Model model) {
         if (doctor == null) {
@@ -94,6 +99,7 @@ public class DoctorAdminController {
         }
     }
 
+    @Deprecated
     @GetMapping("/list")
     public String getDoctorList(@AuthenticationPrincipal UserAccount currentUser, Model model) {
         var userAccount = userRepository.findById(currentUser.getId()).orElseThrow(NotFoundException::new);
@@ -107,6 +113,7 @@ public class DoctorAdminController {
         return "admin/doctor/list";
     }
 
+    @Deprecated
     @GetMapping("/schedule")
     String getDoctorsSchedule(@AuthenticationPrincipal UserAccount currentUser, Model model) {
         model.addAttribute("user", currentUser);
@@ -114,6 +121,7 @@ public class DoctorAdminController {
         return "admin/doctor/schedule";
     }
 
+    @Deprecated
     @GetMapping({"/schedule/{id}"})
     String getDoctorSchedule(@AuthenticationPrincipal UserAccount currentUser,
                              @PathVariable("id") long id, Model model) {

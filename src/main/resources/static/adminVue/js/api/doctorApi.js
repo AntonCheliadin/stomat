@@ -9,6 +9,7 @@ const doctorApi = Vue.resource('http://localhost:8080/api/doctor{/id}', {}, doct
 export default {
     list: data => doctorApi.list(data),
     get: id => doctorApi.get({id: id}),
-    add: doctor => doctorApi.save({}, doctor),
+    create: doctor => doctorApi.save({}, doctor),
     update: doctor => doctorApi.update({id: doctor.id}, doctor),
+    delete: doctor => doctorApi.remove({id: doctor.id}, doctor)
 }
