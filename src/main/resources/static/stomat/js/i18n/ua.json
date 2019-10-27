@@ -1,5 +1,10 @@
 {
+  "app": {
+    "name": "Капелько",
+    "dentistry": "Стоматологія"
+  },
   "general": {
+    "dashboard": "Dashboard",
     "range": {
       "from": "Від",
       "to": "До"
@@ -11,15 +16,30 @@
     },
     "person": {
       "firstName": "Ім'я",
+      "fathersName": "По-батьковi",
       "lastName": "Прізвище",
-      "phone": "Телефон"
+      "phone": "Телефон",
+      "email": "Email"
     },
-    "description": "Опис"
+    "description": "Опис",
+    "notifications": {
+      "success": {
+        "create": "Створено успішно!",
+        "update": "Оновлено успішно!",
+        "delete": "Успішно видалено!"
+      },
+      "error": {
+        "common": "Щось пішло не так."
+      }
+    }
   },
   "manage": {
     "doctor": {
+      "layout": {
+        "chooseDoctor": "Обери лікаря"
+      },
       "tabs": {
-        "manage-booking": {
+        "doctors-bookings": {
           "title": "Управління записами",
           "submit": "Зробити запис"
         },
@@ -54,5 +74,25 @@
         }
       }
     }
+  },
+  "doctors": {
+    "title": "Лікарі",
+    "list": {
+      "title": "Список"
+    },
+    "add": {
+      "title": "Додати лікаря"
+    },
+    "schedule": {
+      "title": "Розклад"
+    }
+  },
+  "sms": {
+    "title": "SMS",
+    "mobilePhone": "Мобільний телефон",
+    "message": "Повідомлення",
+    "send": "Надіслати",
+    "balance": "Баланс",
+    "checkBalance": "Перевірити баланс"
   }
 }

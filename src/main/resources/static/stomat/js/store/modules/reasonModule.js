@@ -22,7 +22,7 @@ export default {
         }
     },
     actions: {
-        async loadReasons({commit, state}, data) {
+        async loadReasons({commit}) {
             const response = await reasonApi.get();
             const json = await response.json();
 

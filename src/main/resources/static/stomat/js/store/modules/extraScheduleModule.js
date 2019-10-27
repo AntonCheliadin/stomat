@@ -1,7 +1,7 @@
 import moment from "moment";
 import weekScheduleApi from "../../api/weekScheduleApi";
 import extraScheduleApi from "../../api/extraScheduleApi";
-import {extraScheduleToRequestParams} from "../../components/schedule/converters/extraScheduleConverter";
+import {extraScheduleToRequestParams} from "../../apps/admin/components/schedule/converters/extraScheduleConverter";
 
 export default {
     state: {
@@ -65,29 +65,29 @@ export default {
         }
     },
     actions: {
-        async loadBackgroundWeekScheduleAction({commit, state}, doctor) {
+        async loadBackgroundWeekScheduleAction({commit}, doctor) {
             const response = await weekScheduleApi.get(doctor);
             const json = await response.json();
 
             commit('setWeekScheduleBackground', json)
         },
-        async loadExtraScheduleAction({commit, state}, data) {
+        async loadExtraScheduleAction({commit}, data) {
             const response = await extraScheduleApi.get(data);
             const json = await response.json();
 
             commit('setExtraSchedule', json)
         },
-        async addExtraScheduleAction({commit, state}, data) {
+        async addExtraScheduleAction({commit}, data) {
             const result = await extraScheduleApi.add(data);
             const json = await result.json();
             commit('addExtraScheduleItem', json)
         },
-        async updateExtraScheduleAction({commit, state}, extraSchedule) {
+        async updateExtraScheduleAction({commit}, extraSchedule) {
             const result = await extraScheduleApi.update(extraScheduleToRequestParams(extraSchedule));
             const json = await result.json();
             commit('updateExtraScheduleItem', json)
         },
-        async removeExtraScheduleAction({commit, state}, itemId) {
+        async removeExtraScheduleAction({commit}, itemId) {
             const result = await extraScheduleApi.remove(itemId);
 
             if (result.ok) {

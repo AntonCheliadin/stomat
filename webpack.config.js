@@ -5,9 +5,8 @@ module.exports = {
     mode: 'development',
     devtool: 'source-map',
     entry: {
-        managerBooking: path.join(__dirname, 'src', 'main', 'resources', 'static', 'stomat', 'js', 'pages', 'booking', 'manager', 'index.js'),
-        patientBooking: path.join(__dirname, 'src', 'main', 'resources', 'static', 'stomat', 'js', 'pages', 'booking', 'patient', 'index.js'),
-        adminVue: path.join(__dirname, 'src', 'main', 'resources', 'static', 'adminVue', 'js', 'index.js'),
+        patientBooking: path.join(__dirname, 'src', 'main', 'resources', 'static', 'stomat', 'js', 'apps', 'patient', 'index.js'),
+        adminVue: path.join(__dirname, 'src', 'main', 'resources', 'static', 'stomat', 'js', 'apps', 'admin', 'index.js'),
     },
     devServer: {
         contentBase: './dist',
@@ -61,14 +60,13 @@ module.exports = {
     ],
     resolve: {
         modules: [
-            path.join(__dirname, 'src', 'main', 'resources', 'static', 'stomat', 'js'),
-            path.join(__dirname, 'src', 'main', 'resources', 'static', 'adminVue'),
+            path.join(__dirname, 'src', 'main', 'resources', 'static', 'stomat'),
             path.join(__dirname, 'node_modules'),
         ],
         extensions: ['.js', '.vue', '.scss'],
         alias: {
-            '@': path.join(__dirname, 'src', 'main', 'resources', 'static', 'adminVue', 'js'),
-            '@styles': path.join(__dirname, 'src', 'main', 'resources', 'static', 'adminVue', 'styles'),
+            '@': path.join(__dirname, 'src', 'main', 'resources', 'static', 'stomat', 'js'),
+            '@styles': path.join(__dirname, 'src', 'main', 'resources', 'static', 'stomat', 'styles'),
         }
     }
 };

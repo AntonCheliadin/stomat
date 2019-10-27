@@ -17,14 +17,6 @@ public class AdminController {
         model.addAttribute("user", user);
         model.addAttribute("lang", LocaleContextHolder.getLocale().getLanguage());
 
-        return "admin/indexVue";
-    }
-
-    @GetMapping("/old")
-    public String indexVue(@AuthenticationPrincipal UserAccount user, Model model) {
-        model.addAttribute("user", user);
-        model.addAttribute("lang", LocaleContextHolder.getLocale().getLanguage());
-
         return "admin/index";
     }
 }

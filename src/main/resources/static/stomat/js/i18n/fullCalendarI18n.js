@@ -1,5 +1,5 @@
 export const getFullCalendarLocale = () => {
-    switch (LANG) {
+    switch ('en') {
         case "en":
             return "en";
         case "ru":

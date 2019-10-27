@@ -38,7 +38,7 @@ export default {
         }
     },
     actions: {
-        async loadWeekScheduleAction({commit, state}, doctor) {
+        async loadWeekScheduleAction({commit}, doctor) {
             const response = await weekScheduleApi.get(doctor);
             const json = await response.json();
 

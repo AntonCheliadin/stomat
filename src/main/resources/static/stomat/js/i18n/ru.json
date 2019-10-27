@@ -1,5 +1,10 @@
 {
+  "app": {
+    "name": "Капелько",
+    "dentistry": "Стоматология"
+  },
   "general": {
+    "dashboard": "Dashboard",
     "range": {
       "from": "От",
       "to": "До"
@@ -11,15 +16,30 @@
     },
     "person": {
       "firstName": "Имя",
+      "fathersName": "Отчество",
       "lastName": "Фамилия",
-      "phone": "Телефона"
+      "phone": "Телефона",
+      "email": "Email"
     },
-    "description": "Описание"
+    "description": "Описание",
+    "notifications": {
+      "success": {
+        "create": "Создано успешно!",
+        "update": "Обновлено успешно!",
+        "delete": "Удалено успешно!"
+      },
+      "error": {
+        "common": "Что то пошло не так."
+      }
+    }
   },
   "manage": {
     "doctor": {
+      "layout": {
+        "chooseDoctor": "Выбери доктора"
+      },
       "tabs": {
-        "manage-booking": {
+        "doctors-bookings": {
           "title": "Управление записями",
           "submit": "Сделать запись"
         },
@@ -50,9 +70,29 @@
           }
         },
         "week-schedule": {
-          "title": "недельное расписание"
+          "title": "Недельное расписание"
         }
       }
     }
+  },
+  "doctors": {
+    "title": "Доктора",
+    "list": {
+      "title": "Список"
+    },
+    "add": {
+      "title": "Добавить доктора"
+    },
+    "schedule": {
+      "title": "Расписание"
+    }
+  },
+  "sms": {
+    "title": "SMS",
+    "mobilePhone": "Мобильный телефон",
+    "message": "Сообщение",
+    "send": "Отправить",
+    "balance": "Баланс",
+    "checkBalance": "Проверить баланс"
   }
 }

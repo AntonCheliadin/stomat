@@ -58,17 +58,17 @@ export default {
 
             commit('setBookings', json)
         },
-        async moveBookingAction({commit, state}, data) {
+        async moveBookingAction({commit}, data) {
             const result = await bookingApi.move(data);
             const json = await result.json();
             commit('updateBooking', json)
         },
-        async updateBookingAction({commit, state}, data) {
+        async updateBookingAction({commit}, data) {
             const result = await bookingApi.update(data);
             const json = await result.json();
             commit('updateBooking', json)
         },
-        async removeBookingAction({commit, state}, id) {
+        async removeBookingAction({commit}, id) {
             const result = await bookingApi.remove(id);
 
             if (result.ok) {

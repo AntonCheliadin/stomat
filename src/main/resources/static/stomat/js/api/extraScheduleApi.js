@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-const extraScheduleApi = Vue.resource('/api/manage/schedule/extra{/id}');
+const extraScheduleApi = Vue.resource('http://localhost:8080/api/manage/schedule/extra{/id}');
 
 export default {
     get: data => extraScheduleApi.get(data),
