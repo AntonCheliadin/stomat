@@ -68,7 +68,7 @@ public class UserAccountApiControllerTest extends MockMvcTestPrototype {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        String expected = "{\"id\":" + userAccount.getId() + ",\"firstName\":\"firstUpdated\",\"lastName\":\"lastUpdated\",\"email\":\"emailUpdated@email.com\",\"doctors\":null}";
+        String expected = "{\"id\":" + userAccount.getId() + ",\"firstName\":\"firstUpdated\",\"lastName\":\"lastUpdated\",\"email\":\"updateUserDataTest@mail.com\",\"doctors\":null}";
 
         JSONAssert.assertEquals(expected, mvcResult.getResponse()
                 .getContentAsString(), false);
