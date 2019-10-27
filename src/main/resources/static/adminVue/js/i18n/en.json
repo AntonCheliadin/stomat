@@ -91,6 +91,8 @@
     "title": "SMS",
     "mobilePhone": "Mobile Phone",
     "message": "Message",
-    "send": "Send"
+    "send": "Send",
+    "balance": "Balance",
+    "checkBalance": "Check balance"
   }
 }

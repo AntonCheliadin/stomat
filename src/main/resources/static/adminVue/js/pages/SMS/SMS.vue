@@ -40,12 +40,33 @@
                         <div class="clearfix">
                             <div class="float-right">
                                 <b-button variant="primary" class="mr-xs" size="sm"
-                                          @click="sendSms">
+                                          @click="onSend">
                                     {{$t('sms.send')}}
                                 </b-button>
                             </div>
                         </div>
+
+                        <div v-if="sendSmsResponse" class="send-sms-response">
+                            {{sendSmsResponse}}
+                        </div>
                     </form>
+                </Widget>
+            </b-col>
+
+            <b-col lg="4">
+                <Widget custom-header :title="'<h2>'+$t('sms.balance')+'</h2>'">
+
+                    <span v-if="getBalance"><strong>{{getBalance}}</strong> UAH</span>
+
+                    <div class="clearfix">
+                        <div class="float-right">
+                            <b-button variant="primary" class="mr-xs" size="sm"
+                                      v-if="!getBalance"
+                                      @click="onCheckBalance">
+                                {{$t('sms.checkBalance')}}
+                            </b-button>
+                        </div>
+                    </div>
                 </Widget>
             </b-col>
         </b-row>
@@ -54,6 +75,7 @@
 
 <script>
     import Widget from '@/components/Widget/Widget';
+    import {mapActions, mapGetters} from "vuex";
 
     export default {
         name: 'SMS',
@@ -62,13 +84,24 @@
             return {
                 phone: "",
                 message: "",
+                sendSmsResponse: null
             }
         },
+        computed: mapGetters('smsModule', ['getBalance']),
         methods: {
-            sendSms() {
-                console.log("send sms", this.phone, this.message)
+            ...mapActions('smsModule', ['fetchBalance', 'sendSms']),
+            async onSend() {
+                const resp = await this.sendSms({
+                    recipient: this.phone,
+                    message: this.message
+                });
+
+                this.sendSmsResponse = resp.documentElement.innerHTML;
+            },
+            onCheckBalance() {
+                this.fetchBalance();
             }
-        }
+        },
     };
 </script>
 

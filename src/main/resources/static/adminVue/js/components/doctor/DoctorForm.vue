@@ -39,8 +39,12 @@
                 ></b-form-input>
             </b-form-group>
 
-            <b-button v-if="deleteEnabled" variant="outline-danger" @click="onDelete">Delete</b-button>
-            <b-button type="submit" variant="primary">{{$t('general.actions.save')}}</b-button>
+            <div class="clearfix">
+                <div class="float-right">
+                    <b-button v-if="deleteEnabled" variant="outline-danger" @click="onDelete">{{$t('general.actions.delete')}}</b-button>
+                    <b-button type="submit" variant="primary">{{$t('general.actions.save')}}</b-button>
+                </div>
+            </div>
         </b-form>
     </div>
 </template>
