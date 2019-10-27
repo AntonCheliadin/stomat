@@ -65,8 +65,8 @@
                 },
                 firstDay: 1,
                 allDaySlot: false,
-                minTime: "06:00:00",
-                maxTime: "23:00:00",
+                minTime: "08:00:00",
+                maxTime: "19:00:00",
                 eventTimeFormat: {
                     hour: '2-digit',
                     minute: '2-digit',
