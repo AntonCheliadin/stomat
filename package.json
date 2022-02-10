@@ -30,7 +30,7 @@
     "jquery-ui": "^1.12.1",
     "messenger": "git+https://github.com/HubSpot/messenger.git#v1.4.2",
     "moment": "^2.24.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
     "v-mask": "^2.0.2",
